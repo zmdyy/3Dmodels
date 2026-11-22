@@ -1,0 +1,58 @@
+name: Export Chinese offline HTML gallery
+on:
+  push:
+    paths:
+      - .github/workflows/export-chinese-offline.yml
+      - scripts/export-offline-gallery.py
+  workflow_dispatch:
+permissions:
+  contents: read
+jobs:
+  export:
+    runs-on: ubuntu-latest
+    timeout-minutes: 25
+    steps:
+      - uses: actions/checkout@v4
+        with:
+          lfs: true
+      - uses: actions/setup-node@v4
+        with:
+          node-version: '22'
+      - name: Install module bundler
+        run: npm install --no-save --no-audit --no-fund esbuild@0.25.12
+      - name: Export catalog to single-file HTML pages
+        id: build
+        continue-on-error: true
+        run: python scripts/export-offline-gallery.py | tee /tmp/offline-export.log
+      - name: Report and audit
+        if: always()
+        run: |
+          python - <<'PY'
+          import json, pathlib, os
+          p=pathlib.Path('_offline-output/3Dmodel2-中文离线案例/导出检查报告.json')
+          if not p.exists():
+              print('Export report not generated')
+              raise SystemExit(2)
+          r=json.loads(p.read_text(encoding='utf-8'))
+          missing=[x for x in r['cases'] if 'file' not in x]
+          warnings=[x for x in r['cases'] if x['warnings']]
+          print('Catalog:',r['catalog_count'],'Exported:',r['exported_count'],'Warnings:',len(warnings))
+          for x in warnings:
+              print('WARNING',x['title'],x['warnings'])
+          with open(os.environ['GITHUB_STEP_SUMMARY'],'a') as f:
+              f.write('# 3Dmodel2 离线导出结果\n\n')
+              f.write(f"正式案例：{r['catalog_count']}；生成 HTML：{r['exported_count']}；待复核：{len(warnings)}\n\n")
+              f.write('每份 HTML 均以中文命名。静态检查不等于实际 WebGL 交互验收。\n\n')
+              for x in warnings:
+                  f.write('- '+x['title']+'：'+'；'.join(x['warnings'])+'\n')
+          if missing:raise SystemExit('Missing catalog pages: '+str(len(missing)))
+          PY
+      - name: Upload self-contained HTML gallery
+        if: always()
+        uses: actions/upload-artifact@v4
+        with:
+          name: 3Dmodel2-Chinese-Offline-HTML
+          path: _offline-output/3Dmodel2-中文离线案例/
+          if-no-files-found: error
+          retention-days: 30
+          compression-level: 6
