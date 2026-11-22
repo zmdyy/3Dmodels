@@ -123,6 +123,13 @@
   .verdict.bad{color:var(--red);}
 
   .mini{font-size:11px;color:#8794a6;margin-top:7px;line-height:1.5;}
+  .ray-note{display:flex;align-items:center;gap:7px;margin-top:8px;font-size:13px;color:var(--ink2);}
+  .ray-note[hidden]{display:none;}
+  .ray-note span{display:flex;align-items:center;gap:5px;}
+  .ray-note i{width:17px;border-top:2px solid #ff3b8e;}
+  .ray-note .normal-key{border-top:2px dashed #2255aa;margin-left:6px;}
+  .mirror-tilt{margin-top:12px;}
+  .mirror-tilt .lbl{padding-right:0;}
 
   .tip{
     padding:11px 12px;border-radius:12px;border:1px solid #e2ecf8;
@@ -190,6 +197,23 @@
     </div>
 
     <div class="grp">
+      <div class="lbl">光路控制 <b id="trackLabel">自动追踪</b></div>
+      <div class="toggles">
+        <button id="btnBeam" class="active" aria-pressed="true">光路示踪</button>
+        <button id="btnTrack" class="active" aria-pressed="true">自动追踪</button>
+        <button id="btnDemo">演示一天</button>
+      </div>
+      <div id="rayNote" class="ray-note">
+        <span><i aria-hidden="true"></i>入射光 / 反射光</span>
+        <span><i class="normal-key" aria-hidden="true"></i>镜面法线</span>
+      </div>
+      <div id="mirrorTilt" class="mirror-tilt" hidden>
+        <label class="lbl" for="sliderTilt">示范镜面俯仰微调 <b id="tiltLabel">0°</b></label>
+        <input id="sliderTilt" type="range" min="-25" max="25" step="1" value="0" />
+      </div>
+    </div>
+
+    <div class="grp">
       <div class="lbl">定日镜阵列 <b id="ringLabel">6 环 · 262 面</b></div>
       <input id="sliderRing" type="range" min="1" max="8" step="1" value="6" />
       <div class="mini">平面镜绕塔一圈圈布置，环数越多、汇聚能量越多</div>
@@ -205,15 +229,6 @@
       <div class="lbl">塔身显示比例 <b id="hLabel">1.00×</b></div>
       <input id="sliderH" type="range" min="18" max="36" step="0.5" value="26" />
       <div class="mini">实景塔高约 260 m；这里调整教学模型的显示比例。</div>
-    </div>
-
-    <div class="grp">
-      <div class="lbl">光路控制 <b id="trackLabel">自动追踪</b></div>
-      <div class="toggles">
-        <button id="btnBeam">反射光束</button>
-        <button id="btnTrack" class="active">自动追踪</button>
-        <button id="btnDemo">演示一天</button>
-      </div>
     </div>
 
     <div class="grp">
@@ -325,6 +340,8 @@
   const sunLight = new THREE.DirectionalLight(0xfff3e0, 0.85);
   sunLight.castShadow = true;
   sunLight.shadow.mapSize.set(2048, 2048);
+  sunLight.shadow.autoUpdate = false;
+  sunLight.shadow.needsUpdate = true;
   sunLight.shadow.camera.left = -60;
   sunLight.shadow.camera.right = 60;
   sunLight.shadow.camera.top = 60;
@@ -434,8 +451,6 @@
       ctx.fillRect(0, 0, w, h);
     }, 128, 128);
   }
-  const glowTex = makeGlowTexture('rgba(255,214,130,0.95)', 'rgba(255,150,40,0.35)');
-  const steamTex = makeGlowTexture('rgba(255,255,255,0.85)', 'rgba(240,246,252,0.4)');
 
   function makeLabel(text, bg, fg) {
     const font = '600 34px "PingFang SC","Microsoft YaHei",sans-serif';
@@ -488,9 +503,12 @@
   let TOWER_H = 26;
   let RECEIVER_Y = 21.6;
   const MIRROR_Y = 1.86;
+  const MIRROR_SURFACE_OFFSET = 0.055;
 
   /* ================= 中央接收塔（可重建） ================= */
   let towerGroup = null;
+  let towerRaySurfaces = [];
+  let receiverSurface;
 
   function disposeGroup(g) {
     if (!g) return;
@@ -529,7 +547,7 @@
     const brandMat=new THREE.MeshBasicMaterial({map:brandTex,transparent:true,depthWrite:false,polygonOffset:true,polygonOffsetFactor:-2,toneMapped:false,side:THREE.FrontSide});
     for(const az of [.62,.62+Math.PI]){const ps=[],uv=[],idx=[],cols=32,rows=8,hh=Math.min(6,TOWER_H*.25),cy=.6+TOWER_H*.56;for(let j=0;j<=rows;j++)for(let i=0;i<=cols;i++){const u=i/cols,v=j/rows,y=cy+(v-.5)*hh,r=1.65-(y-.6)/TOWER_H*.6+.007,a=az+(u-.5)*1.5/r;ps.push(r*Math.sin(a),y,r*Math.cos(a));uv.push(u,v);}for(let j=0;j<rows;j++)for(let i=0;i<cols;i++){const k=j*(cols+1)+i;idx.push(k,k+1,k+cols+1,k+1,k+cols+2,k+cols+1);}const geo=new THREE.BufferGeometry();geo.setAttribute('position',new THREE.Float32BufferAttribute(ps,3));geo.setAttribute('uv',new THREE.Float32BufferAttribute(uv,2));geo.setIndex(idx);geo.computeVertexNormals();const mark=new THREE.Mesh(geo,brandMat);mark.name='首航高科';g.add(mark);}
     const top=new THREE.Mesh(new THREE.CylinderGeometry(1.85,1.85,.9,64),M.concrete);top.position.y=.6+TOWER_H;g.add(top);
-    const recv=new THREE.Mesh(new THREE.CylinderGeometry(1.55,1.55,5.2,96),M.receiver);recv.position.y=RECEIVER_Y;recv.castShadow=true;g.add(recv);
+    const recv=new THREE.Mesh(new THREE.CylinderGeometry(1.55,1.55,5.2,96),M.receiver);recv.position.y=RECEIVER_Y;recv.castShadow=true;g.add(recv);receiverSurface=recv;
     for(const dy of [-2.7,2.7]){const collar=new THREE.Mesh(new THREE.CylinderGeometry(1.85,1.85,.35,64),M.concrete);collar.position.y=RECEIVER_Y+dy;g.add(collar);const rail=new THREE.Mesh(new THREE.TorusGeometry(1.95,.045,8,64),M.frame);rail.rotation.x=Math.PI/2;rail.position.y=RECEIVER_Y+dy+.30;g.add(rail);}
     const cap=new THREE.Mesh(new THREE.CylinderGeometry(1.5,1.8,.6,64),M.concrete);cap.position.y=RECEIVER_Y+3.25;g.add(cap);
     const tubes=[];for(let i=0;i<96;i++){const a=i/96*Math.PI*2,t=new THREE.CylinderGeometry(.022,.022,4.95,6);t.translate(1.565*Math.cos(a),RECEIVER_Y,1.565*Math.sin(a));tubes.push(t);}const bundle=new THREE.Mesh(mergeGeos(tubes),M.panelDark);bundle.material=M.receiver;g.add(bundle);
@@ -554,44 +572,25 @@
 
     scene.add(g);
     towerGroup = g;
+    towerRaySurfaces = g.children.filter(o => o.isMesh && o.name !== '首航高科');
+    g.updateMatrixWorld(true);
 
     recvGlow.position.set(0, RECEIVER_Y, 0);
     updateTargets();
     updateLabelPositions();
   }
 
-  /* ================= 吸热器辉光 / 蒸汽 ================= */
+  /* ================= 吸热器辉光 ================= */
   const recvGlow = new THREE.Sprite(new THREE.SpriteMaterial({
     map: makeGlowTexture('rgba(255,255,245,0.72)','rgba(255,242,202,0.17)'), transparent: true, opacity: 0, depthWrite: false, blending: THREE.AdditiveBlending
   }));
   recvGlow.scale.set(8, 8, 1);
   scene.add(recvGlow);
 
-  const STEAM_N = 16;
-  const steams = [];
-  for (let i = 0; i < STEAM_N; i++) {
-    const s = new THREE.Sprite(new THREE.SpriteMaterial({
-      map: steamTex, transparent: true, opacity: 0, depthWrite: false
-    }));
-    s.userData = { t: Math.random() };
-    scene.add(s);
-    steams.push(s);
-  }
-
-  /* ================= 太阳本体 ================= */
-  const sunBall = new THREE.Mesh(
-    new THREE.SphereGeometry(4.4, 24, 24),
-    new THREE.MeshBasicMaterial({ color: 0xfff2c4, fog: false })
-  );
-  scene.add(sunBall);
-  const sunGlow = new THREE.Sprite(new THREE.SpriteMaterial({
-    map: glowTex, transparent: true, opacity: 0.9, depthWrite: false, blending: THREE.AdditiveBlending, fog: false
-  }));
-  sunGlow.scale.set(32, 32, 1);
-  scene.add(sunGlow);
-
   /* ================= 定日镜阵列（InstancedMesh，可重建） ================= */
   let heliostats = [];
+  let exampleMirror;
+  let examplePoseReady = false;
   let inst = null;
   const dummy = new THREE.Object3D();
   const UP = new THREE.Vector3(0, 1, 0);
@@ -614,7 +613,7 @@
     ]);
     const faceGeo = new THREE.PlaneGeometry(2.34, 1.62);
     faceGeo.rotateX(-Math.PI / 2);
-    faceGeo.translate(0, 0.055, 0);
+    faceGeo.translate(0, MIRROR_SURFACE_OFFSET, 0);
     const backGeo = mergeGeos([
       (function () { const b = new THREE.BoxGeometry(0.1, 0.1, 1.5); b.translate(0.78, -0.16, 0); return b; })(),
       (function () { const b = new THREE.BoxGeometry(0.1, 0.1, 1.5); b.translate(-0.78, -0.16, 0); return b; })(),
@@ -645,12 +644,21 @@
           offX: (Math.random() - 0.5) * 2.2,
           offY: (Math.random() - 0.5) * 3.4,
           target: new THREE.Vector3(),
+          toReceiver: new THREE.Vector3(),
           nFixed: new THREE.Vector3(),
           intensity: 0
         });
       }
     }
     heliostats = list;
+    const observationRing = Math.min(state.rings, 4);
+    const observationAngle = 2.04;
+    const observationDirectionX = Math.cos(observationAngle);
+    const observationDirectionZ = Math.sin(observationAngle);
+    exampleMirror = list.filter(h => h.ring === observationRing).reduce((nearest, h) =>
+      h.x * observationDirectionX + h.z * observationDirectionZ >
+      nearest.x * observationDirectionX + nearest.z * observationDirectionZ ? h : nearest);
+    examplePoseReady = false;
     const n = list.length;
 
     const mk = function (geo, mat, shadow) {
@@ -684,47 +692,249 @@
     }
     [pad, pole, drive, frame, face, back].forEach(function (m) { m.instanceMatrix.needsUpdate = true; });
     inst = { meshes: [pad, pole, drive, frame, face, back], n: n };
+    resizeFieldRays(n - 1);
 
-    rebuildBeams(n);
+    if (view.focus === 'mirror') view.target.set(exampleMirror.x, MIRROR_Y, exampleMirror.z);
     updateTargets();
     updateRingLabel();
   }
 
-  /* ================= 反射光束 / 入射光线 ================= */
-  let beamMesh = null, rayMesh = null;
-  let beamGeo = null, rayGeo = null, beamPos = null, beamCol = null, rayPos = null, rayCol = null;
-  let RAY_STEP = 6, nRays = 0;
+  /* ================= 镜场反光 ================= */
+  const fieldRays = new THREE.LineSegments(new THREE.BufferGeometry(), new THREE.LineBasicMaterial({
+    color: 0xd59632, transparent: true, opacity: 0.19, fog: false, toneMapped: false, depthWrite: false
+  }));
+  fieldRays.frustumCulled = false;
+  scene.add(fieldRays);
 
-  function rebuildBeams(n) {
-    if (beamMesh) { scene.remove(beamMesh); beamGeo.dispose(); beamMesh.material.dispose(); }
-    if (rayMesh) { scene.remove(rayMesh); rayGeo.dispose(); rayMesh.material.dispose(); }
+  const fieldStart = new THREE.Vector3();
+  const fieldDirection = new THREE.Vector3();
+  const fieldEnd = new THREE.Vector3();
 
-    beamPos = new Float32Array(n * 6);
-    beamCol = new Float32Array(n * 6);
-    beamGeo = new THREE.BufferGeometry();
-    beamGeo.setAttribute('position', new THREE.BufferAttribute(beamPos, 3));
-    beamGeo.setAttribute('color', new THREE.BufferAttribute(beamCol, 3));
-    beamMesh = new THREE.LineSegments(beamGeo, new THREE.LineBasicMaterial({
-      vertexColors: true, transparent: true, opacity: 0.9, depthWrite: false, fog: false
-    }));
-    beamMesh.frustumCulled = false;
-    scene.add(beamMesh);
-
-    RAY_STEP = n > 400 ? 8 : (n > 200 ? 5 : 3);
-    nRays = Math.ceil(n / RAY_STEP);
-    rayPos = new Float32Array(nRays * 6);
-    rayCol = new Float32Array(nRays * 6);
-    rayGeo = new THREE.BufferGeometry();
-    rayGeo.setAttribute('position', new THREE.BufferAttribute(rayPos, 3));
-    rayGeo.setAttribute('color', new THREE.BufferAttribute(rayCol, 3));
-    rayMesh = new THREE.LineSegments(rayGeo, new THREE.LineBasicMaterial({
-      vertexColors: true, transparent: true, opacity: 0.5, depthWrite: false, fog: false
-    }));
-    rayMesh.frustumCulled = false;
-    scene.add(rayMesh);
+  function resizeFieldRays(count) {
+    fieldRays.geometry.dispose();
+    fieldRays.geometry = new THREE.BufferGeometry();
+    fieldRays.geometry.setAttribute('position',
+      new THREE.BufferAttribute(new Float32Array(count * 6), 3).setUsage(THREE.DynamicDrawUsage));
   }
 
-  function updateTargets(){for(const h of heliostats){const radius=Math.hypot(h.x,h.z),side=1.58/radius;h.target.set(h.x*side,RECEIVER_Y+h.offY*.6,h.z*side);h.nFixed.set(-h.x,TOWER_H*.5,-h.z).normalize();}}
+  function writeFieldRay(positions, index, pivot, normal, target) {
+    if (sunDir.dot(normal) <= 0) return index;
+    fieldStart.copy(pivot).addScaledVector(normal, MIRROR_SURFACE_OFFSET);
+    fieldDirection.copy(sunDir).negate().reflect(normal);
+    // In tracking mode the mirror aims at the receiver. Use the reflected direction from the mirror face.
+    let distance = state.track ? fieldEnd.copy(target).sub(fieldStart).dot(fieldDirection) : 38;
+    if (fieldDirection.y < 0) distance = Math.min(distance, (-0.02 - fieldStart.y) / fieldDirection.y);
+    fieldEnd.copy(fieldStart).addScaledVector(fieldDirection, distance);
+    positions.setXYZ(index, fieldStart.x, fieldStart.y, fieldStart.z);
+    positions.setXYZ(index + 1, fieldEnd.x, fieldEnd.y, fieldEnd.z);
+    return index + 2;
+  }
+
+  /* ================= 单面定日镜光路 ================= */
+  const rayMaterial = new THREE.MeshBasicMaterial({
+    color: 0xff3b8e, transparent: true, fog: false, toneMapped: false, depthWrite: false, side: THREE.DoubleSide
+  });
+  const rayGroup = new THREE.Group();
+  scene.add(rayGroup);
+
+  function makeRaySegment() {
+    const geometry = new THREE.BufferGeometry();
+    geometry.setAttribute('position', new THREE.BufferAttribute(new Float32Array(21), 3).setUsage(THREE.DynamicDrawUsage));
+    geometry.setIndex([0, 1, 2, 1, 3, 2, 4, 5, 6]);
+    const line = new THREE.Mesh(geometry, rayMaterial);
+    line.renderOrder = 2;
+    line.frustumCulled = false;
+    rayGroup.add(line);
+    return {start: new THREE.Vector3(), end: new THREE.Vector3(), line};
+  }
+
+  const incidentRay = makeRaySegment();
+  const reflectedRay = makeRaySegment();
+  const NORMAL_DASH_LIMIT = 256;
+  const normalGeometry = new THREE.BufferGeometry();
+  normalGeometry.setAttribute('position',
+    new THREE.BufferAttribute(new Float32Array(NORMAL_DASH_LIMIT * 12), 3).setUsage(THREE.DynamicDrawUsage));
+  const normalIndices = [];
+  for (let i = 0; i < NORMAL_DASH_LIMIT * 4; i += 4) normalIndices.push(i, i + 1, i + 2, i + 1, i + 3, i + 2);
+  normalGeometry.setIndex(normalIndices);
+  const normalLine = new THREE.Mesh(normalGeometry, new THREE.MeshBasicMaterial({
+    color: 0x2255aa, transparent: true, fog: false, toneMapped: false, depthWrite: false, side: THREE.DoubleSide
+  }));
+  normalLine.renderOrder = 1;
+  normalLine.frustumCulled = false;
+  rayGroup.add(normalLine);
+  const normalSegment = {start: incidentRay.end, end: new THREE.Vector3()};
+  const normalDashStart = new THREE.Vector3();
+  const normalDashEnd = new THREE.Vector3();
+
+  const reflectionPoint = new THREE.Mesh(new THREE.RingGeometry(0.61, 1, 24), new THREE.MeshBasicMaterial({
+    color: 0xffffff, transparent: true, fog: false, toneMapped: false, depthWrite: false
+  }));
+  reflectionPoint.frustumCulled = false;
+  reflectionPoint.renderOrder = 3;
+  rayGroup.add(reflectionPoint);
+
+  const rayOrigin = new THREE.Vector3();
+  const rayNormal = new THREE.Vector3();
+  const reflectedDirection = new THREE.Vector3();
+  const previousRaySun = new THREE.Vector3();
+  let previousRayTower;
+  let reflectionVisible = false;
+  let hitReceiver = false;
+  const towerRaycaster = new THREE.Raycaster();
+
+  function traceExampleRay(pivot, normal) {
+    const origin = rayOrigin.copy(pivot).addScaledVector(normal, MIRROR_SURFACE_OFFSET);
+    if (origin.equals(incidentRay.end) && normal.equals(rayNormal) &&
+        sunDir.equals(previousRaySun) && towerGroup === previousRayTower) return;
+    incidentRay.start.copy(origin).addScaledVector(sunDir, 48);
+    incidentRay.end.copy(origin);
+    rayNormal.copy(normal);
+    normalSegment.end.copy(origin).addScaledVector(normal, 12);
+    previousRaySun.copy(sunDir);
+    previousRayTower = towerGroup;
+
+    reflectionVisible = sunDir.dot(normal) > 0;
+    if (!reflectionVisible) {
+      hitReceiver = false;
+      reflectedRay.start.copy(origin);
+      reflectedRay.end.copy(origin);
+      return;
+    }
+
+    reflectedDirection.copy(sunDir).negate().reflect(normal);
+    let distance = 57;
+    if (reflectedDirection.y < 0) {
+      distance = Math.min(distance, (-0.02 - origin.y) / reflectedDirection.y);
+    }
+    towerRaycaster.set(origin, reflectedDirection);
+    towerRaycaster.far = distance;
+    const receiverHit = state.track ? towerRaycaster.intersectObject(receiverSurface, false)[0] : undefined;
+    const hit = receiverHit || towerRaycaster.intersectObjects(towerRaySurfaces, false)[0];
+    hitReceiver = hit?.object.material === M.receiver;
+    reflectedRay.start.copy(origin);
+    reflectedRay.end.copy(origin).addScaledVector(reflectedDirection, hit ? hit.distance : distance);
+  }
+
+  const diagramMatrix = new THREE.Matrix4();
+  const clipStart = new THREE.Vector4();
+  const clipEnd = new THREE.Vector4();
+  const clipped = new THREE.Vector4();
+  const ndcStart = new THREE.Vector3();
+  const ndcEnd = new THREE.Vector3();
+  const rayVertex = new THREE.Vector3();
+  const arrowCenter = new THREE.Vector3();
+  const viewport = new THREE.Vector2();
+
+  function projectRay(segment) {
+    const {start, end} = segment;
+    clipStart.set(start.x, start.y, start.z, 1).applyMatrix4(diagramMatrix);
+    clipEnd.set(end.x, end.y, end.z, 1).applyMatrix4(diagramMatrix);
+    let enter = 0, exit = 1;
+    for (const axis of ['x', 'y', 'z']) {
+      for (const sign of [-1, 1]) {
+        const a = clipStart.w + sign * clipStart[axis];
+        const b = clipEnd.w + sign * clipEnd[axis];
+        if (a < 0 && b < 0) return false;
+        if (a < 0) enter = Math.max(enter, a / (a - b));
+        if (b < 0) exit = Math.min(exit, a / (a - b));
+      }
+    }
+    if (enter >= exit) return false;
+    clipped.copy(clipStart).lerp(clipEnd, enter);
+    ndcStart.set(clipped.x / clipped.w, clipped.y / clipped.w, clipped.z / clipped.w);
+    clipped.copy(clipStart).lerp(clipEnd, exit);
+    ndcEnd.set(clipped.x / clipped.w, clipped.y / clipped.w, clipped.z / clipped.w);
+    return true;
+  }
+
+  function setRayVertex(attribute, index, point, dx, dy) {
+    rayVertex.set(point.x + 2 * dx / viewport.x, point.y + 2 * dy / viewport.y, point.z).unproject(camera);
+    attribute.setXYZ(index, rayVertex.x, rayVertex.y, rayVertex.z);
+  }
+
+  function writeStroke(attr, index, start, end, dx, dy) {
+    setRayVertex(attr, index, start, dx, dy);
+    setRayVertex(attr, index + 1, start, -dx, -dy);
+    setRayVertex(attr, index + 2, end, dx, dy);
+    setRayVertex(attr, index + 3, end, -dx, -dy);
+  }
+
+  function drawRay(segment, enabled) {
+    const mesh = segment.line;
+    mesh.visible = false;
+    if (!enabled || !projectRay(segment)) return;
+    const dx = (ndcEnd.x - ndcStart.x) * viewport.x * 0.5;
+    const dy = (ndcEnd.y - ndcStart.y) * viewport.y * 0.5;
+    const length = Math.hypot(dx, dy);
+    if (length < 0.5) return;
+
+    const ux = dx / length, uy = dy / length;
+    const attr = mesh.geometry.attributes.position;
+    writeStroke(attr, 0, ndcStart, ndcEnd, -uy, ux);
+
+    const headLength = Math.min(10, length * 0.32);
+    const wing = headLength * 0.32;
+    const tip = arrowCenter.lerpVectors(ndcStart, ndcEnd, 0.54);
+    setRayVertex(attr, 4, tip, ux * headLength * 0.5, uy * headLength * 0.5);
+    setRayVertex(attr, 5, tip, -ux * headLength * 0.5 - uy * wing, -uy * headLength * 0.5 + ux * wing);
+    setRayVertex(attr, 6, tip, -ux * headLength * 0.5 + uy * wing, -uy * headLength * 0.5 - ux * wing);
+    mesh.geometry.setDrawRange(0, length > 13 ? 9 : 6);
+    attr.needsUpdate = true;
+    mesh.visible = true;
+  }
+
+  function drawNormal() {
+    normalLine.visible = false;
+    if (!projectRay(normalSegment)) return;
+    const dx = (ndcEnd.x - ndcStart.x) * viewport.x * 0.5;
+    const dy = (ndcEnd.y - ndcStart.y) * viewport.y * 0.5;
+    const length = Math.hypot(dx, dy);
+    if (length < 0.5) return;
+
+    const attr = normalGeometry.attributes.position;
+    const interval = Math.max(10, length / NORMAL_DASH_LIMIT);
+    const dashLength = interval * 0.6;
+    let count = 0;
+    for (let d = 0; count < NORMAL_DASH_LIMIT && d < length; d += interval) {
+      normalDashStart.lerpVectors(ndcStart, ndcEnd, d / length);
+      normalDashEnd.lerpVectors(ndcStart, ndcEnd, Math.min(1, (d + dashLength) / length));
+      writeStroke(attr, count * 4, normalDashStart, normalDashEnd, -dy / length * 0.75, dx / length * 0.75);
+      count++;
+    }
+    normalGeometry.setDrawRange(0, count * 6);
+    attr.needsUpdate = true;
+    normalLine.visible = true;
+  }
+
+  function drawExampleRays() {
+    rayGroup.visible = fieldRays.visible = state.beam;
+    if (!state.beam) return;
+    camera.updateMatrixWorld();
+    diagramMatrix.multiplyMatrices(camera.projectionMatrix, camera.matrixWorldInverse);
+    renderer.getSize(viewport);
+    drawRay(incidentRay, true);
+    drawRay(reflectedRay, reflectionVisible);
+    drawNormal();
+
+    const depth = -rayVertex.copy(incidentRay.end).applyMatrix4(camera.matrixWorldInverse).z;
+    reflectionPoint.visible = depth > camera.near;
+    if (reflectionPoint.visible) {
+      reflectionPoint.quaternion.copy(camera.quaternion);
+      reflectionPoint.position.copy(incidentRay.end).addScaledVector(rayNormal, 0.021);
+      reflectionPoint.scale.setScalar(depth * Math.tan(THREE.MathUtils.degToRad(camera.fov * 0.5)) * 6 / viewport.y);
+    }
+  }
+
+  function updateTargets() {
+    for (const h of heliostats) {
+      const side = 1.58 / Math.hypot(h.x, h.z);
+      h.target.set(h.x * side, RECEIVER_Y + h.offY * 0.6, h.z * side);
+      h.toReceiver.set(h.target.x - h.x, h.target.y - MIRROR_Y, h.target.z - h.z).normalize();
+      h.nFixed.set(-h.x, TOWER_H * 0.5, -h.z).normalize();
+    }
+    opticsDirty = true;
+  }
 
   /* ================= 熔盐储罐 ================= */
   const saltGroup = new THREE.Group();
@@ -786,14 +996,6 @@
     pump.castShadow = pump.receiveShadow = true;
     saltGroup.add(pump);
 
-    const hg = new THREE.Sprite(new THREE.SpriteMaterial({
-      map: glowTex, transparent: true, opacity: 0.5, depthWrite: false, blending: THREE.AdditiveBlending
-    }));
-    hg.position.set(-28, 7.8, -42);
-    hg.scale.set(9, 9, 1);
-    saltGroup.add(hg);
-    saltGroup.userData.hotGlow = hg;
-
     scene.add(saltGroup);
   })();
 
@@ -840,14 +1042,13 @@
     el: 42, az: 28,
     rings: 6, dens: 1.0,
     towerH: 26,
-    beam: false, track: true, demo: false,
+    beam: true, track: true, mirrorTilt: 0, demo: false,
     salt: true, labels: true,
     power: 0,realistic:true
   };
 
   const sunDir = new THREE.Vector3();
-  const tmpV = new THREE.Vector3();
-  const tmpV2 = new THREE.Vector3();
+  let opticsDirty = true;
   const tmpV3 = new THREE.Vector3();
 
   function updateSun() {
@@ -858,8 +1059,6 @@
       Math.sin(elR),
       Math.cos(azR) * Math.cos(elR)
     ).normalize();
-    sunBall.position.copy(sunDir).multiplyScalar(260);
-    sunGlow.position.copy(sunBall.position);
     sunLight.position.copy(sunDir).multiplyScalar(140);
     sunLight.target.position.set(0, 0, 0);
     sunLight.intensity = 0.25 + 0.75 * Math.max(0, Math.sin(elR));
@@ -867,6 +1066,10 @@
 
   /* ================= 每帧：追踪 + 光束 ================= */
   const quat = new THREE.Quaternion();
+  const tiltAxis = new THREE.Vector3();
+  const adjustedNormal = new THREE.Vector3();
+  const exampleFixedNormal = new THREE.Vector3();
+  const stoppedSunDirection = new THREE.Vector3();
 
   function updateHeliostats() {
     const list = heliostats;
@@ -875,19 +1078,35 @@
     const frame = inst.meshes[3], face = inst.meshes[4], back = inst.meshes[5];
 
     let sum = 0;
+    let fieldVertices = 0;
+    const fieldPositions = fieldRays.geometry.attributes.position;
     for (let i = 0; i < n; i++) {
       const h = list[i];
       const mx = h.x, my = MIRROR_Y, mz = h.z;
-      const V = tmpV2.copy(h.target).sub(tmpV.set(mx, my, mz)).normalize();
+      const toReceiver = h.toReceiver;
 
       let nrm;
       if (state.track) {
-        nrm = tmpV3.copy(sunDir).add(V).normalize();
+        nrm = tmpV3.copy(sunDir).add(toReceiver).normalize();
+        if (h === exampleMirror) {
+          exampleFixedNormal.copy(nrm);
+          examplePoseReady = true;
+        }
         h.intensity = Math.pow(Math.max(0, nrm.dot(sunDir)), 0.6);
       } else {
         nrm = h.nFixed;
-        const rr = tmpV3.copy(sunDir).negate().addScaledVector(nrm, 2 * sunDir.dot(nrm));
-        const align = rr.dot(V);
+        if (h === exampleMirror) {
+          if (!examplePoseReady) {
+            exampleFixedNormal.copy(stoppedSunDirection).add(toReceiver).normalize();
+            examplePoseReady = true;
+          }
+          tiltAxis.crossVectors(UP, h.nFixed).normalize();
+          nrm = adjustedNormal.copy(exampleFixedNormal).applyAxisAngle(
+            tiltAxis, THREE.MathUtils.degToRad(state.mirrorTilt)
+          );
+        }
+        const rr = tmpV3.copy(sunDir).negate().reflect(nrm);
+        const align = rr.dot(toReceiver);
         h.intensity = Math.max(0, (align - 0.86) / 0.14);
       }
       quat.setFromUnitVectors(UP, nrm);
@@ -900,77 +1119,32 @@
       face.setMatrixAt(i, dummy.matrix);
       back.setMatrixAt(i, dummy.matrix);
 
-      const p6 = i * 6;
-      const it = h.intensity;
-      if (state.beam && it > 0.02) {
-        beamPos[p6] = mx; beamPos[p6 + 1] = my; beamPos[p6 + 2] = mz;
-        beamPos[p6 + 3] = h.target.x; beamPos[p6 + 4] = h.target.y; beamPos[p6 + 5] = h.target.z;
-        const cR = 0.30 + (1 - it) * 0.62;
-        const cG = 0.16 + (1 - it) * 0.72;
-        const cB = 0.02 + (1 - it) * 0.88;
-        beamCol[p6] = cR + 0.35 * it; beamCol[p6 + 1] = cG + 0.35 * it; beamCol[p6 + 2] = cB + 0.3 * it;
-        beamCol[p6 + 3] = cR; beamCol[p6 + 4] = cG; beamCol[p6 + 5] = cB;
-      } else {
-        beamPos[p6] = 0; beamPos[p6 + 1] = -20; beamPos[p6 + 2] = 0;
-        beamPos[p6 + 3] = 0; beamPos[p6 + 4] = -20; beamPos[p6 + 5] = 0;
+      if (state.beam) {
+        if (h === exampleMirror) traceExampleRay(dummy.position, nrm);
+        else fieldVertices = writeFieldRay(fieldPositions, fieldVertices, dummy.position, nrm, h.target);
       }
+    }
+    if (state.beam) {
+      fieldRays.geometry.setDrawRange(0, fieldVertices);
+      fieldPositions.needsUpdate = true;
     }
     frame.instanceMatrix.needsUpdate = true;
     face.instanceMatrix.needsUpdate = true;
     back.instanceMatrix.needsUpdate = true;
-    beamGeo.attributes.position.needsUpdate = true;
-    beamGeo.attributes.color.needsUpdate = true;
-    beamMesh.visible = state.beam;
-
-    let ri = 0;
-    for (let i = 0; i < n; i += RAY_STEP) {
-      const h = list[i];
-      const p6 = ri * 6; ri++;
-      if (state.beam && state.el > 4) {
-        rayPos[p6] = h.x + sunDir.x * 11;
-        rayPos[p6 + 1] = MIRROR_Y + sunDir.y * 11;
-        rayPos[p6 + 2] = h.z + sunDir.z * 11;
-        rayPos[p6 + 3] = h.x; rayPos[p6 + 4] = MIRROR_Y; rayPos[p6 + 5] = h.z;
-        rayCol[p6] = 0.74; rayCol[p6 + 1] = 0.72; rayCol[p6 + 2] = 0.63;
-        rayCol[p6 + 3] = 0.46; rayCol[p6 + 4] = 0.43; rayCol[p6 + 5] = 0.37;
-      } else {
-        rayPos[p6] = 0; rayPos[p6 + 1] = -20; rayPos[p6 + 2] = 0;
-        rayPos[p6 + 3] = 0; rayPos[p6 + 4] = -20; rayPos[p6 + 5] = 0;
-      }
-    }
-    rayGeo.attributes.position.needsUpdate = true;
-    rayGeo.attributes.color.needsUpdate = true;
-    rayMesh.visible = state.beam;
 
     const eff = Math.max(0, Math.sin(state.el * Math.PI / 180) * 1.35);
     state.power = Math.min(1, (sum / n) * eff);
   }
 
-  /* ================= 吸热器热效 / 蒸汽 ================= */
-  let clock0 = performance.now();
-  function updateHeat(dt) {
-    const p = state.power;
-    // Strong incident concentrated sunlight is represented as a surface radiance term.
-    // The black absorber is preserved when aiming misses; this is not white-hot salt.
-    M.receiver.emissive.setRGB(3.8*p,3.2*p,2.4*p);
-    recvGlow.material.opacity = 0.26 * p;
-    const gs = 7 + 5 * p;
-    recvGlow.scale.set(5+3*p,8+4*p,1);
-
-    for (let i = 0; i < STEAM_N; i++) {
-      const s = steams[i];
-      let t = s.userData.t + dt * (0.10 + 0.16 * p);
-      if (t > 1) t -= 1;
-      s.userData.t = t;
-      s.position.set(0.4 + t * 2.6 + Math.sin(t * 9 + i) * 0.5, RECEIVER_Y + 3.2 + t * 9, 0.2 + t * 0.7);
-      const sc = 1.8 + t * 4.6;
-      s.scale.set(sc, sc, 1);
-      s.material.opacity = 0;
-    }
-
-    if (saltGroup.userData.hotGlow) {
-      saltGroup.userData.hotGlow.material.opacity = 0;
-    }
+  function refreshOptics() {
+    if (!opticsDirty) return;
+    updateHeliostats();
+    const power = state.power;
+    M.receiver.emissive.setRGB(3.8 * power, 3.2 * power, 2.4 * power);
+    recvGlow.material.opacity = 0.26 * power;
+    recvGlow.scale.set(5 + 3 * power, 8 + 4 * power, 1);
+    sunLight.shadow.needsUpdate = true;
+    opticsDirty = false;
   }
 
   /* ================= UI ================= */
@@ -1038,18 +1212,35 @@
     el.ringLabel.textContent = state.rings + ' 环 · ' + heliostats.length + ' 面';
   }
 
-  function setElevation(v) {
-    state.el = Math.round(v);
-    el.elLabel.textContent = state.el + '°';
-    setFill(sliderEl);
-    updateSun();
+  let shownElevation, shownAzimuth;
+
+  function syncSolarControls() {
+    const elevation = Math.round(state.el);
+    if (elevation !== shownElevation) {
+      shownElevation = elevation;
+      sliderEl.value = String(elevation);
+      el.elLabel.textContent = elevation + '°';
+      setFill(sliderEl);
+    }
+    const azimuth = Math.round(state.az);
+    if (azimuth !== shownAzimuth) {
+      shownAzimuth = azimuth;
+      sliderAz.value = String(azimuth);
+      el.azLabel.textContent = azText(azimuth);
+      setFill(sliderAz);
+    }
   }
-  function setAzimuth(v) {
-    state.az = Math.round(v);
-    el.azLabel.textContent = azText(state.az);
-    setFill(sliderAz);
-    updateSun();
+
+  function setSolarAngles(azimuth, elevation) {
+    if (azimuth !== state.az || elevation !== state.el) {
+      state.az = azimuth;
+      state.el = elevation;
+      updateSun();
+      opticsDirty = true;
+    }
+    syncSolarControls();
   }
+
   function setDensity(v, rebuild) {
     state.dens = v;
     el.densLabel.textContent = '×' + v.toFixed(1);
@@ -1064,8 +1255,14 @@
     if (rebuild) buildTower();
   }
 
-  sliderEl.addEventListener('input', function () { setElevation(parseFloat(this.value)); });
-  sliderAz.addEventListener('input', function () { setAzimuth(parseFloat(this.value)); });
+  sliderEl.addEventListener('input', function () {
+    cancelDayDemo();
+    setSolarAngles(state.az, Number(this.value));
+  });
+  sliderAz.addEventListener('input', function () {
+    cancelDayDemo();
+    setSolarAngles(Number(this.value), state.el);
+  });
   sliderRing.addEventListener('input', function () {
     state.rings = parseInt(this.value, 10);
     setFill(sliderRing);
@@ -1081,26 +1278,100 @@
   const btnDemo = document.getElementById('btnDemo');
   const btnSalt = document.getElementById('btnSalt');
   const btnLabel = document.getElementById('btnLabel');
+  const rayNote = document.getElementById('rayNote');
+  const mirrorTilt = document.getElementById('mirrorTilt');
+  const sliderTilt = document.getElementById('sliderTilt');
+  const tiltLabel = document.getElementById('tiltLabel');
+
+  setFill(sliderTilt);
+  sliderTilt.addEventListener('input', function () {
+    state.mirrorTilt = Number(this.value);
+    opticsDirty = true;
+    tiltLabel.textContent = (state.mirrorTilt > 0 ? '+' : '') + state.mirrorTilt + '°';
+    setFill(this);
+  });
 
   btnBeam.addEventListener('click', function () {
     state.beam = !state.beam;
+    opticsDirty = true;
     btnBeam.classList.toggle('active', state.beam);
+    btnBeam.setAttribute('aria-pressed', state.beam);
+    rayNote.hidden = !state.beam;
   });
   btnTrack.addEventListener('click', function () {
     state.track = !state.track;
+    opticsDirty = true;
     btnTrack.classList.toggle('active', state.track);
-    el.trackLabel.textContent = state.track ? '自动追踪' : '固定姿态';
-    toast(state.track ? '镜面自动追踪太阳' : '镜面固定姿态：观察反射光的偏离');
+    btnTrack.setAttribute('aria-pressed', state.track);
+    mirrorTilt.hidden = state.track;
+    if (!state.track) {
+      stoppedSunDirection.copy(sunDir);
+      state.mirrorTilt = 0;
+      sliderTilt.value = '0';
+      tiltLabel.textContent = '0°';
+      setFill(sliderTilt);
+    }
+    el.trackLabel.textContent = state.track ? '自动追踪' : '手动调镜';
+    toast(state.track ? '镜面自动追踪太阳' : '示范镜面已停止追踪，拖动滑块微调俯仰');
   });
+  const DAY_DEMO_DURATION = 20000;
+  const DAWN_TRANSITION_DURATION = 1900;
+  let dayDemo = null;
+
+  function setDemoPlayback(playing) {
+    state.demo = playing;
+    btnDemo.classList.toggle('active', playing);
+    btnDemo.textContent = playing ? '暂停演示' : dayDemo ? '继续演示' : '演示一天';
+
+    const shadow = sunLight.shadow;
+    const shadowSize = playing ? 1024 : 2048;
+    if (shadow.mapSize.x !== shadowSize) {
+      if (shadow.map) shadow.map.dispose();
+      shadow.map = null;
+      shadow.mapSize.set(shadowSize, shadowSize);
+      shadow.needsUpdate = true;
+    }
+  }
+
+  function cancelDayDemo() {
+    if (!dayDemo) return;
+    dayDemo = null;
+    setDemoPlayback(false);
+  }
+
+  function advanceDayDemo(deltaMs) {
+    dayDemo.elapsed += deltaMs;
+    const dawnElevation = 12 + 58 * (1 - (80 / 85) ** 2);
+    if (dayDemo.elapsed < DAWN_TRANSITION_DURATION) {
+      const blend = THREE.MathUtils.smoothstep(dayDemo.elapsed, 0, DAWN_TRANSITION_DURATION);
+      setSolarAngles(
+        THREE.MathUtils.lerp(dayDemo.fromAzimuth, -80, blend),
+        THREE.MathUtils.lerp(dayDemo.fromElevation, dawnElevation, blend)
+      );
+      return;
+    }
+
+    const daylight = dayDemo.elapsed - DAWN_TRANSITION_DURATION;
+    const progress = THREE.MathUtils.smoothstep(daylight, 0, DAY_DEMO_DURATION);
+    const azimuth = THREE.MathUtils.lerp(-80, 80, progress);
+    const elevation = 12 + 58 * (1 - (azimuth / 85) ** 2);
+    setSolarAngles(azimuth, elevation);
+    if (daylight >= DAY_DEMO_DURATION) cancelDayDemo();
+  }
+
   btnDemo.addEventListener('click', function () {
-    state.demo = !state.demo;
-    btnDemo.classList.toggle('active', state.demo);
-    if (state.demo) toast('演示一天：太阳东升西落');
+    if (state.demo) {
+      setDemoPlayback(false);
+      return;
+    }
+    if (!dayDemo) dayDemo = {elapsed: 0, fromAzimuth: state.az, fromElevation: state.el};
+    setDemoPlayback(true);
   });
   btnSalt.addEventListener('click', function () {
     state.salt = !state.salt;
     btnSalt.classList.toggle('active', state.salt);
     saltGroup.visible = state.salt;
+    sunLight.shadow.needsUpdate = true;
   });
   btnLabel.addEventListener('click', function () {
     state.labels = !state.labels;
@@ -1204,10 +1475,12 @@
     view.theta = 0.02; view.phi = 0.16; view.distTarget = 165;
     view.target.set(0, 2, 0);
   });
-  document.getElementById('btnMirror').onclick=()=>{view.focus='mirror';const h=heliostats.find(h=>h.z>10&&h.x>5)||heliostats[0];view.target.set(h.x,MIRROR_Y,h.z);view.theta=.4;view.phi=1.08;view.dist=view.distTarget=13;};
+  document.getElementById('btnMirror').onclick=()=>{view.focus='mirror';view.target.set(exampleMirror.x,MIRROR_Y,exampleMirror.z);view.theta=.4;view.phi=1.08;view.dist=view.distTarget=13;};
   document.getElementById('btnReceiver').onclick=()=>{view.focus='receiver';view.target.set(0,RECEIVER_Y,0);view.theta=.72;view.phi=1.20;view.dist=view.distTarget=22;};
   document.getElementById('btnBrand').onclick=()=>{view.focus='brand';view.target.set(0,.6+TOWER_H*.56,0);view.theta=.62;view.phi=1.50;view.dist=view.distTarget=18;};
   document.getElementById('btnShot').addEventListener('click', function () {
+    refreshOptics();
+    drawExampleRays();
     renderer.render(scene, camera);
     const url = renderer.domElement.toDataURL('image/png');
     const a = document.createElement('a');
@@ -1241,41 +1514,29 @@
     const now = performance.now();
     const dt = Math.min(0.05, (now - lastT) / 1000);
     lastT = now;
-    clock0 = now;
-
-    if (state.demo) {
-      const az = -80 + ((now * 0.008) % 160);
-      const k = 1 - Math.pow(az / 85, 2);
-      const elv = 12 + 58 * Math.max(0, k);
-      setAzimuth(az); setElevation(elv);
-      sliderAz.value = String(Math.round(az));
-      sliderEl.value = String(Math.round(elv));
-    }
+    if (state.demo) advanceDayDemo(dt * 1000);
 
     view.dist += (view.distTarget - view.dist) * Math.min(1, dt * 7);
 
-    updateSun();
-    updateHeliostats();
-    updateHeat(dt);
+    refreshOptics();
 
     if (++readoutTick % 12 === 0) updateReadout();
 
     applyCamera();
+    drawExampleRays();
     renderer.render(scene, camera);
     requestAnimationFrame(tick);
   }
 
   /* ================= 初始化 ================= */
-  setElevation(42);
-  setAzimuth(28);
+  syncSolarControls();
   setDensity(1.0, false);
   setTowerH(26, false);
   buildTower();
   buildHeliostats();
   updateLabelPositions();
   updateSun();
-  updateHeliostats();
-  updateHeat(0);
+  refreshOptics();
   updateReadout();
   resize();
   if(innerWidth<=800)el.panel.classList.add('collapsed');
@@ -1288,6 +1549,12 @@
     sunDir: function () { return sunDir.toArray().map(function (x) { return +x.toFixed(3); }); },
     power: function () { return +state.power.toFixed(3); },
     mirrors: function () { return heliostats.length; },
+    exampleRay: () => ({
+      index: heliostats.indexOf(exampleMirror),
+      incidentStart: incidentRay.start.toArray(), origin: incidentRay.end.toArray(),
+      reflectedEnd: reflectedRay.end.toArray(), normal: rayNormal.toArray(),
+      reflected: reflectionVisible, hitReceiver, visible: rayGroup.visible
+    }),
     tower: function () { return { h:TOWER_H,receiverY:RECEIVER_Y,receiverRadius:1.58 }; },
     tracking:()=>{const a=[];for(let i=0;i<heliostats.length;i++){const m=new THREE.Matrix4();inst.meshes[4].getMatrixAt(i,m);a.push(new THREE.Vector3(0,1,0).transformDirection(m).toArray());}return {sun:sunDir.toArray(),normals:a};},targets:()=>heliostats.map(h=>({mirror:[h.x,MIRROR_Y,h.z],target:h.target.toArray()})),materialInfo:()=>({brand:'首航高科',brandCount:towerGroup.children.filter(x=>x.name==='首航高科').length,receiverRadiance:M.receiver.emissive.toArray(),submirrors:35,steamAtTower:false,cooling:'air',realistic:state.realistic,drawCalls:renderer.info.render.calls})
   };

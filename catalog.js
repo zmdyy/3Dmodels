@@ -1312,7 +1312,7 @@ window.MODEL_CATALOG = [
       "熔盐储热",
       "定日镜"
     ],
-    "path": "models/solar-tower.html",
+    "path": "models/solar-tower.html?v=20261122-optics",
     "symbol": "☀",
     "accent": "orange"
   },
