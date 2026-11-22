@@ -138,7 +138,7 @@ def main():
    if typ=='module':
     compiled=bundle_module(body,f or origin,origin,imap,logs)
     if compiled is None:return m.group(0)
-    deferred.append('<script>\n'+compiled.replace('</script','<\\/script')+'\n</script>')
+    deferred.append('<script type="module">\n'+compiled.replace('</script','<\\/script')+'\n</script>')
     return ''
    tag='<script>\n'+body.replace('</script','<\\/script')+'\n</script>'
    if src and re.search(r'\bdefer\b',attrs,re.I):
