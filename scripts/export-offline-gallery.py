@@ -34,14 +34,28 @@ def bundle_module(contents,source_path,html_path,imap,logs):
  if not BUNDLE.exists():
   logs.append('缺少 esbuild：'+source_path.name);return None
  aliases=[]
+ temp_imports=[]
  imports=imap.get('imports',{}) if isinstance(imap,dict) else {}
  for key,val in imports.items():
   if not isinstance(val,str) or val.startswith(('http:','https:')):
-   logs.append('外部 import map：'+key+' = '+str(val));continue
-  abspath=(html_path.parent/val.split('?')[0]).resolve()
+   logs.append('外部 import map：'+key+' = '+str(val)[:150]);continue
+  if val.startswith('data:'):
+   try:
+    marker,sep,payload=val.partition(',')
+    if not sep:raise ValueError('missing comma in data URI')
+    content=base64.b64decode(payload) if ';base64' in marker else urllib.parse.unquote_to_bytes(payload)
+    import hashlib
+    dest=source_path.parent/('__offline_import_'+hashlib.sha1((key+str(len(content))).encode()).hexdigest()[:12]+'.js')
+    dest.write_bytes(content)
+    temp_imports.append(dest)
+    abspath=dest
+   except Exception as exc:
+    logs.append('无法解析嵌入模块 '+key+'：'+str(exc)[:150]);continue
+  else:
+   abspath=(html_path.parent/val.split('?')[0]).resolve()
   if key.endswith('/'):aliases.append('--alias:'+key[:-1]+'='+str(abspath))
   elif abspath.exists():aliases.append('--alias:'+key+'='+str(abspath))
-  else:logs.append('找不到 import map：'+val)
+  else:logs.append('找不到 import map：'+str(val)[:120])
  contents=contents.replace('import.meta.url','document.baseURI')
  tmp=source_path.parent/('__offline_tmp_'+str(os.getpid())+'.js')
  try:
@@ -52,7 +66,9 @@ def bundle_module(contents,source_path,html_path,imap,logs):
   return r.stdout
  except Exception as e:
   logs.append('模块构建异常 '+source_path.name+'：'+str(e)[:220]);return None
- finally:tmp.unlink(missing_ok=True)
+ finally:
+  tmp.unlink(missing_ok=True)
+  for f in temp_imports:f.unlink(missing_ok=True)
 def runtime_patch(assets):
  data=json.dumps(assets,ensure_ascii=False,separators=(',',':')).replace('</script','<\\/script')
  return '<script>\n(function(){\nconst records='+data+''' ;
