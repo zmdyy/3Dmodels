@@ -105,8 +105,9 @@ def main():
  if not match:raise RuntimeError('无法读取 catalog.js')
  catalog=json.loads(match.group(1));OUT.mkdir(parents=True,exist_ok=True)
  report={'source':'zmdyy/3Dmodel2','catalog_count':len(catalog),'cases':[]}
+ entries=catalog+[{'title':'平面镜成像规律（性能版）','path':'models/plane-mirror-performance.html'}]
  used=set()
- for i,entry in enumerate(catalog,1):
+ for i,entry in enumerate(entries,1):
   origin=ROOT/entry['path'].split('?')[0];title=entry['title'];name=clean_name(title)
   if name in used:name=name[:-5]+'（'+str(i)+'）.html'
   used.add(name);logs=[]
@@ -187,7 +188,29 @@ def main():
   status='待复核' if logs else '已导出（静态检查）'
   info={'title':title,'file':name,'size':target.stat().st_size,'assets_embedded':len(paths),'status':status,'warnings':logs}
   report['cases'].append(info)
-  print('%3d/%d %-8s %9d %s'%(i,len(catalog),status,info['size'],title),flush=True)
+  print('%3d/%d %-8s %9d %s'%(i,len(entries),status,info['size'],title),flush=True)
+ # Integrate the optional performance-mode page into the primary mirror HTML.
+ extra=report['cases'].pop()
+ main_info=next((c for c in report['cases'] if c.get('title')=='平面镜成像规律'),None)
+ if main_info:
+  main_path=OUT/main_info['file']
+  if extra.get('file') and not extra['warnings']:
+   extra_path=OUT/extra['file']
+   payload=base64.b64encode(extra_path.read_bytes()).decode('ascii')
+   source=main_path.read_text(encoding='utf-8')
+   old_href='href="plane-mirror-performance.html?v=20261113-modes"'
+   if old_href not in source:
+    main_info['warnings'].append('未找到性能版入口，无法内嵌')
+   else:
+    source=source.replace(old_href,'href="#" onclick="window.__openMirrorPerformance();return false"')
+    script='<script>window.__openMirrorPerformance=function(){const w=window.open("about:blank","_blank");if(!w)return;const html=new TextDecoder("utf-8").decode(Uint8Array.from(atob("'+payload+'"),c=>c.charCodeAt(0)));w.document.open();w.document.write(html);w.document.close();};</script>'
+    source=re.sub(r'</body\s*>',lambda m:script+'\n'+m.group(0),source,count=1,flags=re.I)
+    main_path.write_text(source,encoding='utf-8')
+    main_info['size']=main_path.stat().st_size
+    main_info['assets_embedded']+=1
+   extra_path.unlink(missing_ok=True)
+  else:
+   main_info['warnings'].append('性能版内嵌失败：'+'；'.join(extra['warnings'][:2]))
  report['exported_count']=len([x for x in report['cases'] if 'file' in x])
  report['warning_count']=len([x for x in report['cases'] if x['warnings']])
  (OUT/'导出检查报告.json').write_text(json.dumps(report,ensure_ascii=False,indent=2),encoding='utf-8')
