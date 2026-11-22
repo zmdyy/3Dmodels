@@ -166,7 +166,7 @@ def main():
    packed.setdefault(f.relative_to(ROOT).as_posix(),v)
    packed.setdefault(f.as_posix().split('/models/',1)[-1],v)
   page=re.sub(r'<head\b[^>]*>',lambda m:m.group(0)+'\n'+runtime_patch(packed),page,count=1,flags=re.I)
-  if deferred:page=re.sub(r'</body\s*>','\n'+'\n'.join(deferred)+'\n</body>',page,count=1,flags=re.I)
+  if deferred:page=re.sub(r'</body\s*>',lambda m:'\n'+'\n'.join(deferred)+'\n</body>',page,count=1,flags=re.I)
   target=OUT/name;target.write_text(page,encoding='utf-8')
   status='待复核' if logs else '已导出（静态检查）'
   info={'title':title,'file':name,'size':target.stat().st_size,'assets_embedded':len(paths),'status':status,'warnings':logs}
