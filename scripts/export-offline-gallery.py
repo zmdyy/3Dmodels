@@ -46,7 +46,7 @@ def bundle_module(contents,source_path,html_path,imap,logs):
  tmp=source_path.parent/('__offline_tmp_'+str(os.getpid())+'.js')
  try:
   tmp.write_text(contents,encoding='utf-8')
-  r=subprocess.run([str(BUNDLE),str(tmp),'--bundle','--platform=browser','--format=iife','--target=es2020','--legal-comments=inline','--log-level=error',*aliases],capture_output=True,text=True,cwd=ROOT,timeout=90)
+  r=subprocess.run([str(BUNDLE),str(tmp),'--bundle','--platform=browser','--format=esm','--target=es2020','--legal-comments=inline','--log-level=error',*aliases],capture_output=True,text=True,cwd=ROOT,timeout=90)
   if r.returncode:
    logs.append('模块构建失败 '+source_path.name+'：'+r.stderr[:350]);return None
   return r.stdout
