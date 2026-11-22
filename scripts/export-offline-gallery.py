@@ -165,6 +165,19 @@ def main():
    if not f:return tag
    return re.sub(r'\bsrc\s*=\s*(["\x27]).*?\1','src="'+uri(f)+'"',tag,count=1,flags=re.I|re.S)
   page=IMAGE.sub(img_sub,page)
+  # pressure-pumps contains a second case as a JS-escaped srcdoc HTML string.
+  # Inline its own scripts: the iframe does not inherit its parent's dependencies.
+  if origin.name=='pressure-pumps.html':
+   for rel in ['../shared/vendor/three-r160.min.js','../shared/material-finish.js','../shared/navigation-style.js']:
+    f=resolve(origin,rel)
+    if not f:
+     logs.append('气囊子页面脚本不存在：'+rel);continue
+    src='<script src=\\"'+rel+'\\"><\\/script>'
+    if src not in page:
+     logs.append('气囊子页面未找到内联标记：'+rel);continue
+    contents=json.dumps(f.read_text(encoding='utf-8',errors='replace'),ensure_ascii=True)[1:-1]
+    contents=contents.replace('</script','<\\/script')
+    page=page.replace(src,'<script>'+contents+'<\\/script>')
   paths=set()
   for base,source in [(origin,page),*js_origins]:
    for ref in URL_RE.findall(source):
