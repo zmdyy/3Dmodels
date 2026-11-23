@@ -400,11 +400,12 @@ function sourceLight(y,z){
  return F_BARS.some(bar=>Math.abs(y-bar.y)<=bar.width/2&&Math.abs(z-bar.z)<=bar.height/2)
   ?[1,.24,.15]:[0,0,0];
 }
+const CLEAR_IMAGE_AREA=966;
 function teachingRays(){
  const {source,shape}=state,x=state.holeX,u=state.u/100,v=state.v/100+(savedFreeExperiment?.012:0);
  const points=source==='point'?[[0,.06]]:
   source==='f'?[[-.036,.078],[-.036,-.073]]:[[0,.055],[0,-.055]];
- const angles=source==='point'
+ const angles=state.area<=CLEAR_IMAGE_AREA?[]:source==='point'
   ?(shape==='triangle'?[Math.PI/2,7*Math.PI/6,11*Math.PI/6]:[0,Math.PI/2,Math.PI,3*Math.PI/2])
   :[0,Math.PI];
  const openingRadius=apertureRadius();
@@ -465,7 +466,7 @@ function computeScreen(n=208){
  const point=state.source==='point';
  const clearImage=!point&&!savedFreeExperiment&&clearControl.checked;
  // Blend the teaching image into the geometric projection as the opening grows.
- const progress=Math.max(0,Math.min(1,(state.area-966)/(4200-966)));
+ const progress=Math.max(0,Math.min(1,(state.area-CLEAR_IMAGE_AREA)/(4200-CLEAR_IMAGE_AREA)));
  const physical=clearImage?progress*progress*(3-2*progress):1;
  const teachingRadius=Math.min(Math.sqrt(state.area/Math.PI)/1000,.0022)*(1+mag);
  const boundary=angle=>teachingRadius*(1-physical)+shapeRadius(angle,state.shape,radius)*physical;
