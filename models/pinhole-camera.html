@@ -34,20 +34,28 @@ html[data-theme="dark"] .screen-circle{border-color:#7b9794;box-shadow:0 0 0 3px
 #blurDemo .rowbtn:disabled{opacity:.45;cursor:default}
 #blurProgress{min-height:3.6em;margin-bottom:0}
 @media(max-width:1100px){header .topnote{display:none}}
+
+.aperture-detail{position:absolute;right:18px;bottom:18px;z-index:2;width:120px;margin:0;padding:8px 9px;border:1px solid #466370;border-radius:11px;background:#172b37;color:#edf7f7;box-shadow:0 5px 16px #09151c40;pointer-events:none;text-align:center}
+.aperture-detail figcaption{display:grid;gap:0;font-size:12px;font-weight:650}
+.aperture-detail small{color:#b8cbd2;font-size:10px;font-weight:400}
+.aperture-detail svg{display:block;width:80px;height:80px;margin:3px auto 0}
+@media(max-width:690px){.aperture-detail{right:8px;bottom:31px;width:92px;padding:5px}.aperture-detail svg{width:62px;height:62px}}
 </style></head><body>
 <header><h1>小孔成像 · 自由探究</h1><button id="themeToggle" class="theme-toggle" type="button">切换明亮模式</button></header>
-<main><div class="viewer" id="viewer"><canvas id="view" aria-label="三维可旋转实验器材"></canvas><canvas id="particleLayer" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1"></canvas><div class="viewer-top"><span class="badge" id="sceneTag">拖动孔板或光屏</span> <span class="badge" id="areaBadge">开孔面积 · 12.6 mm²</span></div><div class="view-buttons"><button id="allView" class="selected">整体</button><button id="plateView">近看小孔</button><button id="filmView">正视光屏</button><button id="resetView">还原视角</button></div><div id="moveHint" class="move-hint" hidden></div><div class="corner">左键：拖板移动 / 空白处旋转　·　右键 / Shift：平移　·　滚轮：缩放</div><div id="error" class="warn">WebGL 未启动，请尝试在最新版 Chrome 或 Edge 中打开本文件。</div></div>
+<main><div class="viewer" id="viewer"><canvas id="view" aria-label="三维可旋转实验器材"></canvas><canvas id="particleLayer" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1"></canvas><div class="viewer-top"><span class="badge" id="sceneTag">拖动光源或光屏</span> <span class="badge" id="areaBadge">开孔面积 · 966.0 mm²</span> <span class="badge" id="totalDistance">总距离 · 165 cm</span></div><div class="view-buttons"><button id="allView" class="selected">整体</button><button id="plateView">近看小孔</button><button id="filmView">正视光屏</button><button id="resetView">还原视角</button></div><figure class="aperture-detail"><figcaption><span id="apertureDetailName">圆孔</span><small>孔口正视 · 自动放大</small></figcaption><svg viewBox="0 0 88 88" aria-hidden="true"><rect x="1" y="1" width="86" height="86" rx="8" fill="#34505d"/><path id="apertureDetailOutline" fill="#07151e" stroke="#9aefd8" stroke-width="2.5" stroke-linejoin="round"/></svg></figure><div id="moveHint" class="move-hint" hidden></div><div class="corner">左键：拖动光源或光屏 / 空白处旋转　·　右键 / Shift：平移　·　滚轮：缩放</div><div id="error" class="warn">WebGL 未启动，请尝试在最新版 Chrome 或 Edge 中打开本文件。</div></div>
 <aside class="panel">
 <section><h2>光源</h2><div class="choices" id="sourceButtons">
 <button data-source="f" class="rowbtn selected" aria-pressed="true">F 光源</button><button data-source="candle" class="rowbtn" aria-pressed="false">蜡烛</button><button data-source="point" class="rowbtn" aria-pressed="false">点光源</button>
 </div></section>
 <section><h2>探究变量</h2>
-<label class="group" for="hole"><span>实际开孔面积</span><output id="holeValue">12.6 mm²</output></label><input id="hole" type="range" min="0" max="1000" value="367" step="1" aria-valuetext="12.6 平方毫米">
+<label class="group" for="hole"><span>实际开孔面积</span><output id="holeValue">966.0 mm²</output></label><input id="hole" type="range" min="0" max="1000" value="794" step="1" aria-valuetext="966.0 平方毫米">
 <p>切换孔形时，实际开孔面积保持不变。</p>
 <div class="choices" id="shapeButtons"><button class="rowbtn selected" data-shape="round" aria-pressed="true">● 圆孔</button><button class="rowbtn" data-shape="square" aria-pressed="false">■ 方孔</button><button class="rowbtn" data-shape="triangle" aria-pressed="false">▲ 三角孔</button></div>
 <label class="group" for="obj"><span>物距 · 光源到孔</span><output id="objValue">100 cm</output></label><input id="obj" type="range" min="35" max="160" value="100" step="1">
 <label class="group" for="dist"><span>孔到光屏距离</span><output id="distValue">65 cm</output></label><input id="dist" type="range" min="25" max="105" value="65" step="1"></section>
-<section><h2>光屏放大图</h2><div class="screen-wrap"><div class="screen-circle"><canvas id="screenImage" width="256" height="256" aria-label="光屏上的像或光斑"></canvas></div><div class="reading"><p id="imgState"></p><strong id="screenReading"></strong></div></div></section>
+<section><h2>光屏放大图</h2><div class="screen-wrap"><div class="screen-circle"><canvas id="screenImage" width="256" height="256" aria-label="光屏上的像或光斑"></canvas></div><div class="reading"><p id="imgState"></p><strong id="screenReading"></strong></div></div>
+<div class="checks"><label><input id="clearImage" type="checkbox" checked>清晰演示</label></div>
+<p class="tiny">清晰演示保留较小孔口的清晰像，继续增大开孔面积会逐渐显示光斑重叠。取消勾选可直接按实际孔形和面积显示。</p></section>
 <section><details id="blurDemo"><summary>为什么小孔更清晰？</summary>
 <p>观察光线如何从光源上的不同物点出发。收起本栏可返回自由探究。</p>
 <div class="choices" aria-label="演示孔的大小">
@@ -58,7 +66,7 @@ html[data-theme="dark"] .screen-circle{border-color:#7b9794;box-shadow:0 0 0 3px
 <p id="blurProgress" role="status"></p>
 <p>光斑颜色用来区分对应的物点。这里观察的是直线传播造成的模糊，极小孔的衍射另当别论。</p>
 </details></section>
-<section><details><summary>显示与操作</summary><div class="checks"><label><input id="section" type="checkbox" checked>光粒子</label><label><input id="rays" type="checkbox" checked>典型光路</label><label><input id="axis" type="checkbox">光轴</label></div><p>沿滑轨拖动孔板或光屏，也可用滑块调节。</p></details></section>
+<section><details><summary>显示与操作</summary><div class="checks"><label><input id="section" type="checkbox" checked>光粒子</label><label><input id="rays" type="checkbox" checked>典型光路</label><label><input id="axis" type="checkbox">光轴</label></div><p>沿滑轨拖动光源或光屏，也可用滑块调节。</p></details></section>
 </aside></main>
 <script>
 'use strict';
@@ -126,7 +134,7 @@ function setBlurMode(active){
   rebuild();
  }
  $('viewer').classList.toggle('blur-mode',active);
- $('sceneTag').textContent=active?'逐点成像 · '+(state.source==='candle'?'蜡烛火焰':'F 光源'):'拖动孔板或光屏';
+ $('sceneTag').textContent=active?'逐点成像 · '+(state.source==='candle'?'蜡烛火焰':'F 光源'):'拖动光源或光屏';
  for(const selector of ['#sourceButtons button','#shapeButtons button','#hole','#obj','#dist','#section','#rays','#axis']){
   for(const control of document.querySelectorAll(selector))control.disabled=active;
  }
@@ -163,7 +171,7 @@ const VERT=`attribute vec3 p;attribute vec3 n;attribute vec2 uv;uniform mat4 mvp
 const FRAG=`precision highp float;varying vec3 vN;varying vec3 vP;varying vec2 vUV;uniform vec3 color;uniform float finish;uniform float alpha;uniform sampler2D film;uniform vec3 eye;uniform vec3 lightA;uniform vec3 lightB;uniform float emissive;void main(){vec3 N=normalize(vN);if(!gl_FrontFacing) N=-N;vec3 L=normalize(lightA-vP);vec3 K=normalize(lightB-vP);float diffuse=max(dot(N,L),0.)*.64+max(dot(N,K),0.)*.27;float lighting=.54+diffuse;vec3 V=normalize(eye-vP);vec3 H=normalize(L+V);float shine=pow(max(dot(N,H),0.),finish<1.5?36.:14.)*(finish<1.5?.14:.035);float textureNoise=fract(sin(dot(vP.xyz,vec3(341.2,173.5,289.2)))*74358.291);float grain=1.;if(finish>2.5&&finish<3.5){grain=.94+.08*sin(vP.x*245.+vP.y*13.)+.025*(textureNoise-.5);}else if(finish>1.5&&finish<2.5){grain=.97+.028*textureNoise;}vec3 c=color*lighting*grain+vec3(shine);if(finish>4.5&&finish<5.5){c=texture2D(film,vUV).rgb*1.25+.035; }if(finish>5.5){c=color*(.8+.15*diffuse)+color*emissive;}gl_FragColor=vec4(c,alpha);}`;
 function compile(type,src){let sh=gl.createShader(type);gl.shaderSource(sh,src);gl.compileShader(sh);if(!gl.getShaderParameter(sh,gl.COMPILE_STATUS))throw new Error(gl.getShaderInfoLog(sh));return sh}
 let program=null;const loc={};if(!software){program=gl.createProgram();gl.attachShader(program,compile(gl.VERTEX_SHADER,VERT));gl.attachShader(program,compile(gl.FRAGMENT_SHADER,FRAG));gl.linkProgram(program);if(!gl.getProgramParameter(program,gl.LINK_STATUS)){$('error').style.display='block';return}gl.useProgram(program);['p','n','uv'].forEach(k=>loc[k]=gl.getAttribLocation(program,k));['mvp','meshShift','color','finish','alpha','film','eye','lightA','lightB','emissive'].forEach(k=>loc[k]=gl.getUniformLocation(program,k));}
-const RAY_COLOR=[.92,0,.49], RAY_STROKE='#eb007d';
+const RAY_COLOR=[1,.62,.15], RAY_STROKE='#ffad32';
 let meshes=[];
 function add(name,color,finish=2,alpha=1,emissive=0){let ob={name,color,finish,alpha,emissive,P:[],N:[],UV:[]};meshes.push(ob);return ob}
 function tri(o,a,b,c,uvs){let v=[a,b,c],na=cross(sub(b,a),sub(c,a)),ll=Math.hypot(...na)||1,n=na.map(x=>x/ll);for(let j=0;j<3;j++){o.P.push(...v[j]);o.N.push(...n);o.UV.push(...(uvs?.[j]||[0,0]))}}
@@ -252,7 +260,7 @@ function trueHoleBoard(){
  quad(o,point(x-.009,oa,a),point(x-.009,ob,b),point(x+.009,ob,b),point(x+.009,oa,a));
  }
  // Thin dark edge traces the REAL opening; no oversized yellow circular bezel.
- const width=.004, rim=add('Actual aperture edge | only four millimetres wider than hole',[.18,.28,.29],1);
+ const width=.004, rim=add('Actual aperture edge | only four millimetres wider than hole',[.13,.38,.36],1);
  for(let i=0;i<N;i++){let a=i*2*Math.PI/N,b=(i+1)*2*Math.PI/N;
   let r0=shapeRadius(a,state.shape,r),r1=shapeRadius(b,state.shape,r);
   let pt=(x,r,t)=>[x,r*Math.cos(t),z0+r*Math.sin(t)];
@@ -329,13 +337,15 @@ function teachingRays(){
  })));
 }
 // 对理想小孔像做孔形积分。每行前缀和让大孔也能连续采样，避免稀疏采样产生重复轮廓。
-function apertureRows(radius,pixel){
+function apertureRows(pixel,extent,boundary){
  const rows=[];
- const extent=Math.ceil(radius/pixel);
  for(let dz=-extent;dz<=extent;dz++){
   let first=Infinity,last=-Infinity;
-  for(let dy=-extent;dy<=extent;dy++)if(accepts(dy*pixel/radius,-dz*pixel/radius,state.shape)){
-   first=Math.min(first,dy);last=dy;
+  for(let dy=-extent;dy<=extent;dy++){
+   const y=dy*pixel,z=-dz*pixel;
+   if(Math.hypot(y,z)<=boundary(Math.atan2(z,y))){
+    first=Math.min(first,dy);last=dy;
+   }
   }
   if(first<=last)rows.push({dz,first,last});
  }
@@ -366,13 +376,22 @@ function computeBlurScreen(n){
 }
 function computeScreen(n=208){
  screenComputes++;
+ const clearControl=$('clearImage');
+ clearControl.disabled=Boolean(savedExperiment)||state.source==='point';
  if(savedExperiment){computeBlurScreen(n);return;}
  const u=state.u/100,v=state.v/100,mag=v/u;
  const pixel=2*R/n,radius=apertureRadius()*(1+mag);
  const point=state.source==='point';
- const rows=point?[]:apertureRows(radius,pixel);
+ const clearImage=!point&&clearControl.checked;
+ // Blend the teaching image into the geometric projection as the opening grows.
+ const progress=Math.max(0,Math.min(1,(state.area-966)/(4200-966)));
+ const physical=clearImage?progress*progress*(3-2*progress):1;
+ const teachingRadius=Math.min(Math.sqrt(state.area/Math.PI)/1000,.0022)*(1+mag);
+ const boundary=angle=>teachingRadius*(1-physical)+shapeRadius(angle,state.shape,radius)*physical;
+ const pad=Math.ceil((teachingRadius*(1-physical)+radius*physical)/pixel);
+ const rows=point?[]:apertureRows(pixel,pad,boundary);
  const count=rows.reduce((sum,row)=>sum+row.last-row.first+1,0);
- const pad=Math.ceil(radius/pixel),side=n+2*pad,stride=side+1;
+ const side=n+2*pad,stride=side+1;
  const sums=point?null:new Float32Array(side*stride*3);
  if(sums)for(let j=0;j<side;j++)for(let i=0;i<side;i++){
   const rgb=sourceLight(-(i-pad+.5-n/2)*pixel/mag,(j-pad+.5-n/2)*pixel/mag);
@@ -381,7 +400,8 @@ function computeScreen(n=208){
  }
  // 固定亮度曲线保留明暗差别，宽孔光斑不会被截成一整块白色。
  const projectedArea=state.area*(1+mag)**2;
- const gain=(.65/v)**2*(point?(1.65/(1+mag))**2:state.area/REFERENCE_APERTURE_AREA);
+ const distanceGain=(1.65/(u+v))**2;
+ const gain=distanceGain*(point?1:state.area/REFERENCE_APERTURE_AREA);
  const tone=light=>Math.log1p(8*light)/(4+Math.log1p(8*light));
  const im=filmCtx.createImageData(n,n),pix=im.data;
  for(let j=0;j<n;j++)for(let i=0;i<n;i++){
@@ -412,7 +432,7 @@ function computeScreen(n=208){
   pix.set([24+228*tone(r*gain),29+223*tone(g*gain),32+204*tone(b*gain),255],idx);
  }
  presentScreen(im,n);
- const blurHeight=radius*(shapeRadius(Math.PI/2,state.shape,1)+shapeRadius(3*Math.PI/2,state.shape,1));
+ const blurHeight=boundary(Math.PI/2)+boundary(3*Math.PI/2);
  const idealHeight=SOURCE_HEIGHT[state.source]*mag;
  if(point){
   const shapeName={round:'圆',square:'方',triangle:'三角'}[state.shape];
@@ -420,9 +440,9 @@ function computeScreen(n=208){
   $('screenReading').textContent=`光斑面积 ${projectedArea.toFixed(1)} mm²`;
  }else if(blurHeight>idealHeight*.24){
   $('imgState').textContent='光斑重叠，轮廓模糊';
-  $('screenReading').textContent=`单点光斑面积 ${projectedArea.toFixed(1)} mm²`;
+  $('screenReading').textContent=physical===1?`单点光斑面积 ${projectedArea.toFixed(1)} mm²`:'开孔越大，光斑重叠越明显';
  }else{
-  $('imgState').textContent='倒立的像';
+  $('imgState').textContent=clearImage?'倒立的像 · 清晰演示':'倒立的像';
   $('screenReading').textContent=`理想像高 ${(idealHeight*100).toFixed(1)} cm`;
  }
 }
@@ -431,18 +451,19 @@ function mult(a,b){let c=new Float32Array(16);for(let col=0;col<4;col++)for(let 
 function perspective(fov,aspect,n,far){let f=1/Math.tan(fov/2),o=new Float32Array(16);o[0]=f/aspect;o[5]=f;o[10]=(far+n)/(n-far);o[11]=-1;o[14]=2*far*n/(n-far);return o}
 const dot=(a,b)=>a.reduce((s,x,i)=>s+x*b[i],0);const normal=a=>{let l=Math.hypot(...a);return a.map(x=>x/l)};
 function lookAt(pos,at){let z=normal(sub(pos,at)),x=normal(cross([0,0,1],z)),y=cross(z,x);return new Float32Array([x[0],y[0],z[0],0,x[1],y[1],z[1],0,x[2],y[2],z[2],0,-dot(x,pos),-dot(y,pos),-dot(z,pos),1])}
-let cam={target:[-.36,0,.38],theta:1.08,phi:1.18,radius:3.10},drag=null,needDraw=true;
+const overviewCamera=()=>({target:[-.17,0,.43],theta:.96,phi:1.24,radius:2.65});
+let cam=overviewCamera(),drag=null,needDraw=true;
 let queuedPaint=false, draggingGeometry=false, lastPreview=0;
 let dragBackground=null;
 function isDragMovingPart(ob){
  const n=ob.name;
  if(n.startsWith('Dynamic translucent film'))return true;
- if(!drag || (drag.action!=='hole'&&drag.action!=='screen'))return false;
- if(drag.action==='hole')return n.startsWith('GLB · Aperture ·')||n.startsWith('Real machined')||n.startsWith('Actual aperture edge');
+ if(!drag || (drag.action!=='source'&&drag.action!=='screen'))return false;
+ if(drag.action==='source')return n.startsWith('GLB · Candle ·')||n.startsWith('光源 ·');
  return n.startsWith('GLB · Screen ·');
 }
 function prepareDragBackground(){
- if(!software||!drag||(drag.action!=='hole'&&drag.action!=='screen'))return;
+ if(!software||!drag||(drag.action!=='source'&&drag.action!=='screen'))return;
  dragBackground=document.createElement('canvas');dragBackground.width=view.width;dragBackground.height=view.height;
  drawSoft('static',dragBackground.getContext('2d'));
 }
@@ -461,7 +482,25 @@ function offsetFor(ob){
 function isRayMesh(ob){return ob.name.startsWith('教研光线')||ob.name.startsWith('Dotted optical axis')}
 function scheduleDraw(){needDraw=true;if(queuedPaint)return;queuedPaint=true;
  requestAnimationFrame(()=>{queuedPaint=false;liveDrawCount++;draw()})}
-function redrawPreview(){$('areaBadge').textContent='开孔面积 · '+state.area.toFixed(1)+' mm²';const now=performance.now();if(now-lastPreview<125)return;lastPreview=now;computeScreen(64)}
+function updateDistance(){
+ $('totalDistance').textContent='总距离 · '+(state.u+state.v).toFixed(1)+' cm';
+}
+function updateApertureDetail(){
+ updateDistance();
+ const {area,shape}=state;
+ $('areaBadge').textContent='开孔面积 · '+area.toFixed(1)+' mm²';
+ $('apertureDetailName').textContent={round:'圆孔',square:'方孔',triangle:'三角孔'}[shape];
+ // Compress the display scale so even the smallest opening stays legible.
+ const fraction=Math.max(0,Math.min(1,Math.log(area/MIN_APERTURE_AREA)/Math.log(MAX_APERTURE_AREA/MIN_APERTURE_AREA)));
+ const radius=(17+6*fraction)*Math.sqrt(Math.PI/AREA_PER_RADIUS_SQUARED[shape]);
+ const points=Array.from({length:96},(_,i)=>{
+  const angle=2*Math.PI*i/96;
+  const r=shapeRadius(angle,shape,radius);
+  return (44+r*Math.cos(angle)).toFixed(2)+' '+(44-r*Math.sin(angle)).toFixed(2);
+ });
+ $('apertureDetailOutline').setAttribute('d','M'+points.join('L')+'Z');
+}
+function redrawPreview(){updateApertureDetail();const now=performance.now();if(now-lastPreview<125)return;lastPreview=now;computeScreen(64)}
 // New ray endpoints depend directly on u/v/board location, never on saved geometry.
 function drawLiveRays(c,scale){
  if(!state.rays)return;
@@ -524,37 +563,37 @@ function draw(){if(!needDraw)return;needDraw=false;if(software){drawSoft(draggin
 let proj=perspective(.72,view.width/view.height,.04,30),matrix=mult(proj,lookAt(pos,cam.target));gl.uniformMatrix4fv(loc.mvp,false,matrix);gl.uniform3fv(loc.eye,pos);gl.uniform3f(loc.lightA,-1.4,-1.8,2.5);gl.uniform3f(loc.lightB,1.8,1.2,2.1);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,texture);gl.uniform1i(loc.film,0);
 for(let ob of meshes){if(draggingGeometry&&isRayMesh(ob))continue;gl.uniform3f(loc.meshShift,offsetFor(ob),0,0);gl.uniform3fv(loc.color,ob.color);gl.uniform1f(loc.finish,ob.finish);gl.uniform1f(loc.alpha,ob.alpha);gl.uniform1f(loc.emissive,ob.emissive);gl.bindBuffer(gl.ARRAY_BUFFER,ob.arr);let stride=8*4;for(let [name,size,offset] of [['p',3,0],['n',3,12],['uv',2,24]]){gl.enableVertexAttribArray(loc[name]);gl.vertexAttribPointer(loc[name],size,gl.FLOAT,false,stride,offset)}gl.drawArrays(gl.TRIANGLES,0,ob.count)}  }
 
-function rebuild(){$('areaBadge').textContent='开孔面积 · '+state.area.toFixed(1)+' mm²';if(!software)for(let ob of meshes)if(ob.arr)gl.deleteBuffer(ob.arr);makeCameraModel();computeScreen(208);draggingGeometry=false;dragBackground=null;scheduleDraw()}
+function rebuild(){updateApertureDetail();if(!software)for(let ob of meshes)if(ob.arr)gl.deleteBuffer(ob.arr);makeCameraModel();computeScreen(208);draggingGeometry=false;dragBackground=null;scheduleDraw()}
 function previewMove(){draggingGeometry=true;redrawPreview();scheduleDraw()}
 function fit(newCam){Object.assign(cam,newCam);scheduleDraw()}
-function setView(type){['allView','plateView','filmView'].forEach(t=>$(t).classList.toggle('selected',t===type));if(type==='plateView')fit({target:[state.holeX,0,.45],theta:1.63,phi:1.25,radius:1.18});else if(type==='filmView')fit({target:[state.holeX+state.v/100,0,.45],theta:.005,phi:Math.PI/2,radius:1.18});else if(savedExperiment)fit({target:[-.08,0,.43],theta:1.25,phi:1.28,radius:2.25});else fit({target:[-.36,0,.38],theta:1.08,phi:1.18,radius:3.10})}
+function setView(type){['allView','plateView','filmView'].forEach(t=>$(t).classList.toggle('selected',t===type));if(type==='plateView')fit({target:[state.holeX,0,.45],theta:1.63,phi:1.25,radius:1.18});else if(type==='filmView')fit({target:[state.holeX+state.v/100,0,.45],theta:.005,phi:Math.PI/2,radius:1.18});else if(savedExperiment)fit({target:[-.08,0,.43],theta:1.25,phi:1.28,radius:2.25});else fit(overviewCamera())}
 $('allView').onclick=()=>setView('allView');$('plateView').onclick=()=>setView('plateView');$('filmView').onclick=()=>setView('filmView');$('resetView').onclick=()=>setView('allView');
 
 // OrbitControls-compatible convention: horizontal and vertical drag subtract spherical angles. Right/Shift+left pans; object picking overrides only left drag on boards.
 function projectWorld(pt){let ey=eye(),v=sub(pt,ey),forward=normal(sub(cam.target,ey)),right=normal(cross(forward,[0,0,1])),up=normal(cross(right,forward));let depth=dot(v,forward);if(depth<.045)return null;let H=view.clientHeight,W=view.clientWidth,focal=H*.5/Math.tan(.72/2);return [W/2+dot(v,right)/depth*focal,H/2-dot(v,up)/depth*focal,depth]}
-function boardVertices(which){let x=which==='hole'?state.holeX:state.holeX+state.v/100, w=which==='hole'?.305:.325, h=which==='hole'?.34:.365;return [[x,-w,.45-h],[x,w,.45-h],[x,w,.45+h],[x,-w,.45+h]].map(projectWorld)}
+function boardVertices(which){
+ const source=which==='source';
+ const x=source?state.holeX-state.u/100:state.holeX+state.v/100;
+ const w=source?(state.source==='f'?.09:.06):.325;
+ const bottom=source?.018:.085,top=source?.57:.815;
+ return [[x,-w,bottom],[x,w,bottom],[x,w,top],[x,-w,top]].map(projectWorld);
+}
 function withinPolygon(x,y,poly){let inside=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){let a=poly[i],b=poly[j];if(((a[1]>y)!==(b[1]>y)) && x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])inside=!inside;}return inside}
 function nearSegment(x,y,a,b,margin){let dx=b[0]-a[0],dy=b[1]-a[1],t=Math.max(0,Math.min(1,((x-a[0])*dx+(y-a[1])*dy)/(dx*dx+dy*dy||1)));return Math.hypot(x-a[0]-t*dx,y-a[1]-t*dy)<margin}
 let hoveredBoard=null;
-function hitBoard(px,py){if(savedExperiment)return null;let items=[];for(let key of ['hole','screen']){let pts=boardVertices(key);if(pts.some(p=>!p))continue;if(withinPolygon(px,py,pts)||pts.some((p,i)=>nearSegment(px,py,p,pts[(i+1)%4],9))){items.push({key,z:pts.reduce((a,p)=>a+p[2],0)/4});}}items.sort((a,b)=>a.z-b.z);return items[0]?.key||null}
+function hitBoard(px,py){if(savedExperiment)return null;let items=[];for(let key of ['source','screen']){let pts=boardVertices(key);if(pts.some(p=>!p))continue;if(withinPolygon(px,py,pts)||pts.some((p,i)=>nearSegment(px,py,p,pts[(i+1)%4],9))){items.push({key,z:pts.reduce((a,p)=>a+p[2],0)/4});}}items.sort((a,b)=>a.z-b.z);return items[0]?.key||null}
 function moveBoard(mode,delta){if(mode==='screen'){state.v=Math.max(25,Math.min(105,drag.v0+delta*100));}
- if(mode==='hole'){
-  // Candle and screen remain in place when the actual aperture board is dragged.
-  let sourceX=drag.x0-drag.u0/100,screenX=drag.x0+drag.v0/100;
-  let low=Math.max(-.48,sourceX+.35),high=Math.min(.45,screenX-.25);
-  let newX=Math.min(high,Math.max(low,drag.x0+delta));
-  state.holeX=newX;state.u=(newX-sourceX)*100;state.v=(screenX-newX)*100;
- }
+ if(mode==='source')state.u=Math.max(35,Math.min(160,drag.u0-delta*100));
  $('obj').value=String(state.u);$('dist').value=String(state.v);
  $('objValue').textContent=state.u.toFixed(1)+' cm';$('distValue').textContent=state.v.toFixed(1)+' cm';
- $('moveHint').hidden=false;$('moveHint').textContent=(mode==='hole'?'正在移动孔板':'正在移动光屏')+' · 物距 '+state.u.toFixed(1)+' cm · 像距 '+state.v.toFixed(1)+' cm';
+ $('moveHint').hidden=false;$('moveHint').textContent=(mode==='source'?'正在移动光源':'正在移动光屏')+' · 物距 '+state.u.toFixed(1)+' cm · 像距 '+state.v.toFixed(1)+' cm';
  previewMove();
 }
 view.addEventListener('contextmenu',e=>e.preventDefault());
 view.addEventListener('pointerdown',e=>{const rect=view.getBoundingClientRect(),x=e.clientX-rect.left,y=e.clientY-rect.top;
  let action=(e.button===2||e.shiftKey)?'pan':hitBoard(x,y)||'orbit';
- view.setPointerCapture(e.pointerId);hoveredBoard=(action==='hole'||action==='screen')?action:null;drag={x,y,action,target:cam.target.slice(),theta:cam.theta,phi:cam.phi,x0:state.holeX,u0:state.u,v0:state.v};
- if(action==='hole'||action==='screen'){prepareDragBackground();view.classList.add('grabbing-part');$('moveHint').hidden=false;$('moveHint').textContent='正在拖动'+(action==='hole'?'孔板':'光屏')+' · 沿滑轨移动';}
+ view.setPointerCapture(e.pointerId);hoveredBoard=(action==='source'||action==='screen')?action:null;drag={x,y,action,target:cam.target.slice(),theta:cam.theta,phi:cam.phi,x0:state.holeX,u0:state.u,v0:state.v};
+ if(action==='source'||action==='screen'){prepareDragBackground();view.classList.add('grabbing-part');$('moveHint').hidden=false;$('moveHint').textContent='正在拖动'+(action==='source'?'光源':'光屏')+' · 沿滑轨移动';}
 });
 view.addEventListener('pointermove',e=>{
  const r=view.getBoundingClientRect(),x=e.clientX-r.left,y=e.clientY-r.top;
@@ -562,11 +601,12 @@ view.addEventListener('pointermove',e=>{
  const dx=x-drag.x,dy=y-drag.y;
  if(drag.action==='orbit'){cam.theta=drag.theta-dx*.006;cam.phi=Math.max(.11,Math.min(Math.PI-.11,drag.phi-dy*.005));scheduleDraw();}
  else if(drag.action==='pan'){let pos=eye(),forward=normal(sub(cam.target,pos)),right=normal(cross(forward,[0,0,1])),up=normal(cross(right,forward));const f=cam.radius*.0014;cam.target=drag.target.map((x,i)=>x+(-right[i]*dx+up[i]*dy)*f);scheduleDraw();}
- else{const axisA=projectWorld([drag.action==='hole'?drag.x0:drag.x0+drag.v0/100,0,.45]);const axisB=projectWorld([(drag.action==='hole'?drag.x0:drag.x0+drag.v0/100)+.5,0,.45]);
+ else{const startX=drag.x0+(drag.action==='source'?-drag.u0:drag.v0)/100;
+  const axisA=projectWorld([startX,0,.45]),axisB=projectWorld([startX+.5,0,.45]);
   if(axisA&&axisB){const vx=axisB[0]-axisA[0],vy=axisB[1]-axisA[1],len2=vx*vx+vy*vy;if(len2>64)moveBoard(drag.action,(dx*vx+dy*vy)/len2*.5);}
  }
 });
-function stopDragging(){const wasBoard=drag&&(drag.action==='hole'||drag.action==='screen');if(wasBoard)particles=particles.map(()=>spawnParticle());drag=null;hoveredBoard=null;view.classList.remove('grabbing-part');$('moveHint').hidden=true;if(wasBoard)rebuild();}
+function stopDragging(){const wasBoard=drag&&(drag.action==='source'||drag.action==='screen');if(wasBoard)particles=particles.map(()=>spawnParticle());drag=null;hoveredBoard=null;view.classList.remove('grabbing-part');$('moveHint').hidden=true;if(wasBoard)rebuild();}
 view.addEventListener('pointerup',stopDragging);view.addEventListener('pointercancel',stopDragging);window.addEventListener('blur',stopDragging);
 view.addEventListener('wheel',e=>{e.preventDefault();cam.radius=Math.min(10,Math.max(.42,cam.radius*Math.exp(e.deltaY*.001)));scheduleDraw()},{passive:false});
 let geometryPreviewTimer=0;
@@ -662,6 +702,7 @@ function particleFrame(now=0){
 }
 requestAnimationFrame(particleFrame);
 
+$('clearImage').addEventListener('change',()=>{computeScreen();scheduleDraw();});
 window.addEventListener('resize',resize);resize();rebuild();window.__PINHOLE_TEST__={state,stats:()=>({modelRebuilds,screenComputes,liveDrawCount,particleFrames,draggingGeometry,software}),glbParts:()=>exportedAssembly.length,particles:()=>particles.length,brightness:()=>[...ctx.getImageData(0,0,208,208).data].filter((_,i)=>i%4===0).reduce((a,b)=>a+b,0)/208/208,meshes:()=>meshes.length,project:projectWorld,boardVertices,hitBoard};
 })();
 </script></body></html>
