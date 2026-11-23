@@ -1646,7 +1646,7 @@ window.MODEL_CATALOG = [
       "光屏",
       "几何模糊"
     ],
-    "path": "models/pinhole-camera.html?v=20261123-paper-tube",
+    "path": "models/pinhole-camera.html?v=20261123-paper-tube-sources",
     "symbol": "◉",
     "accent": "amber"
   },

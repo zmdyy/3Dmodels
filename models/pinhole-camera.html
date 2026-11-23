@@ -45,7 +45,7 @@ html[data-theme="dark"] .screen-circle{border-color:#7b9794;box-shadow:0 0 0 3px
 <main><div class="viewer" id="viewer"><canvas id="view" aria-label="三维可旋转实验器材"></canvas><canvas id="particleLayer" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1"></canvas><div class="viewer-top"><span class="badge" id="sceneTag">拖动光源或光屏</span> <span class="badge" id="areaBadge">开孔面积 · 966.0 mm²</span> <span class="badge" id="totalDistance">总距离 · 165 cm</span></div><div class="view-buttons"><button id="allView" class="selected">整体</button><button id="plateView">近看小孔</button><button id="filmView">正视光屏</button><button id="resetView">还原视角</button></div><figure class="aperture-detail"><figcaption><span id="apertureDetailName">圆孔</span><small>孔口正视 · 自动放大</small></figcaption><svg viewBox="0 0 88 88" aria-hidden="true"><rect x="1" y="1" width="86" height="86" rx="8" fill="#34505d"/><path id="apertureDetailOutline" fill="#07151e" stroke="#9aefd8" stroke-width="2.5" stroke-linejoin="round"/></svg></figure><div id="moveHint" class="move-hint" hidden></div><div class="corner" id="dragHelp">左键：拖动光源或光屏 / 空白处旋转　·　右键 / Shift：平移　·　滚轮：缩放</div><div id="error" class="warn">WebGL 未启动，请尝试在最新版 Chrome 或 Edge 中打开本文件。</div></div>
 <aside class="panel">
 <section><h2>选择实验</h2><div class="choices"><button id="freeExperiment" class="rowbtn selected" type="button" aria-pressed="true">双板自由探究</button><button id="tubeExperiment" class="rowbtn" type="button" aria-pressed="false">纸筒暗箱</button></div></section>
-<section id="tubeControls" hidden><h2>纸筒暗箱</h2><div class="choices"><button id="tubePrinciple" class="rowbtn" type="button" aria-pressed="false">剖开看光路</button><button id="tubeLight" class="rowbtn" type="button">关灯</button><button id="tubeReset" class="rowbtn" type="button">重新开始</button></div><p>左右拖动蜡烛或移动物距滑块，观察半透明纸上的倒立火焰。</p></section>
+<section id="tubeControls" hidden><h2>纸筒暗箱</h2><div class="choices"><button id="tubePrinciple" class="rowbtn" type="button" aria-pressed="false">剖开看光路</button><button id="tubeLight" class="rowbtn" type="button">关灯</button><button id="tubeReset" class="rowbtn" type="button">重新开始</button></div><p>选择光源并左右拖动，观察描图纸上的倒立像或光斑。</p></section>
 <section><h2>光源</h2><div class="choices" id="sourceButtons">
 <button data-source="f" class="rowbtn selected" aria-pressed="true">F 光源</button><button data-source="candle" class="rowbtn" aria-pressed="false">蜡烛</button><button data-source="point" class="rowbtn" aria-pressed="false">点光源</button>
 </div></section>
@@ -113,7 +113,7 @@ function setTubeMode(active){
  }
  $('tubeControls').hidden=!active;
  $('blurDemo').hidden=active;
- for(const selector of ['#sourceButtons button','#shapeButtons button','#hole','#dist','#section','#rays','#axis']){
+ for(const selector of ['#shapeButtons button','#hole','#dist','#section','#rays','#axis']){
   for(const control of document.querySelectorAll(selector))control.disabled=active;
  }
  for(const id of ['freeExperiment','tubeExperiment']){
@@ -121,8 +121,8 @@ function setTubeMode(active){
   $(id).classList.toggle('selected',selected);
   $(id).setAttribute('aria-pressed',String(selected));
  }
- $('sceneTag').textContent=active?'纸筒暗箱 · 拖动蜡烛':'拖动光源或光屏';
- $('dragHelp').textContent=(active?'左键：拖动蜡烛 / 空白处旋转':'左键：拖动光源或光屏 / 空白处旋转')+'　·　右键 / Shift：平移　·　滚轮：缩放';
+ $('sceneTag').textContent=active?'纸筒暗箱 · 拖动光源':'拖动光源或光屏';
+ $('dragHelp').textContent=(active?'左键：拖动光源 / 空白处旋转':'左键：拖动光源或光屏 / 空白处旋转')+'　·　右键 / Shift：平移　·　滚轮：缩放';
  updateTubeControls();
  particles=particles.map(()=>spawnParticle());
  rebuild();
@@ -476,7 +476,7 @@ function computeScreen(n=208){
  const sums=point?null:new Float32Array(side*stride*3);
  if(sums)for(let j=0;j<side;j++)for(let i=0;i<side;i++){
   const sourceZ=(j-pad+.5-n/2)*pixel/mag;
-  const rgb=savedFreeExperiment&&sourceZ<-.055?[0,0,0]:sourceLight(-(i-pad+.5-n/2)*pixel/mag,sourceZ);
+  const rgb=savedFreeExperiment&&state.source==='candle'&&sourceZ<-.055?[0,0,0]:sourceLight(-(i-pad+.5-n/2)*pixel/mag,sourceZ);
   const offset=(j*stride+i)*3;
   for(let c=0;c<3;c++)sums[offset+3+c]=sums[offset+c]+rgb[c];
  }
@@ -522,7 +522,7 @@ function computeScreen(n=208){
   $('imgState').textContent=shapeName+'形光斑';
   $('screenReading').textContent=`光斑面积 ${projectedArea.toFixed(1)} mm²`;
  }else if(savedFreeExperiment){
-  $('imgState').textContent='倒立的火焰';
+  $('imgState').textContent=state.source==='candle'?'倒立的火焰':'倒立的 F 像';
   $('screenReading').textContent='描图纸光屏';
  }else if(blurHeight>idealHeight*.24){
   $('imgState').textContent='光斑重叠，轮廓模糊';
@@ -649,7 +649,16 @@ function draw(){if(!needDraw)return;needDraw=false;if(software){drawSoft(draggin
 let proj=perspective(.72,view.width/view.height,.04,30),matrix=mult(proj,lookAt(pos,cam.target));gl.uniformMatrix4fv(loc.mvp,false,matrix);gl.uniform3fv(loc.eye,pos);gl.uniform3f(loc.lightA,-1.4,-1.8,2.5);gl.uniform3f(loc.lightB,1.8,1.2,2.1);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,texture);gl.uniform1i(loc.film,0);
 for(let ob of meshes){if(draggingGeometry&&isRayMesh(ob))continue;gl.uniform3f(loc.meshShift,offsetFor(ob),0,0);gl.uniform3fv(loc.color,ob.color);gl.uniform1f(loc.finish,ob.finish);gl.uniform1f(loc.alpha,ob.alpha);gl.uniform1f(loc.emissive,ob.emissive);gl.bindBuffer(gl.ARRAY_BUFFER,ob.arr);let stride=8*4;for(let [name,size,offset] of [['p',3,0],['n',3,12],['uv',2,24]]){gl.enableVertexAttribArray(loc[name]);gl.vertexAttribPointer(loc[name],size,gl.FLOAT,false,stride,offset)}gl.drawArrays(gl.TRIANGLES,0,ob.count)}  }
 
-function rebuild(){updateApertureDetail();if(!software)for(let ob of meshes)if(ob.arr)gl.deleteBuffer(ob.arr);makeCameraModel();computeScreen(208);draggingGeometry=false;dragBackground=null;scheduleDraw()}
+function syncChoiceButtons(){
+ for(const key of ['source','shape']){
+  for(const button of document.querySelectorAll('#'+key+'Buttons button')){
+   const selected=button.dataset[key]===state[key];
+   button.classList.toggle('selected',selected);
+   button.setAttribute('aria-pressed',String(selected));
+  }
+ }
+}
+function rebuild(){syncChoiceButtons();updateApertureDetail();if(!software)for(let ob of meshes)if(ob.arr)gl.deleteBuffer(ob.arr);makeCameraModel();computeScreen(208);draggingGeometry=false;dragBackground=null;scheduleDraw()}
 function previewMove(){draggingGeometry=true;redrawPreview();scheduleDraw()}
 function fit(newCam){Object.assign(cam,newCam);scheduleDraw()}
 function setView(type){['allView','plateView','filmView'].forEach(t=>$(t).classList.toggle('selected',t===type));if(type==='plateView')fit({target:[state.holeX,0,.45],theta:1.63,phi:1.25,radius:1.18});else if(type==='filmView')fit({target:[state.holeX+state.v/100,0,.45],theta:.005,phi:Math.PI/2,radius:1.18});else if(savedFreeExperiment)fit({target:[.03,0,.43],theta:.88,phi:1.23,radius:2.45});else if(savedExperiment)fit({target:[-.08,0,.43],theta:1.25,phi:1.28,radius:2.25});else fit(overviewCamera())}
@@ -717,8 +726,8 @@ for(const [input,key,output] of [['obj','u','objValue'],['dist','v','distValue']
 
 $('themeToggle').addEventListener('click',()=>{const dark=document.documentElement.dataset.theme!=='dark';document.documentElement.dataset.theme=dark?'dark':'light';$('themeToggle').textContent=dark?'切换明亮模式':'切换暗色模式';needDraw=true;draw()});
 
-for(let b of document.querySelectorAll('#shapeButtons button'))b.addEventListener('click',()=>{state.shape=b.dataset.shape;document.querySelectorAll('#shapeButtons button').forEach(k=>{k.classList.toggle('selected',k===b);k.setAttribute('aria-pressed',String(k===b));});rebuild()});
-for(let b of document.querySelectorAll('#sourceButtons button'))b.addEventListener('click',()=>{state.source=b.dataset.source;document.querySelectorAll('#sourceButtons button').forEach(k=>{k.classList.toggle('selected',k===b);k.setAttribute('aria-pressed',String(k===b));});particles=particles.map(()=>spawnParticle());rebuild()});
+for(let b of document.querySelectorAll('#shapeButtons button'))b.addEventListener('click',()=>{state.shape=b.dataset.shape;rebuild()});
+for(let b of document.querySelectorAll('#sourceButtons button'))b.addEventListener('click',()=>{state.source=b.dataset.source;particles=particles.map(()=>spawnParticle());rebuild()});
 for(let [id,key] of [['section','cut'],['rays','rays'],['axis','axis']])$(id).addEventListener('change',e=>{state[key]=e.target.checked;rebuild()});
 const pcanvas=$('particleLayer'),pctx=pcanvas.getContext('2d');
 let particles=[];
