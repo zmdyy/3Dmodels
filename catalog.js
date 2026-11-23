@@ -1634,7 +1634,7 @@ window.MODEL_CATALOG = [
     "title": "小孔成像 · 自由探究",
     "subtitle": "开孔面积、孔形、物距与像距的三维观察",
     "category": "光学现象",
-    "summary": "双板滑轨实验：真实内嵌 GLB 仪器，发光粒子与典型光线展示直线传播；调节开孔面积、孔形、物距和像距，观察倒立实像、亮度和模糊的变化。支持暗色模式与直接拖动。",
+    "summary": "双板滑轨实验：真实内嵌 GLB 仪器，发光粒子与典型光线展示直线传播；调节开孔面积、孔形、物距和像距，观察倒立实像、亮度和模糊的变化；切换到纸筒暗箱，观察描图纸上的倒立火焰并剖开查看光路。",
     "tags": [
       "小孔成像",
       "光的直线传播",
@@ -1646,7 +1646,7 @@ window.MODEL_CATALOG = [
       "光屏",
       "几何模糊"
     ],
-    "path": "models/pinhole-camera.html?v=20261123-pinhole-progressive-blur",
+    "path": "models/pinhole-camera.html?v=20261123-paper-tube",
     "symbol": "◉",
     "accent": "amber"
   },

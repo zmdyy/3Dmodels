@@ -42,8 +42,10 @@ html[data-theme="dark"] .screen-circle{border-color:#7b9794;box-shadow:0 0 0 3px
 @media(max-width:690px){.aperture-detail{right:8px;bottom:31px;width:92px;padding:5px}.aperture-detail svg{width:62px;height:62px}}
 </style></head><body>
 <header><h1>小孔成像 · 自由探究</h1><button id="themeToggle" class="theme-toggle" type="button">切换明亮模式</button></header>
-<main><div class="viewer" id="viewer"><canvas id="view" aria-label="三维可旋转实验器材"></canvas><canvas id="particleLayer" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1"></canvas><div class="viewer-top"><span class="badge" id="sceneTag">拖动光源或光屏</span> <span class="badge" id="areaBadge">开孔面积 · 966.0 mm²</span> <span class="badge" id="totalDistance">总距离 · 165 cm</span></div><div class="view-buttons"><button id="allView" class="selected">整体</button><button id="plateView">近看小孔</button><button id="filmView">正视光屏</button><button id="resetView">还原视角</button></div><figure class="aperture-detail"><figcaption><span id="apertureDetailName">圆孔</span><small>孔口正视 · 自动放大</small></figcaption><svg viewBox="0 0 88 88" aria-hidden="true"><rect x="1" y="1" width="86" height="86" rx="8" fill="#34505d"/><path id="apertureDetailOutline" fill="#07151e" stroke="#9aefd8" stroke-width="2.5" stroke-linejoin="round"/></svg></figure><div id="moveHint" class="move-hint" hidden></div><div class="corner">左键：拖动光源或光屏 / 空白处旋转　·　右键 / Shift：平移　·　滚轮：缩放</div><div id="error" class="warn">WebGL 未启动，请尝试在最新版 Chrome 或 Edge 中打开本文件。</div></div>
+<main><div class="viewer" id="viewer"><canvas id="view" aria-label="三维可旋转实验器材"></canvas><canvas id="particleLayer" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1"></canvas><div class="viewer-top"><span class="badge" id="sceneTag">拖动光源或光屏</span> <span class="badge" id="areaBadge">开孔面积 · 966.0 mm²</span> <span class="badge" id="totalDistance">总距离 · 165 cm</span></div><div class="view-buttons"><button id="allView" class="selected">整体</button><button id="plateView">近看小孔</button><button id="filmView">正视光屏</button><button id="resetView">还原视角</button></div><figure class="aperture-detail"><figcaption><span id="apertureDetailName">圆孔</span><small>孔口正视 · 自动放大</small></figcaption><svg viewBox="0 0 88 88" aria-hidden="true"><rect x="1" y="1" width="86" height="86" rx="8" fill="#34505d"/><path id="apertureDetailOutline" fill="#07151e" stroke="#9aefd8" stroke-width="2.5" stroke-linejoin="round"/></svg></figure><div id="moveHint" class="move-hint" hidden></div><div class="corner" id="dragHelp">左键：拖动光源或光屏 / 空白处旋转　·　右键 / Shift：平移　·　滚轮：缩放</div><div id="error" class="warn">WebGL 未启动，请尝试在最新版 Chrome 或 Edge 中打开本文件。</div></div>
 <aside class="panel">
+<section><h2>选择实验</h2><div class="choices"><button id="freeExperiment" class="rowbtn selected" type="button" aria-pressed="true">双板自由探究</button><button id="tubeExperiment" class="rowbtn" type="button" aria-pressed="false">纸筒暗箱</button></div></section>
+<section id="tubeControls" hidden><h2>纸筒暗箱</h2><div class="choices"><button id="tubePrinciple" class="rowbtn" type="button" aria-pressed="false">剖开看光路</button><button id="tubeLight" class="rowbtn" type="button">关灯</button><button id="tubeReset" class="rowbtn" type="button">重新开始</button></div><p>左右拖动蜡烛或移动物距滑块，观察半透明纸上的倒立火焰。</p></section>
 <section><h2>光源</h2><div class="choices" id="sourceButtons">
 <button data-source="f" class="rowbtn selected" aria-pressed="true">F 光源</button><button data-source="candle" class="rowbtn" aria-pressed="false">蜡烛</button><button data-source="point" class="rowbtn" aria-pressed="false">点光源</button>
 </div></section>
@@ -79,6 +81,57 @@ const blurPoints=[
  {name:'C',z:-.060,color:[.71,.54,1]}
 ];
 let blurCount=1,blurSize='large',savedExperiment=null;
+let savedFreeExperiment=null,tubeDark=false;
+const tubePreset={source:'candle',shape:'round',area:32,holeX:0,u:70,v:82,rays:false,cut:false,axis:false};
+function updateTubeControls(){
+ $('tubePrinciple').textContent=state.rays?'合上纸筒':'剖开看光路';
+ $('tubePrinciple').setAttribute('aria-pressed',String(state.rays));
+ $('tubeLight').textContent=tubeDark?'开灯':'关灯';
+ $('obj').value=state.u;
+ $('dist').value=state.v;
+ $('objValue').textContent=state.u.toFixed(1)+' cm';
+ $('distValue').textContent=state.v.toFixed(1)+' cm';
+ showApertureArea();
+}
+function setTubeMode(active){
+ if(active===Boolean(savedFreeExperiment))return;
+ stopDragging();
+ clearTimeout(geometryPreviewTimer);
+ if(active){
+  setBlurMode(false);
+  $('blurDemo').open=false;
+  savedFreeExperiment={state:{...state},camera:{...cam},areaSlider:$('hole').value};
+  Object.assign(state,tubePreset);
+  $('hole').value=Math.round(1000*Math.log(state.area/MIN_APERTURE_AREA)/Math.log(MAX_APERTURE_AREA/MIN_APERTURE_AREA));
+  tubeDark=false;
+  setView('allView');
+ }else{
+  Object.assign(state,savedFreeExperiment.state);
+  fit(savedFreeExperiment.camera);
+  $('hole').value=savedFreeExperiment.areaSlider;
+  savedFreeExperiment=null;
+ }
+ $('tubeControls').hidden=!active;
+ $('blurDemo').hidden=active;
+ for(const selector of ['#sourceButtons button','#shapeButtons button','#hole','#dist','#section','#rays','#axis']){
+  for(const control of document.querySelectorAll(selector))control.disabled=active;
+ }
+ for(const id of ['freeExperiment','tubeExperiment']){
+  const selected=(id==='tubeExperiment')===active;
+  $(id).classList.toggle('selected',selected);
+  $(id).setAttribute('aria-pressed',String(selected));
+ }
+ $('sceneTag').textContent=active?'纸筒暗箱 · 拖动蜡烛':'拖动光源或光屏';
+ $('dragHelp').textContent=(active?'左键：拖动蜡烛 / 空白处旋转':'左键：拖动光源或光屏 / 空白处旋转')+'　·　右键 / Shift：平移　·　滚轮：缩放';
+ updateTubeControls();
+ particles=particles.map(()=>spawnParticle());
+ rebuild();
+}
+$('freeExperiment').onclick=()=>setTubeMode(false);
+$('tubeExperiment').onclick=()=>setTubeMode(true);
+$('tubePrinciple').onclick=()=>{state.rays=!state.rays;updateTubeControls();rebuild();};
+$('tubeLight').onclick=()=>{tubeDark=!tubeDark;updateTubeControls();rebuild();};
+$('tubeReset').onclick=()=>{Object.assign(state,tubePreset);tubeDark=false;setView('allView');updateTubeControls();rebuild();};
 function demoSpots(){
  const magnification=(state.v/100+.012)/(state.u/100);
  const radius=apertureRadius()*(1+magnification);
@@ -268,13 +321,41 @@ function trueHoleBoard(){
  }
 }
 
+function addPaperTube(){
+ const x=state.holeX,end=x+state.v/100,radius=.24,opening=apertureRadius();
+ box('Lab tabletop',-.28,0,-.004,3.26,1.75,.044,tubeDark?[.10,.17,.20]:[.31,.47,.51]);
+ const shell=add('Kraft paper tube',[.53,.32,.115]);
+ const face=add('Paper cap around the aperture',[.64,.43,.19]);
+ const liner=add('Dark inner surface',[.24,.15,.075]);
+ const tissue=add('Scalloped tracing-paper wrap',[.84,.82,.72],2);
+ const position=(xx,r,a)=>[xx,r*Math.cos(a),.45+r*Math.sin(a)];
+ for(let i=0;i<120;i++){
+  const a=i*Math.PI/60,b=(i+1)*Math.PI/60;
+  if(!state.rays||Math.cos((a+b)/2)>0){
+   quad(shell,position(x,radius,a),position(end,radius,a),position(end,radius,b),position(x,radius,b));
+   quad(liner,position(x,radius-.005,a),position(x,radius-.005,b),position(end,radius-.005,b),position(end,radius-.005,a));
+  }
+  quad(face,position(x,opening,a),position(x,radius,a),position(x,radius,b),position(x,opening,b));
+  const fold=angle=>[end-.041-.009*Math.cos(12*angle),radius+.008+.008*Math.cos(12*angle)];
+  const [xa,ra]=fold(a),[xb,rb]=fold(b);
+  quad(tissue,position(xa,ra,a),position(xb,rb,b),position(end+.012,R,b),position(end+.012,R,a));
+ }
+ for(const offset of [.15,state.v/100-.14]){
+  const support=x+offset;
+  box('Paper tube support',support,0,.043,.11,.43,.05,[.43,.36,.25]);
+  for(const y of [-.105,.105])box('Paper tube cradle',support,y,.14,.07,.065,.17,[.59,.49,.33]);
+ }
+}
 let meshSnapshot={holeX:state.holeX,u:state.u,v:state.v};
 let modelRebuilds=0,screenComputes=0,liveDrawCount=0;
 function makeCameraModel(){
  modelRebuilds++;
  meshes=[];
- for(let part of exportedAssembly)addGLBPart(part);
- trueHoleBoard();
+ for(const part of exportedAssembly){
+  if(!savedFreeExperiment||part.name.startsWith('Candle ·'))addGLBPart(part);
+ }
+ if(savedFreeExperiment)addPaperTube();
+ else trueHoleBoard();
  addSourceModel();
  const R=.222,v=state.holeX+state.v/100;
  const film=add('Dynamic translucent film receiving image',[.77,.85,.84],5);
@@ -320,7 +401,7 @@ function sourceLight(y,z){
   ?[1,.24,.15]:[0,0,0];
 }
 function teachingRays(){
- const {source,shape}=state,x=state.holeX,u=state.u/100,v=state.v/100;
+ const {source,shape}=state,x=state.holeX,u=state.u/100,v=state.v/100+(savedFreeExperiment?.012:0);
  const points=source==='point'?[[0,.06]]:
   source==='f'?[[-.036,.078],[-.036,-.073]]:[[0,.055],[0,-.055]];
  const angles=source==='point'
@@ -377,12 +458,12 @@ function computeBlurScreen(n){
 function computeScreen(n=208){
  screenComputes++;
  const clearControl=$('clearImage');
- clearControl.disabled=Boolean(savedExperiment)||state.source==='point';
+ clearControl.disabled=Boolean(savedExperiment||savedFreeExperiment)||state.source==='point';
  if(savedExperiment){computeBlurScreen(n);return;}
- const u=state.u/100,v=state.v/100,mag=v/u;
+ const u=state.u/100,v=(state.v/100+(savedFreeExperiment?.012:0)),mag=v/u;
  const pixel=2*R/n,radius=apertureRadius()*(1+mag);
  const point=state.source==='point';
- const clearImage=!point&&clearControl.checked;
+ const clearImage=!point&&!savedFreeExperiment&&clearControl.checked;
  // Blend the teaching image into the geometric projection as the opening grows.
  const progress=Math.max(0,Math.min(1,(state.area-966)/(4200-966)));
  const physical=clearImage?progress*progress*(3-2*progress):1;
@@ -394,14 +475,15 @@ function computeScreen(n=208){
  const side=n+2*pad,stride=side+1;
  const sums=point?null:new Float32Array(side*stride*3);
  if(sums)for(let j=0;j<side;j++)for(let i=0;i<side;i++){
-  const rgb=sourceLight(-(i-pad+.5-n/2)*pixel/mag,(j-pad+.5-n/2)*pixel/mag);
+  const sourceZ=(j-pad+.5-n/2)*pixel/mag;
+  const rgb=savedFreeExperiment&&sourceZ<-.055?[0,0,0]:sourceLight(-(i-pad+.5-n/2)*pixel/mag,sourceZ);
   const offset=(j*stride+i)*3;
   for(let c=0;c<3;c++)sums[offset+3+c]=sums[offset+c]+rgb[c];
  }
  // 固定亮度曲线保留明暗差别，宽孔光斑不会被截成一整块白色。
  const projectedArea=state.area*(1+mag)**2;
  const distanceGain=(1.65/(u+v))**2;
- const gain=distanceGain*(point?1:state.area/REFERENCE_APERTURE_AREA);
+ const gain=distanceGain*(point?1:state.area/REFERENCE_APERTURE_AREA)*(savedFreeExperiment?(tubeDark?2.8:1.3):1);
  const tone=light=>Math.log1p(8*light)/(4+Math.log1p(8*light));
  const im=filmCtx.createImageData(n,n),pix=im.data;
  for(let j=0;j<n;j++)for(let i=0;i<n;i++){
@@ -429,7 +511,8 @@ function computeScreen(n=208){
    }
    r/=count;g/=count;b/=count;
   }
-  pix.set([24+228*tone(r*gain),29+223*tone(g*gain),32+204*tone(b*gain),255],idx);
+  const base=savedFreeExperiment?(tubeDark?30:77):24;
+  pix.set([base+228*tone(r*gain),base+5+223*tone(g*gain),base+8+204*tone(b*gain),255],idx);
  }
  presentScreen(im,n);
  const blurHeight=boundary(Math.PI/2)+boundary(3*Math.PI/2);
@@ -438,6 +521,9 @@ function computeScreen(n=208){
   const shapeName={round:'圆',square:'方',triangle:'三角'}[state.shape];
   $('imgState').textContent=shapeName+'形光斑';
   $('screenReading').textContent=`光斑面积 ${projectedArea.toFixed(1)} mm²`;
+ }else if(savedFreeExperiment){
+  $('imgState').textContent='倒立的火焰';
+  $('screenReading').textContent='描图纸光屏';
  }else if(blurHeight>idealHeight*.24){
   $('imgState').textContent='光斑重叠，轮廓模糊';
   $('screenReading').textContent=physical===1?`单点光斑面积 ${projectedArea.toFixed(1)} mm²`:'开孔越大，光斑重叠越明显';
@@ -559,14 +645,14 @@ function drawSoft(mode='all',output=softCtx){
  c.globalAlpha=o.alpha;c.fillStyle=`rgb(${o.rgb.join(',')})`;c.beginPath();c.moveTo(o.p[0][0],o.p[0][1]);c.lineTo(o.p[1][0],o.p[1][1]);c.lineTo(o.p[2][0],o.p[2][1]);c.closePath();c.fill();}
  c.globalAlpha=1;
 }
-function draw(){if(!needDraw)return;needDraw=false;if(software){drawSoft(draggingGeometry&&dragBackground?'dynamic':'all');return;}let pos=eye();gl.viewport(0,0,view.width,view.height);if(document.documentElement.dataset.theme==='dark')gl.clearColor(.056,.100,.135,1);else gl.clearColor(.91,.94,.945,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);gl.disable(gl.CULL_FACE);
+function draw(){if(!needDraw)return;needDraw=false;if(software){drawSoft(draggingGeometry&&dragBackground?'dynamic':'all');return;}let pos=eye();gl.viewport(0,0,view.width,view.height);if(savedFreeExperiment&&!tubeDark)gl.clearColor(.34,.41,.42,1);else if(document.documentElement.dataset.theme==='dark'||(savedFreeExperiment&&tubeDark))gl.clearColor(.056,.100,.135,1);else gl.clearColor(.91,.94,.945,1);gl.clear(gl.COLOR_BUFFER_BIT|gl.DEPTH_BUFFER_BIT);gl.enable(gl.DEPTH_TEST);gl.disable(gl.CULL_FACE);
 let proj=perspective(.72,view.width/view.height,.04,30),matrix=mult(proj,lookAt(pos,cam.target));gl.uniformMatrix4fv(loc.mvp,false,matrix);gl.uniform3fv(loc.eye,pos);gl.uniform3f(loc.lightA,-1.4,-1.8,2.5);gl.uniform3f(loc.lightB,1.8,1.2,2.1);gl.activeTexture(gl.TEXTURE0);gl.bindTexture(gl.TEXTURE_2D,texture);gl.uniform1i(loc.film,0);
 for(let ob of meshes){if(draggingGeometry&&isRayMesh(ob))continue;gl.uniform3f(loc.meshShift,offsetFor(ob),0,0);gl.uniform3fv(loc.color,ob.color);gl.uniform1f(loc.finish,ob.finish);gl.uniform1f(loc.alpha,ob.alpha);gl.uniform1f(loc.emissive,ob.emissive);gl.bindBuffer(gl.ARRAY_BUFFER,ob.arr);let stride=8*4;for(let [name,size,offset] of [['p',3,0],['n',3,12],['uv',2,24]]){gl.enableVertexAttribArray(loc[name]);gl.vertexAttribPointer(loc[name],size,gl.FLOAT,false,stride,offset)}gl.drawArrays(gl.TRIANGLES,0,ob.count)}  }
 
 function rebuild(){updateApertureDetail();if(!software)for(let ob of meshes)if(ob.arr)gl.deleteBuffer(ob.arr);makeCameraModel();computeScreen(208);draggingGeometry=false;dragBackground=null;scheduleDraw()}
 function previewMove(){draggingGeometry=true;redrawPreview();scheduleDraw()}
 function fit(newCam){Object.assign(cam,newCam);scheduleDraw()}
-function setView(type){['allView','plateView','filmView'].forEach(t=>$(t).classList.toggle('selected',t===type));if(type==='plateView')fit({target:[state.holeX,0,.45],theta:1.63,phi:1.25,radius:1.18});else if(type==='filmView')fit({target:[state.holeX+state.v/100,0,.45],theta:.005,phi:Math.PI/2,radius:1.18});else if(savedExperiment)fit({target:[-.08,0,.43],theta:1.25,phi:1.28,radius:2.25});else fit(overviewCamera())}
+function setView(type){['allView','plateView','filmView'].forEach(t=>$(t).classList.toggle('selected',t===type));if(type==='plateView')fit({target:[state.holeX,0,.45],theta:1.63,phi:1.25,radius:1.18});else if(type==='filmView')fit({target:[state.holeX+state.v/100,0,.45],theta:.005,phi:Math.PI/2,radius:1.18});else if(savedFreeExperiment)fit({target:[.03,0,.43],theta:.88,phi:1.23,radius:2.45});else if(savedExperiment)fit({target:[-.08,0,.43],theta:1.25,phi:1.28,radius:2.25});else fit(overviewCamera())}
 $('allView').onclick=()=>setView('allView');$('plateView').onclick=()=>setView('plateView');$('filmView').onclick=()=>setView('filmView');$('resetView').onclick=()=>setView('allView');
 
 // OrbitControls-compatible convention: horizontal and vertical drag subtract spherical angles. Right/Shift+left pans; object picking overrides only left drag on boards.
@@ -581,7 +667,7 @@ function boardVertices(which){
 function withinPolygon(x,y,poly){let inside=false;for(let i=0,j=poly.length-1;i<poly.length;j=i++){let a=poly[i],b=poly[j];if(((a[1]>y)!==(b[1]>y)) && x<(b[0]-a[0])*(y-a[1])/(b[1]-a[1])+a[0])inside=!inside;}return inside}
 function nearSegment(x,y,a,b,margin){let dx=b[0]-a[0],dy=b[1]-a[1],t=Math.max(0,Math.min(1,((x-a[0])*dx+(y-a[1])*dy)/(dx*dx+dy*dy||1)));return Math.hypot(x-a[0]-t*dx,y-a[1]-t*dy)<margin}
 let hoveredBoard=null;
-function hitBoard(px,py){if(savedExperiment)return null;let items=[];for(let key of ['source','screen']){let pts=boardVertices(key);if(pts.some(p=>!p))continue;if(withinPolygon(px,py,pts)||pts.some((p,i)=>nearSegment(px,py,p,pts[(i+1)%4],9))){items.push({key,z:pts.reduce((a,p)=>a+p[2],0)/4});}}items.sort((a,b)=>a.z-b.z);return items[0]?.key||null}
+function hitBoard(px,py){if(savedExperiment)return null;let items=[];for(let key of (savedFreeExperiment?['source']:['source','screen'])){let pts=boardVertices(key);if(pts.some(p=>!p))continue;if(withinPolygon(px,py,pts)||pts.some((p,i)=>nearSegment(px,py,p,pts[(i+1)%4],9))){items.push({key,z:pts.reduce((a,p)=>a+p[2],0)/4});}}items.sort((a,b)=>a.z-b.z);return items[0]?.key||null}
 function moveBoard(mode,delta){if(mode==='screen'){state.v=Math.max(25,Math.min(105,drag.v0+delta*100));}
  if(mode==='source')state.u=Math.max(35,Math.min(160,drag.u0-delta*100));
  $('obj').value=String(state.u);$('dist').value=String(state.v);
