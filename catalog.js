@@ -510,10 +510,10 @@ window.MODEL_CATALOG = [
   },
   {
     "id": "light-spectrum-color-vision",
-    "title": "光与光谱 · 色散、滤光与物体颜色",
-    "subtitle": "三棱镜色散 · 可见与不可见光 · 滤光片 · 物体颜色",
+    "title": "光与光谱实验室 · 色散、显色与视觉",
+    "subtitle": "三棱镜色散 · 可见与不可见光 · 滤光 · 显示器显色 · 视杆与视锥",
     "category": "光学现象",
-    "summary": "一屏交互光学实验室：用三棱镜展示白光入射、玻璃内初步色散与出射后进一步色散；探索可见光和不可见光、滤光片以及不同照明下物体呈现的颜色。含物理折射计算与教学增强显示。",
+    "summary": "观察三棱镜色散、可见与不可见光、滤光和 RGB 像素显色。从眼球剖面逐级放大到视网膜与三维感光细胞，演示来光、信号传递和光转导，并可对照人体切片。",
     "tags": [
       "色散",
       "三棱镜",
@@ -526,14 +526,19 @@ window.MODEL_CATALOG = [
       "紫外线",
       "滤光片",
       "物体颜色",
+      "RGB",
+      "显示器",
+      "视网膜",
+      "视杆",
+      "视锥",
       "Three.js",
       "React",
       "PBR"
     ],
-    "path": "models/light-spectrum-color-vision.html?v=20261027-v1",
+    "path": "models/light-spectrum-color-vision.html?v=20261123-retina-anatomy",
     "symbol": "谱",
     "accent": "blue",
-    "cover": "assets/covers/light-spectrum-color-vision-scene.jpg?v=20261101-crane-cover"
+    "cover": "assets/covers/light-spectrum-color-vision-scene.jpg?v=20261123-retina-anatomy"
   },
   {
     "id": "specific-heat-water-oil",

@@ -38,7 +38,7 @@
 | [浮力的测量](./models/buoyancy-measurement.html) | 从地面提升重物、空气称重、浸入液体与精细读数 |
 | [浮力与密度实验室](./models/buoyancy-density-lab.html) | 五种实验联动受力图、曲线与三维装置 |
 | [弹簧测力计（三种结构）](./models/spring-force-meters.html) | 加载、剖切、分解和矢量刻度读数 |
-| [光与光谱](./models/light-spectrum-color-vision.html) | 三棱镜色散、滤光片和物体颜色 |
+| [光与光谱实验室](./models/light-spectrum-color-vision.html) | 三棱镜色散、滤光、RGB 显色与视杆视锥光转导 |
 | [纸筒照相机](./models/paper-tube-camera.html) | 伸缩调焦与清晰成像的同尺度对比 |
 | [钱塘江大桥施工](./models/qiantang-bridge-complete.html) | 四阶段施工过程与潮汐落梁 |
 | [深中通道 E15](./models/shenzhong-e15.html) | 沉管浮运、沉放、对接与回填 |
@@ -83,7 +83,7 @@
 <summary><strong>光学现象（9）</strong></summary>
 
 - [光的折射 · 一池两世界](./models/refraction-island.html) — 水面上下观察、叉鱼挑战与弯折的铅笔 · [案例说明](./docs/refraction-island.md)
-- [光与光谱 · 色散、滤光与物体颜色](./models/light-spectrum-color-vision.html) — 三棱镜色散 · 可见与不可见光 · 滤光片 · 物体颜色
+- [光与光谱实验室 · 色散、显色与视觉](./models/light-spectrum-color-vision.html) — 三棱镜色散 · 可见与不可见光 · 滤光 · RGB 显色 · 视杆与视锥
 - [凹透镜成像规律](./models/concave-lens.html) — 正立缩小虚像与三条特殊光线
 - [光的反射与折射](./models/reflection-refraction.html) — 平面实验、光路可逆与空间拓展
 - [海市蜃楼](./models/mirage.html) — 上蜃、下蜃与弯曲光路
