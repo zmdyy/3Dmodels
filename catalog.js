@@ -1331,7 +1331,7 @@ window.MODEL_CATALOG = [
       "调焦",
       "光路"
     ],
-    "path": "models/refracting-telescope.html?v=20261018-nav1",
+    "path": "models/refracting-telescope.html?v=20261123-ray-directions",
     "symbol": "🔭",
     "accent": "blue"
   },
