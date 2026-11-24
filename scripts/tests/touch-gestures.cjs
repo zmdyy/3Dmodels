@@ -4,8 +4,9 @@ const vm = require('node:vm');
 
 class FakePointerEvent extends Event {
   constructor(type, init = {}) {
-    super(type, { bubbles: !!init.bubbles, cancelable: !!init.cancelable });
-    Object.assign(this, init);
+    const { bubbles, cancelable, ...props } = init;
+    super(type, { bubbles: !!bubbles, cancelable: !!cancelable });
+    Object.assign(this, props);
   }
 }
 
