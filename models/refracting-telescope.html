@@ -132,6 +132,7 @@ input[type=range]{width:100%;accent-color:#d5ad73;cursor:pointer;margin:4px 0} .
 @media(max-width:780px){.lesson-dialog{width:calc(100vw - 20px);max-height:calc(100dvh - 20px)}.lesson-head,.lesson-page{padding:11px}.lesson-text{grid-template-columns:1fr;gap:8px}}
 </style>
 
+<script src="../shared/touch-gestures.js"></script>
 </head>
 <body>
 <div class="page">
@@ -1189,6 +1190,7 @@ canvas.addEventListener('pointermove',e=>{if(!pointer||e.pointerId!==pointer.id)
  if(pointer.btn===2||e.shiftKey){const f=norm(sub(target,camera().eye)),right=norm(cross(f,[0,1,0])),up=norm(cross(right,f));target=add(target,add(scale(right,-dx*distance*.0013),scale(up,dy*distance*.0013)));}else{yaw-=dx*.007;pitch=clamp(pitch+dy*.006,-1.25,1.25);}schedule();});
 for(const evt of ['pointerup','pointercancel'])canvas.addEventListener(evt,e=>{if(pointer&&e.pointerId===pointer.id)pointer=null;canvas.style.cursor='grab';});canvas.addEventListener('contextmenu',e=>e.preventDefault());
 canvas.addEventListener('wheel',e=>{e.preventDefault();distance=clamp(distance*Math.exp(e.deltaY*.0009),.82,32);schedule();},{passive:false});
+if(window.TouchGestures)TouchGestures.attach(canvas,{onStart:()=>{pointer=null;},onGesture:({scale:zoomFactor,dx,dy})=>{distance=clamp(distance*zoomFactor,.82,32);const cam=camera(),forward=norm(sub(target,cam.eye)),right=norm(cross(forward,[0,1,0])),up=norm(cross(right,forward)),k=2*distance*Math.tan(22*DEG)/Math.max(1,ch);target=add(target,add(scale(right,-dx*k),scale(up,dy*k)));schedule();}});
 window.addEventListener('resize',schedule);if(window.ResizeObserver)new ResizeObserver(schedule).observe(stage);
 window.addEventListener('webglcontextlost',e=>{e.preventDefault();notice.textContent='显卡渲染上下文丢失，请刷新页面重新载入。';notice.style.display='block';});
 canvas.style.cursor='grab';get('focus').value=0;['f1Range','d1Range','f2Range','d2Range'].forEach(id=>get(id).value=id==='f1Range'?diyOptics.f1:id==='d1Range'?diyOptics.d1:id==='f2Range'?diyOptics.f2:diyOptics.d2);updateOpticsUI();setFocus(0);setMode('optics');
