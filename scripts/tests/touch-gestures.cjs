@@ -7,7 +7,9 @@ class FakePointerEvent extends Event {
     const { bubbles, cancelable, ...props } = init;
     super(type, { bubbles: !!bubbles, cancelable: !!cancelable });
     Object.assign(this, props);
+    this.immediateStopped = false;
   }
+  stopImmediatePropagation() { this.immediateStopped = true; super.stopImmediatePropagation(); }
 }
 
 const listeners = new Map();
@@ -26,7 +28,7 @@ const element = {
   dispatchEvent(event) {
     for (const item of [...(listeners.get(event.type) || [])]) {
       item.fn.call(this, event);
-      if (event.cancelBubble) break;
+      if (event.immediateStopped) break;
     }
     return !event.defaultPrevented;
   }
