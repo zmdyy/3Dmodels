@@ -26,7 +26,8 @@ const element = {
   },
   setPointerCapture() {},
   dispatchEvent(event) {
-    for (const item of [...(listeners.get(event.type) || [])]) {
+    const ordered = [...(listeners.get(event.type) || [])].sort((a, b) => Number(b.capture) - Number(a.capture));
+    for (const item of ordered) {
       item.fn.call(this, event);
       if (event.immediateStopped) break;
     }
