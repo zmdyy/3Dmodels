@@ -1698,6 +1698,8 @@
 
   canvas.addEventListener('pointermove', function (e) {
     if (!pointers.has(e.pointerId)) return;
+    const before = Array.from(pointers.values());
+    const oldCenter = before.length === 2 ? { x: (before[0].x + before[1].x) / 2, y: (before[0].y + before[1].y) / 2 } : null;
     const prev = pointers.get(e.pointerId);
     const dx = e.clientX - prev.x, dy = e.clientY - prev.y;
     pointers.set(e.pointerId, { x: e.clientX, y: e.clientY });
@@ -1706,6 +1708,7 @@
       const pts = Array.from(pointers.values());
       const d = Math.hypot(pts[0].x - pts[1].x, pts[0].y - pts[1].y);
       if (pinchDist > 0) { view.distTarget = clamp(pinchStart * pinchDist / d, 7.5, 48); view.baseDist = view.distTarget; }
+      if(oldCenter){const cx=(pts[0].x+pts[1].x)/2,cy=(pts[0].y+pts[1].y)/2;Navigation3D.pan(camera,view.target,canvas,cx-oldCenter.x,cy-oldCenter.y);}
       return;
     }
     if (!dragging) return;
