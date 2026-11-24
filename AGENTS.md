@@ -15,6 +15,8 @@
 - 通过命名挂接点组装；静态、极限状态和运动全过程检查干涉与悬空。
 - 玻璃复用几何、灯光、背景、曝光、液体与透明顺序整套效果；套杯与新背景需另验。
 - 视角优先参考深中通道V26与钱塘江大桥；高铁当前镜头不作为标准。手动旋转/平移/缩放中断自动跟随，用户明确恢复后才能继续。
+- 触屏三维导航统一为单指旋转/器材交互、双指捏合缩放＋双指中心平移；优先使用 OrbitControls / LabKit 内置双指导航，自定义相机使用 `shared/touch-gestures.js`。双指开始时取消单指拖动，双指结束后抬起全部手指再开始下一次单指操作，避免镜头跳变。不得覆盖滑块、旋钮、光源、光屏等器材单指交互。
+- 离线导出必须将 `shared/touch-gestures.js` 内嵌进独立 HTML；触屏验收至少覆盖双指缩放、双指平移、单指旋转、器材拖动和手势切换。
 - 仪器刻度、数字、单位、图示文字保留SVG源稿；3D贴图仅为派生显示，正式读数放大直接显示SVG。
 - 三类放大并列保留：圆形定位放大镜、原面板矩形放大、可继续缩放读数窗。按教学任务选用，不全部替换为卡片。
 - 局部放大窗优先使用 `detail-view`；仪器提供viewBox/focus，窗口不写死仪器坐标。读数变化保留用户倍率；红色指针不能遮黑刻度与数字。
@@ -24,7 +26,7 @@
 
 ## 提交前
 
-运行 `python scripts/reuse-context.py --validate`、`node scripts/tests/lab-kit.cjs`、`node scripts/tests/reuse-browser.cjs`、`node scripts/tests/instrument-patterns.cjs`。
+运行 `python scripts/reuse-context.py --validate`、`node scripts/tests/lab-kit.cjs`、`node scripts/tests/reuse-browser.cjs`、`node scripts/tests/instrument-patterns.cjs`、`node scripts/tests/touch-gestures.cjs`。
 Playwright依赖可由 `LAB_KIT_NODE_MODULES` 提供，浏览器可由 `LAB_KIT_CHROMIUM` 指定。缺浏览器必须记为未验收。
 修改模块后重新导出离线文件：`python scripts/export-reuse-demo.py`；三类样式另用 `--source examples/instrument-details.html --output examples/instrument-details-offline.html`。
 新资源必须补注册表、API、示例、来源与验收证据；截图来自实际运行，不能用生成图替代。
