@@ -119,15 +119,29 @@
   }
 
   function pan(camera, target, element, dx, dy) {
-    if (!camera || !target || !element || !camera.position || !target.addScaledVector) return;
+    if (!camera || !target || !element || !camera.position || !camera.matrixWorld) return;
     if (camera.updateMatrixWorld) camera.updateMatrixWorld();
     const height = Math.max(1, element.clientHeight || element.getBoundingClientRect().height);
-    const scale = camera.isOrthographicCamera
+    const tx = Array.isArray(target) ? target[0] : target.x;
+    const ty = Array.isArray(target) ? target[1] : target.y;
+    const tz = Array.isArray(target) ? target[2] : target.z;
+    const distance = Math.hypot(camera.position.x - tx, camera.position.y - ty, camera.position.z - tz);
+    const factor = camera.isOrthographicCamera
       ? (camera.top - camera.bottom) / Math.max(1e-6, camera.zoom || 1) / height
-      : 2 * camera.position.distanceTo(target) * Math.tan((camera.fov || 50) * Math.PI / 360) / height;
-    const right = target.clone().setFromMatrixColumn(camera.matrixWorld, 0);
-    const up = target.clone().setFromMatrixColumn(camera.matrixWorld, 1);
-    target.addScaledVector(right, -dx * scale).addScaledVector(up, dy * scale);
+      : 2 * distance * Math.tan((camera.fov || 50) * Math.PI / 360) / height;
+    const e = camera.matrixWorld.elements;
+    const rx = e[0], ry = e[1], rz = e[2];
+    const ux = e[4], uy = e[5], uz = e[6];
+    const sx = -dx * factor, sy = dy * factor;
+    if (Array.isArray(target)) {
+      target[0] += rx * sx + ux * sy;
+      target[1] += ry * sx + uy * sy;
+      target[2] += rz * sx + uz * sy;
+    } else if (target.addScaledVector && target.clone) {
+      const right = target.clone().setFromMatrixColumn(camera.matrixWorld, 0);
+      const up = target.clone().setFromMatrixColumn(camera.matrixWorld, 1);
+      target.addScaledVector(right, sx).addScaledVector(up, sy);
+    }
   }
 
   root.TouchGestures = { attach, pan };
