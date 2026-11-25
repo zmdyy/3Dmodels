@@ -1425,7 +1425,7 @@ window.MODEL_CATALOG = [
       "光路可逆",
       "三线共面"
     ],
-    "path": "models/reflection-refraction.html?v=20261019-solid",
+    "path": "models/reflection-refraction.html?v=20261125-single-laser",
     "symbol": "↗",
     "accent": "green"
   },
