@@ -1425,7 +1425,7 @@ window.MODEL_CATALOG = [
       "光路可逆",
       "三线共面"
     ],
-    "path": "models/reflection-refraction.html?v=20261125-reflection-contrast",
+    "path": "models/reflection-refraction.html?v=20261125-refraction-power",
     "symbol": "↗",
     "accent": "green"
   },
