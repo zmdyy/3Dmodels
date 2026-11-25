@@ -6,8 +6,7 @@ on:
       - scripts/export-offline-gallery.py
       - scripts/tests/touch-gestures.cjs
       - models/**
-      - shared/touch-gestures.js
-      - shared/lab-kit/navigation.js
+      - shared/**
       - catalog.js
   workflow_dispatch:
 permissions:
