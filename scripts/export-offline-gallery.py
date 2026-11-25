@@ -169,7 +169,7 @@ def main():
   # Keep their standalone offline exports on the same two-finger navigation contract.
   if origin.name in ('energy-meter.html','shenzhong-e15.html'):
    touch_helper=(ROOT/'shared/touch-gestures.js').read_text(encoding='utf-8').replace('</script','<\\/script')
-   page=re.sub(r'</head\\s*>',lambda m:'<script>\\n'+touch_helper+'\\n</script>\\n'+m.group(0),page,count=1,flags=re.I)
+   page=re.sub(r'</head\s*>',lambda m:'<script>\n'+touch_helper+'\n</script>\n'+m.group(0),page,count=1,flags=re.I)
    if origin.name=='energy-meter.html':
     needle="""  gl.addEventListener('wheel', e => {
     e.preventDefault()
