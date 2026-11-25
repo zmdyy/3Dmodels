@@ -8,6 +8,14 @@ on:
       - models/**
       - shared/**
       - catalog.js
+  pull_request:
+    paths:
+      - .github/workflows/export-chinese-offline.yml
+      - scripts/export-offline-gallery.py
+      - scripts/tests/touch-gestures.cjs
+      - models/**
+      - shared/**
+      - catalog.js
   workflow_dispatch:
 permissions:
   contents: read
