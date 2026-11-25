@@ -16,7 +16,7 @@ window.MODEL_CATALOG = [
   "title": "电能表 · 电子式与机械式",
   "subtitle": "累计用电量 · 家庭分支电路 · 氖管式试电笔",
   "category": "家庭电路",
-  "summary": "对照电子式与感应式电能表，模拟家庭电路各支路的负载与通断，观察累计电能、脉冲计数和铝盘转动。可点击元件观察接线及触点通断，并用可拆解的氖管式试电笔演示相线孔、中性线孔与尾触点的作用。结构及人体回路为教学示意，非真实带电测试指导；单文件内嵌 Three.js r160。",
+  "summary": "切换两种电能表，操作家庭电路，观察累计电量、脉冲计数与铝盘转动。可查看元件接线和氖管式试电笔的内部结构。",
   "tags": [
     "家庭电路",
     "电能表",
@@ -35,6 +35,7 @@ window.MODEL_CATALOG = [
     "离线"
   ],
   "path": "models/energy-meter.html?v=20261117",
+  "cover": "assets/covers/energy-meter-scene.jpg",
   "symbol": "表",
   "accent": "blue"
 },
