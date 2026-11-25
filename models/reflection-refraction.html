@@ -419,8 +419,8 @@ function updateSceneHelp(){
  $('sceneWrap').classList.toggle('reading',S.reading);
  $('sceneWrap').classList.toggle('direct-light',directLight);
  $('sceneHelp').textContent=S.reading
-  ?(directLight?'拖动光源 A 调节入射角 · 滚轮缩放':'右侧调节实验参数 · 滚轮缩放')
-  :'左键旋转 · 右键或 Shift＋左键平移 · 滚轮缩放';
+  ?(directLight?'拖动光源 A 调节入射角 · 滚轮 / 双指缩放':'右侧调节实验参数 · 滚轮 / 双指缩放')
+  :'拖动旋转 · 右键或双指平移 · 滚轮或双指缩放';
 }
 function lightDragOffset(e){
  const rect=$('scene').getBoundingClientRect();
@@ -432,10 +432,41 @@ function lightDragOffset(e){
  return {dx,dy};
 }
 let drag=null;
+const touches=new Map();
+let pinch=null,touchMulti=false;
+function touchFrame(){
+ const [a,b]=touches.values();
+ if(!a||!b)return null;
+ const rect=$('scene').getBoundingClientRect(),ratio=Math.min(rect.width/1000,rect.height/620);
+ if(!(ratio>0))return null;
+ return {x:((a.x+b.x)/2-rect.left-(rect.width-1000*ratio)/2)/ratio,
+ y:((a.y+b.y)/2-rect.top-(rect.height-620*ratio)/2)/ratio,
+ distance:Math.hypot(a.x-b.x,a.y-b.y)};
+}
+function movePinch(){
+ const next=touchFrame();
+ if(!next)return;
+ if(!pinch||pinch.distance<2||next.distance<2){pinch=next;return}
+ const oldZoom=S.zoom;
+ S.zoom=Math.max(.68,Math.min(1.55,oldZoom*next.distance/pinch.distance));
+ const factor=S.zoom/oldZoom;
+ // Keep the world point under the midpoint stable during zoom and pan.
+ pan.x=next.x-500-(pinch.x-500-pan.x)*factor;
+ const baseY=originY()-pan.y;
+ pan.y=next.y-baseY-(pinch.y-baseY-pan.y)*factor;
+ pinch=next;
+ buildScene();
+}
 function angleAt(e){const rect=$('scene').getBoundingClientRect(),ratio=Math.min(rect.width/1000,rect.height/620),mx=(e.clientX-rect.left-(rect.width-1000*ratio)/2)/ratio,my=(e.clientY-rect.top-(rect.height-620*ratio)/2)/ratio,k=scale(),m=S.matrix;let sx=(mx-500-pan.x)/k-m[2]*Z,sy=(originY()-my)/k-m[5]*Z,det=m[0]*m[4]-m[1]*m[3];if(Math.abs(det)<.12){toast('当前接近侧视，请切换俯视图后移动光源。');return S.angle}let x=(sx*m[4]-m[1]*sy)/det,y=(m[0]*sy-sx*m[3])/det;if(Math.abs(x)>.002)S.side=x<0?-1:1;return Math.atan2(Math.abs(x),Math.max(.0001,(S.inside?-1:1)*y))/D}
 $('scene').addEventListener('contextmenu',e=>e.preventDefault());
 $('scene').addEventListener('pointerdown',e=>{
- if(drag||(e.button!==0&&e.button!==2))return;
+ if(e.pointerType==='touch'){
+  e.preventDefault();
+  touches.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  $('scene').setPointerCapture(e.pointerId);
+  if(touches.size>=2){drag=null;touchMulti=true;pinch=touchFrame();return}
+  if(touchMulti)return;
+ }else if(touches.size||drag||(e.button!==0&&e.button!==2))return;
  e.preventDefault();
  let kind='rotate',offset=null;
  if(e.button===2||e.shiftKey)kind='pan';
@@ -446,9 +477,14 @@ $('scene').addEventListener('pointerdown',e=>{
   kind='light';
  }
  drag={id:e.pointerId,x:e.clientX,y:e.clientY,kind,offset,moved:false};
- $('scene').setPointerCapture(e.pointerId);
+ if(e.pointerType!=='touch')$('scene').setPointerCapture(e.pointerId);
 });
 $('scene').addEventListener('pointermove',e=>{
+ if(e.pointerType==='touch'){
+  if(!touches.has(e.pointerId))return;
+  touches.set(e.pointerId,{x:e.clientX,y:e.clientY});
+  if(touchMulti){if(touches.size>=2)movePinch();return}
+ }
  if(!drag||drag.id!==e.pointerId)return;
  const dx=e.clientX-drag.x,dy=e.clientY-drag.y;
  if(!drag.moved&&Math.hypot(dx,dy)<4)return;
@@ -472,7 +508,13 @@ $('scene').addEventListener('pointermove',e=>{
  $('foldToggle').addEventListener('click',()=>{S.reversePath=false;S.foldEnabled=!S.foldEnabled;S.fold=0;view('oblique');sync()});
  $('foldAngle').addEventListener('input',e=>{S.fold=Number(e.target.value);sync()});$('foldBack').addEventListener('click',()=>{S.fold=65;sync()});$('foldFlat').addEventListener('click',()=>{S.fold=0;sync()});
  $('azimuth').addEventListener('input',e=>{S.azimuth=Number(e.target.value);sync()});$('showPlane').addEventListener('change',e=>{S.showPlane=e.target.checked;sync()});
- for(const event of ['pointerup','pointercancel','lostpointercapture'])$('scene').addEventListener(event,e=>{if(drag?.id===e.pointerId)drag=null});
+ for(const event of ['pointerup','pointercancel','lostpointercapture'])$('scene').addEventListener(event,e=>{
+  if(touches.delete(e.pointerId)){
+   pinch=touches.size>=2?touchFrame():null;
+   if(!touches.size)touchMulti=false;
+  }
+  if(drag?.id===e.pointerId)drag=null;
+ });
 $('scene').addEventListener('wheel',e=>{e.preventDefault();const pixels=e.deltaY*(e.deltaMode===1?16:e.deltaMode===2?160:1);S.zoom=Math.max(.68,Math.min(1.55,S.zoom*Math.exp(-pixels*.0008)));buildScene()},{passive:false});
 $('info').addEventListener('click',()=>$('infoDialog').showModal());$('closeInfo').addEventListener('click',()=>$('infoDialog').close());
 $('projection').addEventListener('click',()=>{document.body.classList.toggle('projection');$('projection').classList.toggle('active',document.body.classList.contains('projection'))});
