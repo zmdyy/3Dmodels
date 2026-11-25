@@ -1,4 +1,24 @@
 window.MODEL_CATALOG = [
+  {
+    "id": "retroreflection",
+    "title": "逆反射 · 自行车与高速公路",
+    "subtitle": "反光片、护栏轮廓标与两次／三次反射",
+    "category": "光学现象",
+    "summary": "切换夜间车灯与驾驶员视角，观察自行车反光片和高速公路护栏轮廓标；拆解一体成型微棱镜，依据教材二维作图探究两次反射，再逐次观察三维角锥的折射、反射与法线。支持双指缩放和平移。",
+    "tags": [
+      "光的反射",
+      "逆反射",
+      "自行车",
+      "轮廓标",
+      "全反射",
+      "微棱镜",
+      "法线"
+    ],
+    "path": "models/retroreflection.html?v=20261125-v9-touch",
+    "cover": "assets/covers/retroreflection.webp?v=20261125",
+    "symbol": "↩",
+    "accent": "blue"
+  },
 {
   "id": "cartesian-diver",
   "title": "浮沉子 · 定量探究实验",
