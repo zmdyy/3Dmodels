@@ -164,6 +164,7 @@
   #toast.show{opacity:1;transform:translate(-50%,0);}
 </style>
 <script src="../shared/navigation-style.js?v=20261018-nav1"></script>
+<script src="../shared/touch-gestures.js"></script>
 </head>
 <body>
   <div id="stage"><canvas id="scene"></canvas></div>
@@ -1144,6 +1145,7 @@
     e.preventDefault();
     view.distTarget = clamp(view.distTarget * (1 + Math.sign(e.deltaY) * 0.09), 6, 46);
   }, { passive: false });
+  if(window.TouchGestures)TouchGestures.attach(canvas,{onStart:()=>{endDrag();},onGesture:({scale,dx,dy})=>{view.distTarget=clamp(view.distTarget*scale,6,46);TouchGestures.pan(camera,view.target,canvas,dx,dy);}});
 
   /* ================= 13. UI 绑定 ================= */
   elOilRange.addEventListener('input', function () {

@@ -75,6 +75,7 @@
   #toast.show { opacity: 1; transform: translateX(-50%) translateY(0); }
 </style>
 <script src="../shared/navigation-style.js?v=20261018-nav1"></script>
+<script src="../shared/touch-gestures.js"></script>
 </head>
 
 <canvas id="scene" aria-label="可旋转缩放的三维实验装置"></canvas>
@@ -948,6 +949,7 @@
     cv.addEventListener('wheel', function (e) {
       view.distTarget = clamp(view.distTarget * (1 + (e.deltaY > 0 ? 0.10 : -0.10)), 200, 2200);
     }, { passive: true });
+    if(window.TouchGestures)TouchGestures.attach(cv,{onStart:()=>{drag=null;},onGesture:({scale,dx,dy})=>{view.distTarget=clamp(view.distTarget*scale,200,2200);TouchGestures.pan(camera,view.target,cv,dx,dy);}});
   })();
 
   function resize() {

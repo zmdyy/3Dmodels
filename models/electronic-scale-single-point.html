@@ -52,7 +52,8 @@ body.lesson .callout span{font-size:12px}.btn{font-size:13px}section .hint{font-
 #advancedControls>summary{cursor:pointer;font-weight:800;font-size:14px;color:#385d64;padding:14px 10px;border:1px solid #d6e2e1;border-radius:9px;background:#eef4f2;margin-bottom:10px}
 #lessonControls .lesson-caption{font-size:13px}#lessonControls [data-lg]{min-width:0;font-size:12px;padding:8px 2px}#lessonControls .mini-row{flex-wrap:nowrap}
 button:disabled{opacity:.45;cursor:default}.stage-mark .sub{max-width:600px}
-.nodeTag{position:absolute;transform:translate(-50%,-50%);border:1px solid #bdcfc9;background:#fffdf3ed;color:#294f58;border-radius:5px;padding:3px 6px;font-size:12px;font-weight:800;white-space:nowrap;pointer-events:none}body.lesson .nodeTag{display:none!important}</style></head><body>
+.nodeTag{position:absolute;transform:translate(-50%,-50%);border:1px solid #bdcfc9;background:#fffdf3ed;color:#294f58;border-radius:5px;padding:3px 6px;font-size:12px;font-weight:800;white-space:nowrap;pointer-events:none}body.lesson .nodeTag{display:none!important}</style><script src="../shared/touch-gestures.js"></script>
+</head><body>
 <header><div><div class="eyebrow">PHYSICS · THREE-DIMENSIONAL LABORATORY</div><h1>电子秤 · 单点式称重传感器</h1></div><div class="right-head">真实机械连接 × 教学示意增强<br><b>离线 Three.js r160 · Anatomy 结构表达</b></div></header>
 <main><div id="stage"><canvas id="view" aria-label="电子秤三维交互装置"></canvas><div class="stage-mark"><div class="tag">SINGLE-POINT LOAD CELL / 01</div><div class="scene-title" id="sceneTitle">电子秤内部 · 分层观察</div><div class="sub" id="sceneSub">单点传感器：固定端连接底座，受力端连接称重托盘；蓝色/橙色辅助显示微小形变。</div></div><div class="inspect" id="inspection" hidden>
   <div class="inspect-title"><span>传感器 · 结构放大观察</span><button id="inspectClose" aria-label="关闭观察窗口">×</button></div>
@@ -638,6 +639,7 @@ function drawNodeTags(){
 }
 
 const pointer={active:false,x:0,y:0,mode:'rotate'};canvas.addEventListener('pointerdown',e=>{pointer.active=true;pointer.x=e.clientX;pointer.y=e.clientY;pointer.mode=Navigation3D.isPan(e)?'pan':'rotate';canvas.setPointerCapture(e.pointerId);stopTour();});canvas.addEventListener('pointermove',e=>{if(!pointer.active)return;const dx=e.clientX-pointer.x,dy=e.clientY-pointer.y;pointer.x=e.clientX;pointer.y=e.clientY;if(pointer.mode==='rotate'){destination.yaw-=dx*.007;destination.pitch=THREE.MathUtils.clamp(destination.pitch+dy*.006,-.15,1.35)}else{Navigation3D.pan(camera,destination.target,canvas,dx,dy);}camNeedsUpdate=true;});canvas.addEventListener('pointerup',()=>pointer.active=false);canvas.addEventListener('pointercancel',()=>pointer.active=false);canvas.addEventListener('contextmenu',e=>e.preventDefault());canvas.addEventListener('wheel',e=>{e.preventDefault();stopTour();destination.dist=THREE.MathUtils.clamp(destination.dist*Math.exp(e.deltaY*.0011),1.3,12);camNeedsUpdate=true;},{passive:false});
+if(window.TouchGestures)TouchGestures.attach(canvas,{onStart:()=>{pointer.active=false;stopTour();},onGesture:({scale,dx,dy})=>{stopTour();destination.dist=THREE.MathUtils.clamp(destination.dist*scale,1.3,12);TouchGestures.pan(camera,destination.target,canvas,dx,dy);camNeedsUpdate=true;}});
 let last=performance.now(),elapsed=0;
 function loop(now){requestAnimationFrame(loop);let dt=Math.min(.05,(now-last)/1000||.016);last=now;elapsed+=dt;
 if(state.tour){tourAt+=dt;let current=tourSteps[tourStep]||null;if(!current||tourAt>=current.t){tourStep=(tourStep+1)%tourSteps.length;tourAt=0;let s=tourSteps[tourStep];setView(s.v,true);setMass(s.mass);}}

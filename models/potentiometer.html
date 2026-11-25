@@ -155,6 +155,7 @@
   #toast.show{opacity:1;transform:translate(-50%,0);}
 </style>
 <script src="../shared/navigation-style.js?v=20261018-nav1"></script>
+<script src="../shared/touch-gestures.js"></script>
 </head>
 <body>
   <div id="stage"><canvas id="scene"></canvas></div>
@@ -1041,6 +1042,7 @@
     e.preventDefault();
     view.distTarget = clamp(view.distTarget * (1 + Math.sign(e.deltaY) * 0.09), 5.5, 34);
   }, { passive: false });
+  if(window.TouchGestures)TouchGestures.attach(canvas,{onStart:()=>{state.dragging='none';dragCam=null;},onGesture:({scale,dx,dy})=>{view.distTarget=clamp(view.distTarget*scale,5.5,34);TouchGestures.pan(camera,view.target,canvas,dx,dy);}});
 
   /* ---- UI 绑定 ---- */
   elKnobRange.addEventListener('input', function () { setKnob(parseFloat(elKnobRange.value)); });

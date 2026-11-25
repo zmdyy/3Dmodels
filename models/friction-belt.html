@@ -104,6 +104,7 @@
   #scaleZoom svg { width: 100%; height: auto; display: block; border: 1px solid #dbe4ee; border-radius: 10px; background: #f8fbff; }
   #scaleZoom .mini { margin-top: 6px; font-size: 11.5px; color: var(--sub); line-height: 1.45; }
 </style>
+<script src="../shared/touch-gestures.js"></script>
 </head>
 
 <div class="head">
@@ -1437,6 +1438,7 @@ window.WOOD_NRM_URI = "../assets/textures/friction-oak-normal.jpg";
       e.preventDefault();
       view.distTarget=clamp(view.distTarget*Math.exp(e.deltaY*0.001),250,2600);
     },{passive:false});
+    if(window.TouchGestures)TouchGestures.attach(cv,{onStart:()=>{drag=null;},onGesture:({scale,dx,dy})=>{view.distTarget=clamp(view.distTarget*scale,250,2600);TouchGestures.pan(camera,view.target,cv,dx,dy);}});
   })();
 
   function resize() {

@@ -133,6 +133,7 @@ function mouseControls(){let clickX=0,clickY=0;
     const hits=raycast.intersectObjects(objects.filter(o=>o.visible),false);if(hits.length)selectMesh(hits[0].object);
   }drag=null;});
   CANVAS.addEventListener('wheel',e=>{e.preventDefault();dist=Math.max(.25,Math.min(25,dist*Math.exp(e.deltaY*.001)));setCamera();},{passive:false});
+  if(window.TouchGestures)TouchGestures.attach(CANVAS,{onStart:()=>{drag=null;},onGesture:({scale,dx,dy})=>{dist=Math.max(.25,Math.min(25,dist*scale));TouchGestures.pan(camera,pivot,CANVAS,dx,dy);setCamera();}});
 }
 function bind(){document.querySelectorAll('[data-look]').forEach(btn=>btn.addEventListener('click',()=>setLook(btn.dataset.look)));
   document.querySelectorAll('[data-focus-group]').forEach(btn=>btn.addEventListener('click',()=>focus(btn.dataset.focusGroup)));

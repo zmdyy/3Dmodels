@@ -165,6 +165,41 @@ def main():
    if not f:return tag
    return re.sub(r'\bsrc\s*=\s*(["\x27]).*?\1','src="'+uri(f)+'"',tag,count=1,flags=re.I|re.S)
   page=IMAGE.sub(img_sub,page)
+  # Large Git-LFS cases cannot be edited through the normal source-file API.
+  # Keep their standalone offline exports on the same two-finger navigation contract.
+  if origin.name in ('energy-meter.html','shenzhong-e15.html'):
+   touch_helper=(ROOT/'shared/touch-gestures.js').read_text(encoding='utf-8').replace('</script','<\\/script')
+   page=re.sub(r'</head\s*>',lambda m:'<script>\n'+touch_helper+'\n</script>\n'+m.group(0),page,count=1,flags=re.I)
+   if origin.name=='energy-meter.html':
+    needle="""  gl.addEventListener('wheel', e => {
+    e.preventDefault()
+    scaleDistance(Math.max(-.36,Math.min(.36,e.deltaY*(e.deltaMode===1 ? .032 : .00125))))
+  }, {passive:false})"""
+    extra="""
+  if(window.TouchGestures)TouchGestures.attach(gl,{
+    onStart:()=>{pointer=null;closeComponentMenu()},
+    onGesture:({scale,dx,dy})=>{
+      scaleDistance(Math.log(scale))
+      TouchGestures.pan(camera,target,gl,dx,dy)
+      updatePose();savePose();requestRepaint('touch')
+    }
+  })"""
+    if needle not in page:logs.append('离线触屏补丁未匹配电能表缩放事件')
+    else:page=page.replace(needle,needle+extra,1)
+   else:
+    main_needle="""cv.addEventListener('pointerup',()=>drag=null);cv.addEventListener('pointercancel',()=>drag=null);cv.addEventListener('contextmenu',e=>e.preventDefault());cv.addEventListener('wheel',e=>{e.preventDefault();if(window.V18){V18.auto=false;v18SyncButtons()}dist=Math.max(30,Math.min(900,dist*Math.exp(e.deltaY*.001)));render()},{passive:false});"""
+    main_extra="""
+if(window.TouchGestures)TouchGestures.attach(cv,{onStart:()=>{drag=null;if(window.V18){V18.auto=false;v18SyncButtons()}},onGesture:({scale,dx,dy})=>{if(window.V18){V18.auto=false;v18SyncButtons()}dist=Math.max(30,Math.min(900,dist*scale));const c=cam(),k=2*dist*Math.tan(.47)/Math.max(1,cv.clientHeight);for(let i=0;i<3;i++)target[i]+=-c.s[i]*dx*k+c.u[i]*dy*k;render()}});"""
+    c12_needle="""C12.cv.addEventListener('pointerup',()=>C12.down=null);C12.cv.addEventListener('pointercancel',()=>C12.down=null);C12.cv.addEventListener('contextmenu',e=>e.preventDefault());C12.cv.addEventListener('wheel',e=>{e.preventDefault();C12.dist=Math.max(8,Math.min(180,C12.dist*Math.exp(e.deltaY*.001)));C12render()},{passive:false});"""
+    c12_extra="""
+if(window.TouchGestures)TouchGestures.attach(C12.cv,{onStart:()=>{C12.down=null},onGesture:({scale,dx,dy})=>{C12.dist=Math.max(8,Math.min(180,C12.dist*scale));const k=C12.dist*.0015;C12.focus[0]-=dx*k*Math.cos(C12.yaw);C12.focus[2]+=dx*k*Math.sin(C12.yaw);C12.focus[1]+=dy*k;C12render()}});"""
+    v13_needle="""V13.canvas.onpointerup=()=>V13.down=null;V13.canvas.onpointercancel=()=>V13.down=null;V13.canvas.oncontextmenu=e=>e.preventDefault();
+V13.canvas.onwheel=e=>{e.preventDefault();V13.dist=V13clamp(V13.dist*Math.exp(e.deltaY*.001),9,45);v13RenderRaster()};"""
+    v13_extra="""
+if(window.TouchGestures)TouchGestures.attach(V13.canvas,{onStart:()=>{V13.down=null},onGesture:({scale,dx,dy})=>{V13.dist=V13clamp(V13.dist*scale,9,45);V13.focus[0]-=dx*.02;V13.focus[1]+=dy*.02;v13RenderRaster()}});"""
+    for label,needle,extra in [('主装配视图',main_needle,main_extra),('V12剖切视图',c12_needle,c12_extra),('V13端封门视图',v13_needle,v13_extra)]:
+     if needle not in page:logs.append('离线触屏补丁未匹配深中通道'+label)
+     else:page=page.replace(needle,needle+extra,1)
   # pressure-pumps contains a second case as a JS-escaped srcdoc HTML string.
   # Inline its own scripts: the iframe does not inherit its parent's dependencies.
   if origin.name=='pressure-pumps.html':

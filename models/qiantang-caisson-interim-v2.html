@@ -22,7 +22,8 @@ aside h2{margin:0 0 4px;font-size:19px}aside .sub{font-size:12px;color:#708489;m
 details{border-bottom:1px solid #e1e9e8;padding:7px 0;font-size:12px;line-height:1.65}summary{cursor:pointer;font-weight:700;color:#375e64}details p{margin:8px 0}
 .note{font-size:12px;line-height:1.65;color:#607980}a{color:#196e76}
 @media(max-width:950px){main{height:auto;display:block}#viewport{height:65dvh;min-height:390px}aside{border:0}header{padding:8px 12px}h1{font-size:17px}header p{font-size:10px}.meta{display:none}#transport{grid-template-columns:auto auto minmax(0,1fr);gap:6px}#speed{display:none}#caption{left:8px;right:8px;font-size:12px}#hud{top:92px}}
-</style></head><body>
+</style><script src="../shared/touch-gestures.js"></script>
+</head><body>
 <header><div><h1>钱塘江大桥 · 1930年代工程施工重制版</h1><p>射水打桩 → 沉箱浮运 → 潮汐定位 → 气压沉箱 → 上下并进 → 浮运架梁</p></div><span class="meta">11 道工序 · 三维实物关系 · 史料与示意分级</span></header>
 <main><section id="left"><div id="viewport">
 <div id="topbar"><div><button data-cam="site" class="on">工地全景</button><button data-cam="pile">打桩近看</button><button data-cam="caisson">沉箱剖面</button><button data-cam="bridge">架梁全景</button></div><div><button id="cut" class="on">关闭剖切</button><button id="resume">恢复自动镜头</button><button id="reset">视角复位</button></div></div>
@@ -282,6 +283,7 @@ renderer.domElement.addEventListener('pointerdown',e=>{follow=false;drag={id:e.p
 renderer.domElement.addEventListener('pointermove',e=>{if(!drag||e.pointerId!==drag.id)return;const dx=e.clientX-drag.x,dy=e.clientY-drag.y;drag.x=e.clientX;drag.y=e.clientY;if(drag.pan){const right=new T.Vector3(0,1,0).cross(new T.Vector3().subVectors(camera.position,target)).normalize();const up=new T.Vector3(0,1,0);target.addScaledVector(right,-dx*dist*.00125).addScaledVector(up,dy*dist*.00125)}else{az-=dx*.006;el=clamp(el-dy*.005,-.04,1.26)}});
 renderer.domElement.addEventListener('pointerup',()=>drag=null);renderer.domElement.addEventListener('pointercancel',()=>drag=null);
 renderer.domElement.addEventListener('wheel',e=>{e.preventDefault();follow=false;dist=clamp(dist*Math.exp(e.deltaY*.001),16,185)},{passive:false});
+if(window.TouchGestures)TouchGestures.attach(renderer.domElement,{onStart:()=>{follow=false;drag=null;},onGesture:({scale,dx,dy})=>{follow=false;dist=clamp(dist*scale,16,185);TouchGestures.pan(camera,target,renderer.domElement,dx,dy);}});
 document.querySelectorAll('[data-cam]').forEach(b=>b.onclick=()=>preset(b.dataset.cam,true));
 $('#cut').onclick=()=>setCut(!cut);
 $('#resume').onclick=()=>{follow=true;camMode='';};

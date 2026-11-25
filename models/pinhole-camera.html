@@ -40,7 +40,8 @@ html[data-theme="dark"] .screen-circle{border-color:#7b9794;box-shadow:0 0 0 3px
 .aperture-detail small{color:#b8cbd2;font-size:10px;font-weight:400}
 .aperture-detail svg{display:block;width:80px;height:80px;margin:3px auto 0}
 @media(max-width:690px){.aperture-detail{right:8px;bottom:31px;width:92px;padding:5px}.aperture-detail svg{width:62px;height:62px}}
-</style></head><body>
+</style><script src="../shared/touch-gestures.js"></script>
+</head><body>
 <header><h1>小孔成像 · 自由探究</h1><button id="themeToggle" class="theme-toggle" type="button">切换明亮模式</button></header>
 <main><div class="viewer" id="viewer"><canvas id="view" aria-label="三维可旋转实验器材"></canvas><canvas id="particleLayer" style="position:absolute;inset:0;width:100%;height:100%;pointer-events:none;z-index:1"></canvas><div class="viewer-top"><span class="badge" id="sceneTag">拖动光源或光屏</span> <span class="badge" id="areaBadge">开孔面积 · 966.0 mm²</span> <span class="badge" id="totalDistance">总距离 · 165 cm</span></div><div class="view-buttons"><button id="allView" class="selected">整体</button><button id="plateView">近看小孔</button><button id="filmView">正视光屏</button><button id="resetView">还原视角</button></div><figure class="aperture-detail"><figcaption><span id="apertureDetailName">圆孔</span><small>孔口正视 · 自动放大</small></figcaption><svg viewBox="0 0 88 88" aria-hidden="true"><rect x="1" y="1" width="86" height="86" rx="8" fill="#34505d"/><path id="apertureDetailOutline" fill="#07151e" stroke="#9aefd8" stroke-width="2.5" stroke-linejoin="round"/></svg></figure><div id="moveHint" class="move-hint" hidden></div><div class="corner" id="dragHelp">左键：拖动光源或光屏 / 空白处旋转　·　右键 / Shift：平移　·　滚轮：缩放</div><div id="error" class="warn">WebGL 未启动，请尝试在最新版 Chrome 或 Edge 中打开本文件。</div></div>
 <aside class="panel">
@@ -705,6 +706,7 @@ view.addEventListener('pointermove',e=>{
 function stopDragging(){const wasBoard=drag&&(drag.action==='source'||drag.action==='screen');if(wasBoard)particles=particles.map(()=>spawnParticle());drag=null;hoveredBoard=null;view.classList.remove('grabbing-part');$('moveHint').hidden=true;if(wasBoard)rebuild();}
 view.addEventListener('pointerup',stopDragging);view.addEventListener('pointercancel',stopDragging);window.addEventListener('blur',stopDragging);
 view.addEventListener('wheel',e=>{e.preventDefault();cam.radius=Math.min(10,Math.max(.42,cam.radius*Math.exp(e.deltaY*.001)));scheduleDraw()},{passive:false});
+if(window.TouchGestures)TouchGestures.attach(view,{onStart:()=>{drag=null;},onGesture:({scale,dx,dy})=>{cam.radius=Math.min(10,Math.max(.42,cam.radius*scale));const pos=eye(),forward=normal(sub(cam.target,pos)),right=normal(cross(forward,[0,0,1])),up=normal(cross(right,forward)),f=cam.radius*.0014;cam.target=cam.target.map((x,i)=>x+(-right[i]*dx+up[i]*dy)*f);scheduleDraw();}});
 let geometryPreviewTimer=0;
 function scheduleGeometryPreview(){clearTimeout(geometryPreviewTimer);geometryPreviewTimer=setTimeout(rebuild,110)}
 function showApertureArea(){
