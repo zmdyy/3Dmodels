@@ -363,7 +363,7 @@ function clearDemo(){
 }
 function classicDemo(){
  if(demo?.phase==='move'||demo?.phase==='grow')return;
- if(S.reversePath){clearDemo();sync();return}
+ if(demo?.phase==='done'||S.reversePath){clearDemo();sync();return}
  S.foldEnabled=false;S.fold=0;S.reversePath=false;
  const g=geometry(),seg=classicSegments(g);
  demo={phase:'move',move:0,inc:0,out:0,rect:!!g.rect,from:classicPose(g,false),to:classicPose(g,true),reference:[...seg.incident,...seg.reflected,...seg.transmitted.filter(r=>!r.dashed)]};
@@ -394,7 +394,7 @@ function syncClassicDemoUI(){
   $('angleCaption').textContent=S.reversePath?'原入射角（对照）':'入射角 i（与法线夹角）';
   $('sideCaption').textContent=S.reversePath?'原入射侧':'入射侧';
  }
- for(const el of document.querySelectorAll('[data-mode],[data-angle],#angle,#angleNumber,#sideLeft,#sideRight,#foldToggle,#foldAngle,#foldBack,#foldFlat,#blockShape,#material,#reverse,#criticalBelow,#critical,#criticalAbove,#record,#exportSVG'))el.disabled=busy;
+ for(const el of document.querySelectorAll('button[data-mode],button[data-angle],#angle,#angleNumber,#sideLeft,#sideRight,#foldToggle,#foldAngle,#foldBack,#foldFlat,#blockShape,#material,#reverse,#criticalBelow,#critical,#criticalAbove,#record,#exportSVG'))el.disabled=busy;
 }
 function spaceStand(front,O,color,active,baseZ,radial=3.73,length=.5){const dir=unit(vsub(front,O)),phi=Math.atan2(dir[1],dir[0]),post=[radial*Math.cos(phi),radial*Math.sin(phi),baseZ],mount=vadd(front,vmul(dir,length*.55)),top=[post[0],post[1],mount[2]+.08];cylinder(post[0],post[1],baseZ-.10,.27,.12,'#344a40',24);tube3(post,top,.047,'#8faaa4',{metal:true});tube3(top,mount,.050,'#6f8b81',{metal:true});laser3(front,dir,color,{active,length})}
 function spaceBeam(a,b,color,arrow=true,power=1){let q=project(a),r=project(b),w=S.power?1+4*Math.sqrt(Math.max(0,power)):2.8;return `<path d="M${f(q[0])},${f(q[1])}L${f(r[0])},${f(r[1])}" fill="none" stroke="${color}" stroke-width="${w*5}" stroke-linecap="round" opacity=".10"/><path d="M${f(q[0])},${f(q[1])}L${f(r[0])},${f(r[1])}" fill="none" stroke="${color}" stroke-width="${w*2.5}" stroke-linecap="round" opacity=".25"/><path d="M${f(q[0])},${f(q[1])}L${f(r[0])},${f(r[1])}" fill="none" stroke="${color}" stroke-width="${w}" stroke-linecap="round"/><path d="M${f(q[0])},${f(q[1])}L${f(r[0])},${f(r[1])}" fill="none" stroke="#dcffe6" stroke-width=".7" opacity=".7"/>`+(arrow?arrow3(a,b,color):'')}
@@ -476,7 +476,7 @@ function download(name,text,type){let blob=new Blob([text],{type}),url=URL.creat
 document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{S.mode=b.dataset.mode;S.inside=S.mode==='internal';if(S.mode==='internal')S.angle=Math.min(85,Math.asin(1/S.n)/D+5);else S.angle=45;S.reversePath=false;S.foldEnabled=false;S.fold=0;if(S.mode==='space'){S.angle=45;S.inside=false;}view('oblique');sync()}));
 
 $('pathForward').addEventListener('click',()=>{clearDemo();sync()});
-$('pathBackward').addEventListener('click',()=>{if(S.mode!=='space'){classicDemo();return}S.reversePath=true;S.foldEnabled=false;S.fold=0;sync()});
+$('pathBackward').addEventListener('click',()=>{if(S.mode!=='space'){if(demo?.phase==='done'||S.reversePath){clearDemo();sync();return}classicDemo();return}S.reversePath=true;S.foldEnabled=false;S.fold=0;sync()});
 for(const [id,kind] of [['spaceReflect','reflect'],['spaceRefract','refract']])$(id).addEventListener('click',()=>{S.spaceKind=kind;S.reversePath=false;S.inside=false;S.angle=45;view('oblique');sync()});
 $('angle').addEventListener('input',e=>setAngle(Number(e.target.value)));$('angleNumber').addEventListener('change',e=>{if(e.target.value==='')return sync();setAngle(Number(e.target.value))});
 document.querySelectorAll('[data-angle]').forEach(b=>b.addEventListener('click',()=>setAngle(Number(b.dataset.angle))));
@@ -594,7 +594,7 @@ $('clearRecords').addEventListener('click',()=>{if(!S.rows.length)return;S.rows=
 $('exportCSV').addEventListener('click',()=>{if(!S.rows.length)return toast('先记录一组实验数据');let lines=['实验,n1,n2,入射角i(度),反射角r(度),折射角t(度),反射功率R,透射功率T,现象,入射侧,翻折角(度),方位角(度),空间实验,发光端,透明块形状',...S.rows.map(r=>[r.mode,r.n1,(r.mode==='reflect'||(r.mode==='space'&&r.spaceKind!=='refract'))?'':r.n2,r.i.toFixed(1),r.r.toFixed(1),r.t==null?'':r.t.toFixed(1),r.R??'',r.T??'',r.tir?'全反射':r.criticalState?'临界状态':(r.mode==='reflect'||(r.mode==='space'&&r.spaceKind!=='refract'))?'反射':'折射',r.mode==='space'?'':r.side===1?'右侧':'左侧',r.mode==='reflect'?(r.fold??0):'',r.mode==='space'?(r.azimuth??0):'',r.mode==='space'?(r.spaceKind==='refract'?'折射':'反射'):'',r.path??'A',r.shape==='rect'?'长方体':'半圆／半球'].join(','))];download('光学实验记录.csv','\uFEFF'+lines.join('\r\n'),'text/csv;charset=utf-8')});
 $('exportSVG').addEventListener('click',()=>{let p=physics();let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="750" viewBox="0 0 1000 750"><rect width="1000" height="750" fill="#f4f8f1"/><text x="35" y="42" font-family="system-ui,Microsoft YaHei,sans-serif" font-size="27" fill="#163237">光的反射与折射 · ${S.mode==='space'?(S.spaceKind==='refract'?'空间折射':'空间反射'):S.mode==='reflect'?'平面镜':p.n1>p.n2?'透明块 → 空气':'空气 → 透明块'}</text><svg x="0" y="55" width="1000" height="620" viewBox="0 0 1000 620">${$('scene').innerHTML}</svg><text x="40" y="697" font-family="system-ui,Microsoft YaHei,sans-serif" font-size="21" fill="#163237">${S.reversePath?'B 入射':'A 入射'}　i = ${p.i.toFixed(1)}°　r = ${p.r.toFixed(1)}°　t = ${p.t===null?'—':p.t.toFixed(1)+'°'}　${isMirror()?'平面镜反射':`n₁ = ${p.n1.toFixed(3)}　n₂ = ${p.n2.toFixed(3)}`}</text><text x="40" y="733" font-family="system-ui,Microsoft YaHei,sans-serif" font-size="17" fill="#60777a">${isMirror()?'角度由空间矢量计算':p.tir?'全反射':p.criticalState?'临界状态':`反射 ${(p.R*100).toFixed(1)}%　透射 ${(p.T*100).toFixed(1)}%`}</text></svg>`;download('光的反射与折射_'+p.i.toFixed(1)+'度.svg',svg,'image/svg+xml;charset=utf-8');toast('已导出可编辑 SVG：三维器材与当前数据')});
 
-const physicalControls='[data-mode],[data-angle],#angle,#angleNumber,#sideLeft,#sideRight,#foldToggle,#foldAngle,#foldBack,#foldFlat,#blockShape,#material,#reverse,#criticalBelow,#critical,#criticalAbove';
+const physicalControls='button[data-mode],button[data-angle],#angle,#angleNumber,#sideLeft,#sideRight,#foldToggle,#foldAngle,#foldBack,#foldFlat,#blockShape,#material,#reverse,#criticalBelow,#critical,#criticalAbove';
  for(const event of ['click','input','change'])document.addEventListener(event,e=>{if(demo?.phase==='done'&&e.target.closest(physicalControls))clearDemo()},true);
  load();S.mode='reflect';S.inside=false;view('oblique');$('material').value=S.n;for(let k of ['normal','labels','power'])$(k).checked=S[k];rows();sync();
 // Exposed read-only test entry points; numerical results come from the same kernel as the visuals.
