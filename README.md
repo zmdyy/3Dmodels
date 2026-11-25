@@ -197,7 +197,7 @@
 <summary><strong>家庭电路（2）</strong></summary>
 
 - [螺口灯泡装配与接线](./models/e27-bulb.html) — E27 灯泡、灯座与家庭电路
-- [电能表 · 电子式与机械式](./models/energy-meter.html) — 电能累计与脉冲、感应式铝盘、家庭分支电路和氖管式试电笔 · [案例说明](./docs/energy-meter.md)
+- [家庭电路](./models/energy-meter.html) — 分支功率、白炽灯升温、两类电能表和氖管式试电笔 · [案例说明](./docs/energy-meter.md)
 
 </details>
 

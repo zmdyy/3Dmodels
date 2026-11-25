@@ -32,10 +32,10 @@ window.MODEL_CATALOG = [
 },
 {
   "id": "energy-meter",
-  "title": "电能表 · 电子式与机械式",
-  "subtitle": "累计用电量 · 家庭分支电路 · 氖管式试电笔",
+  "title": "家庭电路",
+  "subtitle": "分支功率 · 电子式与机械式电能表 · 氖管式试电笔",
   "category": "家庭电路",
-  "summary": "切换两种电能表，操作家庭电路，观察累计电量、脉冲计数与铝盘转动。可查看元件接线和氖管式试电笔的内部结构。",
+  "summary": "操作照明、插座与空调支路，比较各负载功率与总功率。切换两种电能表，观察红色脉冲指示、铝盘转动、白炽灯升温与元件内部接线。",
   "tags": [
     "家庭电路",
     "电能表",
@@ -53,8 +53,8 @@ window.MODEL_CATALOG = [
     "Three.js",
     "离线"
   ],
-  "path": "models/energy-meter.html?v=20261117",
-  "cover": "assets/covers/energy-meter-scene.jpg",
+  "path": "models/energy-meter.html?v=20261125-household-circuit",
+  "cover": "assets/covers/energy-meter-scene.jpg?v=20261125-household-circuit",
   "symbol": "表",
   "accent": "blue"
 },
