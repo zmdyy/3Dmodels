@@ -1,5 +1,17 @@
 window.MODEL_CATALOG = [
 {
+  "id": "refrigerator-refrigeration",
+  "title": "冰箱把热送到哪里？",
+  "subtitle": "制冷循环 · 压缩机簧片 · 水与霜",
+  "category": "热学实验",
+  "summary": "跟随制冷剂经过毛细管、蒸发器、压缩机和冷凝器，观察汽化吸热与液化放热。原位剖视可看活塞和进排气簧片开合，点击管内物态图可对照三种制冷剂的压强、沸点和熔点。",
+  "tags": ["冰箱", "制冷剂", "物态变化", "汽化", "液化", "压缩机", "热传递", "凝华"],
+  "path": "models/refrigerator-refrigeration.html",
+  "cover": "assets/covers/refrigerator-refrigeration-scene.jpg",
+  "symbol": "冷",
+  "accent": "blue"
+},
+{
   "id": "energy-meter",
   "title": "电能表 · 电子式与机械式",
   "subtitle": "累计用电量 · 家庭分支电路 · 氖管式试电笔",
