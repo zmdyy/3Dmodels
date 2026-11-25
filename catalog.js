@@ -1,5 +1,24 @@
 window.MODEL_CATALOG = [
 {
+  "id": "cartesian-diver",
+  "title": "浮沉子 · 定量探究实验",
+  "subtitle": "气体压缩 · 进出水 · 浮力与排水体积",
+  "category": "力学实验",
+  "summary": "挤压密封塑料瓶，观察浮沉子内气体压缩、进出水和浮沉运动。支持剖切、镜头跟随、双指缩放及平移、橙色水流箭头、气体示踪与实际排水区域高亮；独立计算浮力、重力与排水体积，实时曲线和 CSV 导出。单文件离线运行，瓶身形变和水流箭头为教学示意。",
+  "tags": [
+    "浮力",
+    "浮沉子",
+    "气压",
+    "排水体积",
+    "阿基米德原理",
+    "离线"
+  ],
+  "path": "models/cartesian-diver.html?v=20261125-v9-touch",
+  "cover": "assets/covers/cartesian-diver-scene.jpg?v=20261125-v9-touch",
+  "symbol": "浮",
+  "accent": "blue"
+},
+{
   "id": "refrigerator-refrigeration",
   "title": "冰箱把热送到哪里？",
   "subtitle": "制冷循环 · 压缩机簧片 · 水与霜",
