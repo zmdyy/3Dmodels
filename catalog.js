@@ -1417,7 +1417,7 @@ window.MODEL_CATALOG = [
     "title": "光的反射与折射",
     "subtitle": "平面实验、光路可逆与空间拓展",
     "category": "光学现象",
-    "summary": "切换亚克力和水，拖动激光笔比较空气入射和材料内部入射。观察两次折射、光路可逆、全反射与空间光路，记录数据并导出 SVG。",
+    "summary": "切换亚克力、水和低折射率介质，拖动激光笔比较两侧入射。翻折刻度盘观察光迹，也可探究光路可逆、全反射与空间光路。",
     "tags": [
       "光的反射",
       "光的折射",
@@ -1425,7 +1425,7 @@ window.MODEL_CATALOG = [
       "光路可逆",
       "三线共面"
     ],
-    "path": "models/reflection-refraction.html?v=20261126-water-refraction",
+    "path": "models/reflection-refraction.html?v=20261126-plasma-fold",
     "symbol": "↗",
     "accent": "green"
   },

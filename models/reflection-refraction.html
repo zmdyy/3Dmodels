@@ -51,36 +51,37 @@ header h1{font-size:22px;margin:0;line-height:1.2}
 @media(max-width:760px){header{padding:5px 10px}header h1{font-size:20px}}
 /* Reflection controls: visible actions, quieter display options. */
 .reflection-only{display:none}
-body[data-mode="reflect"] .reflection-only{display:block}
-body[data-mode="reflect"] .controls{padding:12px}
-body[data-mode="reflect"] .control-group{padding:11px 12px;border:1px solid #d8e5df;border-radius:10px;margin-bottom:10px;background:#fbfdfb}
-body[data-mode="reflect"] .group-title{font-size:14px;font-weight:750;color:#294844;margin-bottom:9px}
-body[data-mode="reflect"] .angle-group{background:#f0f8f5;border-color:#b8d8ce}
-body[data-mode="reflect"] .anglevalue input{background:#fff;border:1px solid #8cbfb2;border-radius:6px;padding:3px 6px;width:87px}
-body[data-mode="reflect"] #angle{height:28px;cursor:pointer}
-body[data-mode="reflect"] .presets{display:flex;gap:6px;margin-top:8px}
-body[data-mode="reflect"] .presets button{flex:1;font-size:14px;min-height:34px;font-weight:650;border-color:#b5cfc5}
-body[data-mode="reflect"] #sideControls{display:flex;align-items:center;gap:6px;width:100%}
-body[data-mode="reflect"] #sideControls .small{font-size:12px;white-space:nowrap}
-body[data-mode="reflect"] #sideControls button{flex:1;min-height:34px;font-size:13px}
-body[data-mode="reflect"] .fold-group{background:#fffcf5;border-color:#e5d4af}
-body[data-mode="reflect"] #foldToggle{width:100%;min-height:40px;border-color:#b88532;color:#80551b;background:#fff7e6;font-size:15px;font-weight:750}
-body[data-mode="reflect"] #foldToggle.active{color:#fff;background:#946921;border-color:#946921}
-body[data-mode="reflect"] .fold-settings{display:grid;grid-template-columns:1fr 1fr;background:transparent;padding:0;margin-top:10px;gap:8px}
-body[data-mode="reflect"] .fold-settings>label{grid-column:1/-1;justify-content:space-between;font-size:14px}
-body[data-mode="reflect"] #foldAngle{grid-column:1/-1;width:100%;min-width:0;height:25px;cursor:pointer}
-body[data-mode="reflect"] .fold-settings button{min-height:36px;font-size:14px;font-weight:650;border-color:#d4bd8d}
-body[data-mode="reflect"] .path-controls{padding:11px 12px;margin-top:0;border:1px solid #cbdce4;background:#f2f7fa;border-radius:10px}
-body[data-mode="reflect"] .path-controls>span{font-size:14px;margin-bottom:9px;color:#294844}
-body[data-mode="reflect"] .path-controls button{min-height:39px;font-size:13px;font-weight:650;border-color:#9dbdce}
-body[data-mode="reflect"] .path-controls button.active{background:#176b8c;border-color:#176b8c}
-body[data-mode="reflect"] .display-title{margin:12px 0 5px;font-size:12px;color:#60777a}
-body[data-mode="reflect"] .settings{margin-top:0;gap:12px}
-body[data-mode="reflect"] .settings label{font-size:13px}
-body[data-mode="reflect"] .control-panel{max-height:calc(100dvh - 235px)}
-body[data-mode="reflect"] .control-panel #record{flex:1 1 100%;font-size:16px;min-height:44px}
-body[data-mode="reflect"] .control-panel #exportSVG{background:#f5f8fa;color:#31586c;border:1px solid #ccdde4;box-shadow:none;min-height:34px;font-size:13px}
-@media(max-height:740px){body[data-mode="reflect"] .control-panel{max-height:calc(100dvh - 200px)}body[data-mode="reflect"] .control-group{padding:8px 10px;margin-bottom:8px}body[data-mode="reflect"] .controls{padding:9px}}
+body:is([data-mode="reflect"],[data-mode="refract"]) .reflection-only{display:block}
+body:is([data-mode="reflect"],[data-mode="refract"]) .controls{padding:12px}
+body:is([data-mode="reflect"],[data-mode="refract"]) .control-group{padding:11px 12px;border:1px solid #d8e5df;border-radius:10px;margin-bottom:10px;background:#fbfdfb}
+body:is([data-mode="reflect"],[data-mode="refract"]) .group-title{font-size:14px;font-weight:750;color:#294844;margin-bottom:9px}
+body:is([data-mode="reflect"],[data-mode="refract"]) .angle-group{background:#f0f8f5;border-color:#b8d8ce}
+body:is([data-mode="reflect"],[data-mode="refract"]) .anglevalue input{background:#fff;border:1px solid #8cbfb2;border-radius:6px;padding:3px 6px;width:87px}
+body:is([data-mode="reflect"],[data-mode="refract"]) #angle{height:28px;cursor:pointer}
+body:is([data-mode="reflect"],[data-mode="refract"]) .presets{display:flex;flex-wrap:wrap;gap:6px;margin-top:8px}
+body:is([data-mode="reflect"],[data-mode="refract"]) .presets button{flex:1 0 auto;font-size:14px;min-height:34px;font-weight:650;border-color:#b5cfc5}
+body:is([data-mode="reflect"],[data-mode="refract"]) #sideControls{display:flex;align-items:center;gap:6px;width:100%}
+body:is([data-mode="reflect"],[data-mode="refract"]) #sideControls .small{font-size:12px;white-space:nowrap}
+body:is([data-mode="reflect"],[data-mode="refract"]) #sideControls button{flex:1;min-height:34px;font-size:13px}
+body:is([data-mode="reflect"],[data-mode="refract"]) .fold-group{background:#fffcf5;border-color:#e5d4af}
+body:is([data-mode="reflect"],[data-mode="refract"]) #foldToggle{width:100%;min-height:40px;border-color:#b88532;color:#80551b;background:#fff7e6;font-size:15px;font-weight:750}
+body:is([data-mode="reflect"],[data-mode="refract"]) #foldToggle.active{color:#fff;background:#946921;border-color:#946921}
+body:is([data-mode="reflect"],[data-mode="refract"]) .fold-settings{display:grid;grid-template-columns:1fr 1fr;background:transparent;padding:0;margin-top:10px;gap:8px}
+body:is([data-mode="reflect"],[data-mode="refract"]) .fold-settings>label{grid-column:1/-1;justify-content:space-between;font-size:14px}
+body:is([data-mode="reflect"],[data-mode="refract"]) #foldAngle{grid-column:1/-1;width:100%;min-width:0;height:25px;cursor:pointer}
+#foldNote{grid-column:1/-1;margin:0;color:#654d28;line-height:1.5}
+body:is([data-mode="reflect"],[data-mode="refract"]) .fold-settings button{min-height:36px;font-size:14px;font-weight:650;border-color:#d4bd8d}
+body:is([data-mode="reflect"],[data-mode="refract"]) .path-controls{padding:11px 12px;margin-top:0;border:1px solid #cbdce4;background:#f2f7fa;border-radius:10px}
+body:is([data-mode="reflect"],[data-mode="refract"]) .path-controls>span{font-size:14px;margin-bottom:9px;color:#294844}
+body:is([data-mode="reflect"],[data-mode="refract"]) .path-controls button{min-height:39px;font-size:13px;font-weight:650;border-color:#9dbdce}
+body:is([data-mode="reflect"],[data-mode="refract"]) .path-controls button.active{background:#176b8c;border-color:#176b8c}
+body:is([data-mode="reflect"],[data-mode="refract"]) .display-title{margin:12px 0 5px;font-size:12px;color:#60777a}
+body:is([data-mode="reflect"],[data-mode="refract"]) .settings{margin-top:0;gap:12px}
+body:is([data-mode="reflect"],[data-mode="refract"]) .settings label{font-size:13px}
+body:is([data-mode="reflect"],[data-mode="refract"]) .control-panel{max-height:calc(100dvh - 235px)}
+body:is([data-mode="reflect"],[data-mode="refract"]) .control-panel #record{flex:1 1 100%;font-size:16px;min-height:44px}
+body:is([data-mode="reflect"],[data-mode="refract"]) .control-panel #exportSVG{background:#f5f8fa;color:#31586c;border:1px solid #ccdde4;box-shadow:none;min-height:34px;font-size:13px}
+@media(max-height:740px){body:is([data-mode="reflect"],[data-mode="refract"]) .control-panel{max-height:calc(100dvh - 200px)}body:is([data-mode="reflect"],[data-mode="refract"]) .control-group{padding:8px 10px;margin-bottom:8px}body:is([data-mode="reflect"],[data-mode="refract"]) .controls{padding:9px}}
 </style>
 </head>
 <body>
@@ -95,15 +96,15 @@ body[data-mode="reflect"] .control-panel #exportSVG{background:#f5f8fa;color:#31
 <aside class="right">
 <section class="panel control-panel"><div class="control-scroll"><div class="controls"><div class="space-kind" id="spaceKindControls" hidden><button id="spaceReflect" class="active">空间反射</button><button id="spaceRefract">空间折射</button></div><div class="control-group angle-group"><div class="group-title reflection-only">调节入射光</div><div class="angleline"><strong id="angleCaption">入射角 i（与法线夹角）</strong><label class="anglevalue"><input id="angleNumber" type="number" min="0" max="85" step="0.1" value="45" aria-label="入射角数值">°</label></div><input class="range" id="angle" type="range" min="0" max="85" step="0.1" value="45" aria-label="入射角"><div class="rangelabels"><span>0° · 垂直入射</span><span>85° · 接近掠入射</span></div>
 <div class="presets"><button data-angle="0">0°</button><button data-angle="30">30°</button><button data-angle="45">45°</button><button data-angle="60">60°</button><button id="criticalBelow">临界角 − 1°</button><button id="critical">临界角</button><button id="criticalAbove">临界角 + 1°</button></div>
-<div class="optionsrow"><div id="sideControls"><span class="small" id="sideCaption">入射侧</span><button id="sideLeft" class="active">法线左侧</button><button id="sideRight">法线右侧</button></div></div></div><div class="control-group fold-group"><div class="group-title reflection-only">观察反射光迹</div><button id="foldToggle">翻折刻度盘</button><div class="fold-settings" id="foldSettings" hidden><label>向后翻折 <strong id="foldValue">0°</strong></label><input id="foldAngle" type="range" min="0" max="80" step="1" value="0" aria-label="接光盘向后翻折角"><button id="foldBack">翻折 65°</button><button id="foldFlat">恢复平整</button></div></div>
+<div class="optionsrow"><div id="sideControls"><span class="small" id="sideCaption">入射侧</span><button id="sideLeft" class="active">法线左侧</button><button id="sideRight">法线右侧</button></div></div></div><div class="control-group fold-group" id="foldGroup"><div class="group-title" id="foldTitle">观察反射光迹</div><button id="foldToggle">翻折刻度盘</button><div class="fold-settings" id="foldSettings" hidden><label>向后翻折 <strong id="foldValue">0°</strong></label><input id="foldAngle" type="range" min="0" max="80" step="1" value="0" aria-label="接光盘向后翻折角"><button id="foldBack">翻折 65°</button><button id="foldFlat">恢复平整</button><p id="foldNote" hidden>接光盘已移开，光的传播方向不变。</p></div></div></div>
 <div class="path-controls"><span>光路可逆 <small id="pathStatus">单支激光笔</small></span><div><button id="pathForward" class="active">原光源 A 入射</button><button id="pathBackward">验证光路可逆</button></div></div>
 
 <div class="space-settings" id="spaceSettings" hidden><label>光源方位角 φ <strong id="azimuthValue">0°</strong></label><input id="azimuth" type="range" min="0" max="360" step="1" value="0" aria-label="空间光源方位角"><label><input id="showPlane" type="checkbox">显示入射平面</label></div>
-<div class="group-title reflection-only display-title">显示设置</div><div class="settings"><label id="materialLabel">透明材料 <select id="material"><option value="1.49">亚克力 PMMA · n = 1.490</option><option value="1.333">水 · n = 1.333</option></select></label><label id="shapeLabel">形状 <select id="blockShape"><option value="semi">半圆块／半球块</option><option value="rect">长方体</option></select></label><label><input id="normal" type="checkbox" checked>法线与角度</label><label><input id="labels" type="checkbox" checked>器材标注</label><label id="powerLabel"><input id="power" type="checkbox">强化功率比例线宽</label></div>
+<div class="group-title reflection-only display-title">显示设置</div><div class="settings"><label id="materialLabel">透明材料 <select id="material"><option value="1.49">亚克力 PMMA · n = 1.490</option><option value="1.333">水 · n = 1.333</option><option value="0.8">等离子体（示意）· n = 0.800</option></select></label><label id="shapeLabel">形状 <select id="blockShape"><option value="semi">半圆块／半球块</option><option value="rect">长方体</option></select></label><label><input id="normal" type="checkbox" checked>法线与角度</label><label><input id="labels" type="checkbox" checked>器材标注</label><label id="powerLabel"><input id="power" type="checkbox">强化功率比例线宽</label></div>
 </div></div><div class="actionrow"><button id="reverse">切换：透明块 → 空气</button><button id="record">＋ 记录本次数据</button><button id="exportSVG">↓ 导出 SVG</button></div></section>
 <section class="panel record-panel" id="records"><div class="panelhead"><h2>实验数据记录</h2><span class="small" id="recordCount">0 组</span></div><div class="tablewrap" id="recordScroll"><table id="recordTable" hidden><thead><tr><th>实验 / 介质</th><th>i</th><th>r</th><th>t</th><th>现象</th></tr></thead><tbody id="recordBody"></tbody></table><div class="empty" id="empty">调节入射角，点击上方“记录本次数据”。<br>数据在此直接显示，便于比较。</div></div><div class="record-footer"><button id="exportCSV">导出记录 CSV</button><button id="clearRecords">清空记录</button></div></section>
 </aside></div>
-<dialog class="info-dialog" id="infoDialog"><div class="panelhead"><h2>器材依据与模型说明</h2><button id="closeInfo">关闭</button></div><div class="info-body"><p>选用刻度光学圆盘、狭缝光源、前表面平面镜、可更换半圆透明块。这一组合可在同一装置上完成反射、折射和全反射实验。造型参考真实教学器材，尺寸按课堂演示需要调整。</p><ul><li>平面镜：银色前表面反射层、铝质背板与哑光支座。反射方向由 r = i 计算；金属镜面能量损耗不在本模型中估算。</li><li>刻度盘：白色漫反射表面、金属圆边、深色支架。半圆亚克力块或水槽：带厚度和边缘高光；所有面、刻度、光线均为三维坐标投影生成的 SVG，可旋转观察。</li><li>n 采用可见光常用近似值：空气 1.000，PMMA 1.490，水 1.333。水装在薄壁透明槽内，模型忽略槽壁对光路的影响。狭缝单色光；红、黄、蓝为路径区分色，不表示光在界面处改变颜色。透明材料的折射率与真实波长、温度有关，本案例固定 n。</li><li>平面界面采用斯涅尔定律与非偏振光菲涅耳功率反射率，T = 1 − R。无吸收、表面理想平滑；曲面沿半径入射，不改变方向。图中只追踪主光路，忽略曲面弱反射与多次反射。临界角处 t = 90°、平面界面透射功率为零，蓝色虚线只标示极限方向。</li><li>三维材质采用 SVG 表面明暗、透明叠加、视角相关高光与矢量细纹模拟；光线位置与方向由几何光学计算。光线和箭头经过视觉增强，空气中的光束是教学辅助显示。折射实验默认按计算所得反射、透射功率调整光路明暗与粗细；为便于投屏，弱光保留少量可见度，显示亮度并非实测光功率。平面镜未计算场景的镜面成像。</li><li>为便于观察，光路上方覆盖的透明面适度淡化。三维旋转采用正交投影，避免转动时近大远小干扰角度判断；测量应使用俯视图；右侧可调节实验参数并记录当前发光端的测量数据。</li></ul><p>新增空间反射场景按提供的实物照片重建：薄壁透明半球罩、木质底板、水平前表面镜、绿色斜射激光、红色法线参考激光及金属支架。镜面中心与半球球心重合，主光线沿球半径通过罩壁，方向不变；忽略罩壁弱反射。绿色两束光是同一入射光的反射，红色是独立辅助光。罩内少量散射介质使光束可见；此处以矢量高光模拟可见光束。反射向量按 dᵣ = d − 2(d·n)n 计算，方位角可转动 360°。折叠盘沿法线铰接，反射侧的接光半盘向后转动，主光路始终由原始镜面计算，不跟随纸板弯折。通过观察光迹与记录数据进行探究。</p><p>可逆演示：刻度盘实验只使用一支激光笔；关闭后沿盘边移至原出射端，原光路以黑色虚线保留，再逐步显示反向光路。动画为教学慢动作示意。独立空间实验仍使用两端固定光源 A、B。B 沿 A 原有的反射或折射出射方向瞄准界面中心。切换 B 时重新计算反射向量；折射演示还交换 n₁、n₂，以原折射角作为新的入射角。调节条保留 A 的设定角，记录表保存当前发光端的实际角度。全反射与临界状态使用反射端 B，不假设存在可传递功率的折射光。零度反射时两端共线，共用同一位置。</p><p>长方体：完整追踪空气→材料→空气的主光路，并在进入和出射处分别显示法线。反向光源 B 沿实际出射方向照回，读数对应 B 首次进入材料的界面；原始入射角设置保留作对照。未追踪两界面的弱多次反射。全反射探究保留沿半径入射的半圆块。</p><p>空间折射：将空心罩与镜面换为亚克力半球或盛水半球槽，水平平面是空气与介质的界面。半球球心位于入射点，主折射光沿半径穿出球面，在曲面不改变方向。镜面反射和介质折射都按三维单位向量计算，半球模型假设材料均匀且表面理想；可见光路采用教学颜色。空间折射的 B 位于曲面外，反向发光后先沿半径进入材料，再到达水平界面。</p><p>器材与物理来源：<br><a target="_blank" rel="noopener" href="https://www.pasco.com/resources/lab-experiments/1487">PASCO · Reversibility</a><br><a target="_blank" rel="noopener" href="https://openstax.org/books/physics/pages/16-2-refraction">OpenStax · Refraction / Reversible paths</a><br><a target="_blank" rel="noopener" href="https://sciencedemonstrations.fas.harvard.edu/presentations/optics-disk">Harvard · Optics Disk</a><br><a target="_blank" rel="noopener" href="https://www.pasco.com/products/lab-apparatus/light-and-optics/basic-optics/basic-optics-ray-table">PASCO · Basic Optics Ray Table</a><br><a target="_blank" rel="noopener" href="https://openstax.org/books/university-physics-volume-3/pages/1-3-refraction">OpenStax · Refraction</a> / <a target="_blank" rel="noopener" href="https://openstax.org/books/university-physics-volume-3/pages/1-4-total-internal-reflection">Total Internal Reflection</a><br><a target="_blank" rel="noopener" href="https://www.rp-photonics.com/fresnel_equations.html">RP Photonics · Fresnel Equations</a><br><a target="_blank" rel="noopener" href="https://opg.optica.org/ao/abstract.cfm?uri=ao-39-13-2067">Applied Optics · Optical plastic refractive measurements (2000)</a></p></div></dialog>
+<dialog class="info-dialog" id="infoDialog"><div class="panelhead"><h2>器材依据与模型说明</h2><button id="closeInfo">关闭</button></div><div class="info-body"><p>选用刻度光学圆盘、狭缝光源、前表面平面镜、可更换半圆透明块。这一组合可在同一装置上完成反射、折射和全反射实验。造型参考真实教学器材，尺寸按课堂演示需要调整。</p><ul><li>平面镜：银色前表面反射层、铝质背板与哑光支座。反射方向由 r = i 计算；金属镜面能量损耗不在本模型中估算。</li><li>刻度盘：白色漫反射表面、金属圆边、深色支架。半圆亚克力块或水槽：带厚度和边缘高光；所有面、刻度、光线均为三维坐标投影生成的 SVG，可旋转观察。</li><li>n 采用可见光常用近似值：空气 1.000，PMMA 1.490，水 1.333。水装在薄壁透明槽内，模型忽略槽壁对光路的影响。狭缝单色光；红、黄、蓝为路径区分色，不表示光在界面处改变颜色。透明材料的折射率与真实波长、温度有关，本案例固定 n。等离子体选项演示高于等离子体频率的电磁波，取 n = 0.800 便于观察，仅使用曲边样品；画面中的激光笔和颜色沿用光路示意。</li><li>平面界面采用斯涅尔定律与非偏振光菲涅耳功率反射率，T = 1 − R。无吸收、表面理想平滑；曲面沿半径入射，不改变方向。图中只追踪主光路，忽略曲面弱反射与多次反射。临界角处 t = 90°、平面界面透射功率为零，蓝色虚线只标示极限方向。</li><li>三维材质采用 SVG 表面明暗、透明叠加、视角相关高光与矢量细纹模拟；光线位置与方向由几何光学计算。光线和箭头经过视觉增强，空气中的光束是教学辅助显示。折射实验默认按计算所得反射、透射功率调整光路明暗与粗细；为便于投屏，弱光保留少量可见度，显示亮度并非实测光功率。平面镜未计算场景的镜面成像。</li><li>为便于观察，光路上方覆盖的透明面适度淡化。三维旋转采用正交投影，避免转动时近大远小干扰角度判断；测量应使用俯视图；右侧可调节实验参数并记录当前发光端的测量数据。</li></ul><p>新增空间反射场景按提供的实物照片重建：薄壁透明半球罩、木质底板、水平前表面镜、绿色斜射激光、红色法线参考激光及金属支架。镜面中心与半球球心重合，主光线沿球半径通过罩壁，方向不变；忽略罩壁弱反射。绿色两束光是同一入射光的反射，红色是独立辅助光。罩内少量散射介质使光束可见；此处以矢量高光模拟可见光束。反射向量按 dᵣ = d − 2(d·n)n 计算，方位角可转动 360°。折叠盘沿法线铰接，反射侧的接光半盘绕法线向后转动。翻折后盘面光迹消失，光的传播方向由固定的界面决定。在「02 透明块折射」中，透明介质也保持原位。通过观察光迹与记录数据进行探究。</p><p>可逆演示：刻度盘实验只使用一支激光笔；关闭后沿盘边移至原出射端，原光路以黑色虚线保留，再逐步显示反向光路。动画为教学慢动作示意。独立空间实验仍使用两端固定光源 A、B。B 沿 A 原有的反射或折射出射方向瞄准界面中心。切换 B 时重新计算反射向量；折射演示还交换 n₁、n₂，以原折射角作为新的入射角。调节条保留 A 的设定角，记录表保存当前发光端的实际角度。全反射与临界状态使用反射端 B，不假设存在可传递功率的折射光。零度反射时两端共线，共用同一位置。</p><p>长方体：完整追踪空气→材料→空气的主光路，并在进入和出射处分别显示法线。反向光源 B 沿实际出射方向照回，读数对应 B 首次进入材料的界面；原始入射角设置保留作对照。未追踪两界面的弱多次反射。全反射探究保留沿半径入射的半圆块。</p><p>空间折射：将空心罩与镜面换为亚克力半球或盛水半球槽，水平平面是空气与介质的界面。半球球心位于入射点，主折射光沿半径穿出球面，在曲面不改变方向。镜面反射和介质折射都按三维单位向量计算，半球模型假设材料均匀且表面理想；可见光路采用教学颜色。空间折射的 B 位于曲面外，反向发光后先沿半径进入材料，再到达水平界面。</p><p>器材与物理来源：<br><a target="_blank" rel="noopener" href="https://farside.ph.utexas.edu/teaching/em/lectures/node100.html">UT Austin · Dielectric Constant of a Plasma</a><br><a target="_blank" rel="noopener" href="https://www.pasco.com/resources/lab-experiments/1487">PASCO · Reversibility</a><br><a target="_blank" rel="noopener" href="https://openstax.org/books/physics/pages/16-2-refraction">OpenStax · Refraction / Reversible paths</a><br><a target="_blank" rel="noopener" href="https://sciencedemonstrations.fas.harvard.edu/presentations/optics-disk">Harvard · Optics Disk</a><br><a target="_blank" rel="noopener" href="https://www.pasco.com/products/lab-apparatus/light-and-optics/basic-optics/basic-optics-ray-table">PASCO · Basic Optics Ray Table</a><br><a target="_blank" rel="noopener" href="https://openstax.org/books/university-physics-volume-3/pages/1-3-refraction">OpenStax · Refraction</a> / <a target="_blank" rel="noopener" href="https://openstax.org/books/university-physics-volume-3/pages/1-4-total-internal-reflection">Total Internal Reflection</a><br><a target="_blank" rel="noopener" href="https://www.rp-photonics.com/fresnel_equations.html">RP Photonics · Fresnel Equations</a><br><a target="_blank" rel="noopener" href="https://opg.optica.org/ao/abstract.cfm?uri=ao-39-13-2067">Applied Optics · Optical plastic refractive measurements (2000)</a></p></div></dialog>
 </main><div class="toast" id="toast" role="status"></div>
 <script>
 'use strict';
@@ -113,9 +114,16 @@ const $=id=>document.getElementById(id),D=Math.PI/180;
 const C={incident:'#e55532',reflected:'#bf6000',transmitted:'#147dcc',normal:'#202e30'};
 const S={shape:'semi',reversePath:false,spaceKind:'reflect',side:-1,fold:0,foldEnabled:false,azimuth:0,showPlane:false,matrix:null,mode:'refract',inside:false,angle:45,n:1.49,yaw:-.13,elev:.88,zoom:1,normal:true,labels:true,power:false,rows:[]};
 const RADIUS=3.02,BLOCK=1.75,Z=.19;
-const WATER_INDEX=1.333;
+const WATER_INDEX=1.333,PLASMA_INDEX=.8;
 function isWater(){return S.n===WATER_INDEX}
-function materialName(n){return n===1?'空气':n===WATER_INDEX?'水':'亚克力'}
+function isPlasma(){return S.n===PLASMA_INDEX}
+function materialName(n){return n===1?'空气':n===WATER_INDEX?'水':n===PLASMA_INDEX?'等离子体':'亚克力'}
+function sampleName(){
+ if(isPlasma())return '等离子体区域（示意）';
+ if(isRect())return isWater()?'长方体水槽':'亚克力长方体';
+ if(S.mode==='space')return isWater()?'半球水槽':'亚克力半球';
+ return isWater()?'半圆水槽':'半圆亚克力块';
+}
 function optics(i,n1,n2,mirror=false){
  const a=i*D,s=n1/n2*Math.sin(a),critical=n1>n2?Math.asin(n2/n1)/D:null;
  if(mirror)return {i,r:i,t:null,R:null,T:null,tir:false,critical:null,n1,n2,criticalState:false};
@@ -125,9 +133,12 @@ function optics(i,n1,n2,mirror=false){
  const R=Math.min(1,Math.max(0,(rs*rs+rp*rp)/2));
  return {i,r:i,t:t/D,R,T:1-R,tir:false,critical,n1,n2,criticalState:critical!==null&&Math.abs(i-critical)<1e-8};
 }
-function isRect(){return S.shape==='rect'&&(S.mode==='refract'||(S.mode==='space'&&S.spaceKind==='refract'))}
+function isRect(){return S.shape==='rect'&&!isPlasma()&&(S.mode==='refract'||(S.mode==='space'&&S.spaceKind==='refract'))}
 function canCrossInterface(){return S.mode==='refract'&&!isRect()}
 function maxAngle(){return canCrossInterface()?89.9:85}
+function hasFoldControl(){return S.mode==='reflect'||S.mode==='refract'}
+function diskHingeZ(){return S.mode==='reflect'?Z:.027}
+function hasOutgoingTrace(){return !S.foldEnabled||S.fold<.05||(S.mode==='refract'&&S.angle<1e-8)}
 function isMirror(){return S.mode==='reflect'||(S.mode==='space'&&S.spaceKind==='reflect')}
 function basePhysics(){return optics(S.angle,S.mode!=='space'&&S.inside?S.n:1,S.mode!=='space'&&S.inside?1:S.n,isMirror())}
 function reverseUsesTransmission(){if(isRect())return true;const b=basePhysics();return !isMirror()&&b.t!==null&&!b.criticalState&&b.T>1e-10}
@@ -236,7 +247,7 @@ function halfPlate(radius,z,height,color,opt={}){
 }
 function buildScene(){if(S.mode==='space')return S.spaceKind==='refract'?buildSpaceRefraction():buildSpace();solids=[];details=[];overlays=[];
  // Supporting instrument base: aluminium rim, coated metal housing, rubber feet.
- const half=S.mode==='reflect';
+ const half=S.mode==='reflect',hingeZ=diskHingeZ();
  if(S.foldEnabled){box(S.side*1.55,half?1.13:0,-.64,2.4,half?2.44:4.7,.18,'#485356',{metal:true});}else box(0,half?1.13:0,-.64,5.4,half?2.44:4.7,.18,'#485356',{metal:true});
  for(const x of (S.foldEnabled?[S.side*2.06,S.side*.5]:[-2.06,2.06]))for(const y of (half?[.35,1.92]:[-1.72,1.72]))cylinder(x,y,-.80,.24,.18,'#303938',24);
  if(!S.foldEnabled){if(half)halfPlate(2.38,-.43,.20,'#283b3a');else cylinder(0,0,-.43,2.38,.20,'#283b3a',96);}
@@ -245,8 +256,8 @@ function buildScene(){if(S.mode==='space')return S.spaceKind==='refract'?buildSp
   for(const side of [-1,1]){
    // Each upper quadrant includes the centre: the hinge is a radial edge,
    // rather than the diagonal chord that joins the arc endpoints.
-   const local=Array.from({length:97},(_,j)=>{let a=(half?0:-Math.PI/2)+j/96*(half?Math.PI/2:Math.PI);return[side*RADIUS*Math.cos(a),RADIUS*Math.sin(a),Z]});
-   if(half)local.unshift([0,0,Z]);
+   const local=Array.from({length:97},(_,j)=>{let a=(half?0:-Math.PI/2)+j/96*(half?Math.PI/2:Math.PI);return[side*RADIUS*Math.cos(a),RADIUS*Math.sin(a),hingeZ]});
+   if(half)local.unshift([0,0,hingeZ]);
    if(side<0)local.reverse();
    const rim=local.map(cardPoint),low=local.map(p=>cardPoint([p[0],p[1],p[2]-.025]));
    face(rim,'#f5f7ec',{fixed:true,stroke:'#7c8980',sw:1.2,attr:'data-role="fold-panel" data-side="'+side+'"'});
@@ -255,11 +266,11 @@ function buildScene(){if(S.mode==='space')return S.spaceKind==='refract'?buildSp
   }
  }else if(half){halfPlate(3.10,-.23,.16,'#a6b8b7',{metal:true});halfPlate(3.045,-.07,.08,'#fcfdf3');halfPlate(3.013,.011,.016,'#f8faf0',{fixed:true});}else{cylinder(0,0,-.23,3.10,.16,'#a6b8b7',128,{metal:true});cylinder(0,0,-.07,3.045,.08,'#fcfdf3',128);cylinder(0,0,.011,3.013,.016,'#f8faf0',128,{fixed:true});}
  solids.sort((a,b)=>a.depth-b.depth);const plateHTML=solids.map(x=>x.html).join('');solids=[];
- for(let d=0;d<360;d++){if(half&&d>90&&d<270)continue;let a=d*D,long=d%10===0,mid=d%5===0,r=long?2.70:mid?2.79:2.85,z=S.foldEnabled?Z+.006:.031;details.push(line3([[r*Math.sin(a),r*Math.cos(a),z],[2.94*Math.sin(a),2.94*Math.cos(a),z]].map(cardPoint),'#243230',long?2.1:mid?1.4:1.0));if(d%30===0){let theta=d%180;if(theta>90)theta=180-theta;details.push(text3(cardPoint([2.46*Math.sin(a),2.46*Math.cos(a),z+.005]),theta+'°','#172524',19,'font-weight="650"'))}}
- for(const r of [1.74,2.36,2.94]){let points=Array.from({length:121},(_,j)=>{let a=j/120*(half?Math.PI:2*Math.PI);return cardPoint([r*Math.cos(a),r*Math.sin(a),S.foldEnabled?Z+.006:.03])});details.push(line3(points,'#88968b',r===2.94?1.3:.6));}
- let dz=S.foldEnabled?Z+.008:.035;
+ for(let d=0;d<360;d++){if(half&&d>90&&d<270)continue;let a=d*D,long=d%10===0,mid=d%5===0,r=long?2.70:mid?2.79:2.85,z=S.foldEnabled?hingeZ+.006:.031;details.push(line3([[r*Math.sin(a),r*Math.cos(a),z],[2.94*Math.sin(a),2.94*Math.cos(a),z]].map(cardPoint),'#243230',long?2.1:mid?1.4:1.0));if(d%30===0){let theta=d%180;if(theta>90)theta=180-theta;details.push(text3(cardPoint([2.46*Math.sin(a),2.46*Math.cos(a),z+.005]),theta+'°','#172524',19,'font-weight="650"'))}}
+ for(const r of [1.74,2.36,2.94]){let points=Array.from({length:121},(_,j)=>{let a=j/120*(half?Math.PI:2*Math.PI);return cardPoint([r*Math.cos(a),r*Math.sin(a),S.foldEnabled?hingeZ+.006:.03])});details.push(line3(points,'#88968b',r===2.94?1.3:.6));}
+ let dz=S.foldEnabled?hingeZ+.008:.035;
  details.push(line3([[-3.02,0,dz],[0,0,dz],[3.02,0,dz]].map(cardPoint),'#43514a',1.5),line3([[0,S.mode==='reflect'?0:-3.02,dz],[0,3.02,dz]],'#303e36',1.25));
- if(S.foldEnabled)details.push(line3([[0,half?0:-3.02,Z-.01],[0,3.02,Z-.01]],'#637575',2.5,'data-role="hinge"'));
+ if(S.foldEnabled)details.push(line3([[0,half?0:-3.02,hingeZ-.01],[0,3.02,hingeZ-.01]],'#637575',2.5,'data-role="hinge"'));
  const diskHTML=details.join('');details=[];
  const g=geometry(),{p,sign,i,O,source,entry,refEnd,transEnd}=g;
  if(S.mode==='reflect'){
@@ -283,9 +294,9 @@ function buildScene(){if(S.mode==='space')return S.spaceKind==='refract'?buildSp
   const lower=Array.from({length:65},(_,j)=>[BLOCK*Math.cos(j/64*Math.PI),-BLOCK*Math.sin(j/64*Math.PI),.032]),upper=lower.map(p=>[p[0],p[1],.45]);
   details.push(`<path d="${path3(lower.map(p=>[p[0]+.015,p[1]-.018,.031]),true)}" fill="#265f62" opacity=".10"/>`);
   face([...lower].reverse(),'#b6e3de',{fixed:true,alpha:.23,stroke:'#438b91',sw:.8});
-  for(let j=0;j<64;j++)face([lower[j],lower[j+1],upper[j+1],upper[j]],isWater()?'#8cbeca':'#90c8c3',{alpha:.48,stroke:'none',sw:0});
+  for(let j=0;j<64;j++)face([lower[j],lower[j+1],upper[j+1],upper[j]],isPlasma()?'#a7a8d8':isWater()?'#8cbeca':'#90c8c3',{alpha:.48,stroke:'none',sw:0});
   face([lower[64],lower[0],upper[0],upper[64]],'#b9e6e1',{fixed:true,alpha:.28,stroke:'#377f86',sw:1});
-  face(upper,'url(#solid-polymer)',{fixed:true,alpha:.35,stroke:'#3b8991',sw:1.6,attr:'data-role="solid-polymer"'});
+  face(upper,isPlasma()?'#a7a8d8':'url(#solid-polymer)',{fixed:true,alpha:.35,stroke:'#3b8991',sw:1.6,attr:'data-role="solid-polymer"'});
   details.push(line3(upper,'#ffffff',2,'opacity=".86"'),line3(lower,'#549b9e',1.2,'opacity=".66"'));
   if(isWater()){
    const rim=upper.map(([x,y,z])=>[x*1.025,y*1.025,z+.028]);
@@ -298,22 +309,22 @@ function buildScene(){if(S.mode==='space')return S.spaceKind==='refract'?buildSp
  drawClassicLight(g);
   if(S.normal&&isRect()){overlays.push(rectNormals(g));}
  else if(S.normal){overlays.push(line3([[0,S.mode==='reflect'?0:-2.36,Z+.008],[0,2.36,Z+.008]],C.normal,2.4,'stroke-dasharray="6 6" data-role="normal"'));
-  if(S.angle>.1&&(!demo||demo.phase==='done'||(demo.phase==='grow'&&demo.inc>=1))){let base=sign<0?Math.PI:0,hand=-Math.sign(source[0]||S.side);overlays.push(arc3(base,base-sign*i*hand,.48,Z+.02,C.incident,2));if(!S.foldEnabled||S.fold<.05)overlays.push(arc3(base,base+sign*i*hand,.72,Z+.02,C.reflected,2));if(p.t!==null)overlays.push(arc3(sign<0?0:Math.PI,sign<0?p.t*D*hand:Math.PI-p.t*D*hand,.48,Z+.02,C.transmitted,2));}
+  if(S.angle>.1&&(!demo||demo.phase==='done'||(demo.phase==='grow'&&demo.inc>=1))){let base=sign<0?Math.PI:0,hand=-Math.sign(source[0]||S.side);overlays.push(arc3(base,base-sign*i*hand,.48,Z+.02,C.incident,2));if(hasOutgoingTrace())overlays.push(arc3(base,base+sign*i*hand,.72,Z+.02,C.reflected,2));if(hasOutgoingTrace()&&p.t!==null)overlays.push(arc3(sign<0?0:Math.PI,sign<0?p.t*D*hand:Math.PI-p.t*D*hand,.48,Z+.02,C.transmitted,2));}
   overlays.push(text3([.24,1.92,Z+.015],'法线',C.normal,19));
  }
  // White registration point stays visible through the transparent sample.
  let q=project(O);overlays.push(`<circle cx="${f(q[0])}" cy="${f(q[1])}" r="4.5" fill="#fff" stroke="#3a6261" stroke-width="1.6"/>`);
  if(S.labels){
   function label(anchor,target,name){let a=project(anchor),b=project(target);overlays.push(`<path d="M${f(a[0])},${f(a[1])}L${f(b[0])},${f(b[1]-7)}" fill="none" stroke="#7e9690" stroke-width="1"/><circle cx="${f(a[0])}" cy="${f(a[1])}" r="2.5" fill="#688a7f"/><text x="${f(b[0])}" y="${f(b[1]-12)}" fill="#345751" text-anchor="middle" font-size="14" font-family="system-ui,Microsoft YaHei,sans-serif" paint-order="stroke" stroke="#f6faf2" stroke-width="5" stroke-linejoin="round">${esc(name)}</text>`)}
-  label([1.04,-.5,S.mode==='reflect'?.38:.45],[2.37,-1.32,.8],S.mode==='reflect'?'前表面平面镜':isRect()?(isWater()?'长方体水槽':'亚克力长方体'):(isWater()?'半圆水槽':'半圆亚克力块'));
+  label([1.04,-.5,S.mode==='reflect'?.38:.45],[2.37,-1.32,.8],S.mode==='reflect'?'前表面平面镜':sampleName());
   label([-2.6,half?.5:-.72,.03],[-3.35,half?.45:-1.65,.6],half?'上半圆刻度盘':'白色刻度盘');
  }
  solids.sort((a,b)=>a.depth-b.depth);
  $('scene').innerHTML=`<defs>${polymerDefs()}<linearGradient id="mirror-silver" x1="0" y1="0" x2="${f(55+35*Math.sin(S.matrix[0]*2))}%" y2="100%"><stop stop-color="#eaf8fb"/><stop offset=".23" stop-color="#93b1bc"/><stop offset=".46" stop-color="#f6ffff"/><stop offset=".56" stop-color="#c3d8df"/><stop offset=".74" stop-color="#5f828f"/><stop offset="1" stop-color="#e2eef1"/></linearGradient><radialGradient id="floor"><stop stop-color="#38594b" stop-opacity=".18"/><stop offset="1" stop-color="#38594b" stop-opacity="0"/></radialGradient></defs><ellipse cx="500" cy="467" rx="380" ry="116" fill="url(#floor)"/>`+(S.matrix[8]>=0?baseHTML+plateHTML+diskHTML+solids.map(x=>x.html).join('')+details.join('')+overlays.join(''):solids.map(x=>x.html).join('')+details.join('')+plateHTML+baseHTML);
  return g;
 }
-function cardPoint(p){if(!S.foldEnabled||S.fold<.01||p[0]*(-S.side)<=0)return p;let a=-S.side*S.fold*D,c=Math.cos(a),s=Math.sin(a),z=p[2]-Z;return[p[0]*c+z*s,p[1],Z-p[0]*s+z*c]}
-function spaceGeometry(){if(isRect())return rectGeometry();const refract=S.spaceKind==='refract',O=refract?[0,0,2.2]:[0,0,.2],a=S.angle*D,phi=S.azimuth*D,N_A=[0,0,1],u=[Math.sin(a)*Math.cos(phi),Math.sin(a)*Math.sin(phi),Math.cos(a)],A=vadd(O,vmul(u,refract?2.7:3.45)),dA=vmul(u,-1),rA=reflectVector(dA,N_A),base=basePhysics(),tA=refract?refractVector(dA,N_A,1,S.n):null,useT=reverseUsesTransmission(),B=vadd(O,vmul(useT?tA:rA,refract?2.25:3.45)),p=physics(),N=S.reversePath&&useT?[0,0,-1]:N_A,source=S.reversePath?B:A,d=unit(vsub(O,source)),reflected=reflectVector(d,N),transmitted=refract?refractVector(d,N,p.n1,p.n2):null,L=refract?2.25:3.45;return {p,base,O,N,A,B,source,d,reflected,transmitted,refEnd:vadd(O,vmul(reflected,L)),transEnd:transmitted?vadd(O,vmul(transmitted,S.reversePath?2.7:L)):null,entry:vadd(O,vmul(u,refract?2.05:2.98)),normalSource:vadd(O,[0,0,refract?2.5:3.43]),useT,reference:{source:A,refEnd:vadd(O,vmul(rA,L)),transEnd:tA?vadd(O,vmul(tA,L)):null}}}
+function cardPoint(p){if(!S.foldEnabled||S.fold<.01||p[0]*(-S.side)<=0)return p;let a=-S.side*S.fold*D,c=Math.cos(a),s=Math.sin(a),hingeZ=diskHingeZ(),z=p[2]-hingeZ;return[p[0]*c+z*s,p[1],hingeZ-p[0]*s+z*c]}
+function spaceGeometry(){if(isRect())return rectGeometry();const refract=S.spaceKind==='refract',O=refract?[0,0,2.2]:[0,0,.2],a=S.angle*D,phi=S.azimuth*D,N_A=[0,0,1],u=[Math.sin(a)*Math.cos(phi),Math.sin(a)*Math.sin(phi),Math.cos(a)],A=vadd(O,vmul(u,refract?2.7:3.45)),dA=vmul(u,-1),rA=reflectVector(dA,N_A),base=basePhysics(),tA=refract?refractVector(dA,N_A,1,S.n):null,useT=reverseUsesTransmission(),B=vadd(O,vmul(useT?tA:rA,refract?2.25:3.45)),p=physics(),N=S.reversePath&&useT?[0,0,-1]:N_A,source=S.reversePath?B:A,d=unit(vsub(O,source)),reflected=reflectVector(d,N),transmitted=refract&&p.t!==null?refractVector(d,N,p.n1,p.n2):null,L=refract?2.25:3.45;return {p,base,O,N,A,B,source,d,reflected,transmitted,refEnd:vadd(O,vmul(reflected,L)),transEnd:transmitted?vadd(O,vmul(transmitted,S.reversePath?2.7:L)):null,entry:vadd(O,vmul(u,refract?2.05:2.98)),normalSource:vadd(O,[0,0,refract?2.5:3.43]),useT,reference:{source:A,refEnd:vadd(O,vmul(rA,L)),transEnd:tA?vadd(O,vmul(tA,L)):null}}}
 function tube3(a,b,r,color,opt={},segments=14){let axis=unit(vsub(b,a)),u=unit(cross(axis,Math.abs(axis[2])<.9?[0,0,1]:[0,1,0])),v=cross(axis,u),end=[a,b].map(c=>Array.from({length:segments},(_,j)=>vadd(c,vadd(vmul(u,r*Math.cos(j/segments*2*Math.PI)),vmul(v,r*Math.sin(j/segments*2*Math.PI))))));face([...end[0]].reverse(),color,opt);face(end[1],color,opt);for(let j=0;j<segments;j++)face([end[0][j],end[0][(j+1)%segments],end[1][(j+1)%segments],end[1][j]],color,opt)}
 function ring3(rOuter,rInner,z,h,color){for(let j=0;j<72;j++){let a=j/72*2*Math.PI,b=(j+1)/72*2*Math.PI,point=(r,t,zz)=>[r*Math.cos(t),r*Math.sin(t),zz];face([point(rOuter,a,z+h),point(rOuter,b,z+h),point(rInner,b,z+h),point(rInner,a,z+h)],color,{alpha:.42,metal:true});face([point(rOuter,a,z),point(rOuter,b,z),point(rOuter,b,z+h),point(rOuter,a,z+h)],color,{alpha:.4,metal:true})}}
 function laser3(front,direction,color,opt={}){const length=opt.length??.50,active=opt.active!==false,back=vadd(front,vmul(direction,length));tube3(front,back,.125,'#293835',{metal:true,attr:opt.attr||''},20);for(let j=1;j<5;j++){let a=vadd(front,vmul(direction,j*length/6)),b=vadd(a,vmul(direction,.023));tube3(a,b,.134,'#53645b',{metal:true,attr:opt.attr||''},20)}tube3(vsub(front,vmul(direction,.012)),vadd(front,vmul(direction,.018)),.084,active?color:'#586c61',{fixed:true,alpha:.9,attr:opt.attr||''},20);if(active){let p=project(front);details.push(`<circle cx="${f(p[0])}" cy="${f(p[1])}" r="5" fill="${color}" opacity=".34"/>`)}}
@@ -355,8 +366,8 @@ function classicEmitters(g){
 }
 function classicSegments(g){
  const incident=[{a:g.beamStart,b:g.O,color:C.incident,p:1}];
- const reflected=(!S.foldEnabled||S.fold<.05)?[{a:g.O,b:g.refEnd,color:C.reflected,p:g.p.R??1}]:[];
- const transmitted=g.rect?g.segments.slice(1).map((b,j)=>({a:g.segments[j],b,color:C.transmitted,p:j===0?g.p.T:g.p.T*g.secondP.T})):g.transEnd?[{a:g.O,b:g.transEnd,color:C.transmitted,p:g.p.T,dashed:g.p.criticalState}]:[];
+ const reflected=hasOutgoingTrace()?[{a:g.O,b:g.refEnd,color:C.reflected,p:g.p.R??1}]:[];
+ const transmitted=!hasOutgoingTrace()?[]:g.rect?g.segments.slice(1).map((b,j)=>({a:g.segments[j],b,color:C.transmitted,p:j===0?g.p.T:g.p.T*g.secondP.T})):g.transEnd?[{a:g.O,b:g.transEnd,color:C.transmitted,p:g.p.T,dashed:g.p.criticalState}]:[];
  return {incident,reflected,transmitted};
 }
 function drawRayGroup(group,progress=1){
@@ -454,8 +465,8 @@ function buildSpaceRefraction(){if(isRect())return buildRectSpace();solids=[];de
  for(const a of [Math.PI/2,Math.PI*7/6,Math.PI*11/6]){let x=2.18*Math.cos(a),y=2.18*Math.sin(a);cylinder(x,y,-.66,.18,.08,'#344a40',20);tube3([x,y,-.58],[x,y,O[2]],.036,'#8b9d94',{metal:true})}
  solids.sort((a,b)=>a.depth-b.depth);const bench=solids.map(x=>x.html).join('')+details.join('');solids=[];details=[];
  const point=(theta,a)=>[R*Math.sin(theta)*Math.cos(a),R*Math.sin(theta)*Math.sin(a),O[2]-R*Math.cos(theta)];
- for(let j=0;j<20;j++)for(let k=0;k<64;k++){let t=j/20*Math.PI/2,t2=(j+1)/20*Math.PI/2,a=k/64*2*Math.PI,a2=(k+1)/64*2*Math.PI,ps=[point(t,a),point(t2,a),point(t2,a2),point(t,a2)];if(j===0)ps=ps.slice(0,3);const nrm=unit(vsub(ps.reduce((a,b)=>vadd(a,b),[0,0,0]).map(x=>x/ps.length),O)),facing=Math.abs(dot(nrm,unit(S.matrix.slice(6,9))));face(ps,isWater()?'#69a6c0':'#63a99f',{fixed:true,alpha:.17+.18*(1-facing),stroke:'none',sw:0})}
- const flat=Array.from({length:100},(_,j)=>[R*Math.cos(j/100*2*Math.PI),R*Math.sin(j/100*2*Math.PI),O[2]]);face(flat,'url(#solid-polymer)',{fixed:true,alpha:.44,stroke:'#368078',sw:1.8,attr:'data-role="solid-polymer"'});
+ for(let j=0;j<20;j++)for(let k=0;k<64;k++){let t=j/20*Math.PI/2,t2=(j+1)/20*Math.PI/2,a=k/64*2*Math.PI,a2=(k+1)/64*2*Math.PI,ps=[point(t,a),point(t2,a),point(t2,a2),point(t,a2)];if(j===0)ps=ps.slice(0,3);const nrm=unit(vsub(ps.reduce((a,b)=>vadd(a,b),[0,0,0]).map(x=>x/ps.length),O)),facing=Math.abs(dot(nrm,unit(S.matrix.slice(6,9))));face(ps,isPlasma()?'#a7a8d8':isWater()?'#69a6c0':'#63a99f',{fixed:true,alpha:.17+.18*(1-facing),stroke:'none',sw:0})}
+ const flat=Array.from({length:100},(_,j)=>[R*Math.cos(j/100*2*Math.PI),R*Math.sin(j/100*2*Math.PI),O[2]]);face(flat,isPlasma()?'#a7a8d8':'url(#solid-polymer)',{fixed:true,alpha:.44,stroke:'#368078',sw:1.8,attr:'data-role="solid-polymer"'});
  solids.sort((a,b)=>a.depth-b.depth);const hullPoints=[];for(let j=0;j<=16;j++)for(let k=0;k<64;k++)hullPoints.push(point(j/16*Math.PI/2,k/64*2*Math.PI));const block=solidVolumeHull(hullPoints)+solids.map(x=>x.html).join('');solids=[];
  // Source B sits below the curved surface; its support stops below the glass.
  spaceStand(A,O,S.reversePath?'#71867d':'#20c872',!S.reversePath,-.59,2.87,.40);
@@ -465,7 +476,7 @@ function buildSpaceRefraction(){if(isRect())return buildRectSpace();solids=[];de
  let edges=circle3(R,O[2],'#4e8e84',1.7);for(const az of [-2.3,-.35])edges+=line3(Array.from({length:50},(_,j)=>point(j/49*Math.PI/2,az)),'#fbffff',az<-1?3.3:2,'opacity=".7"');
  const vd=unit(S.matrix.slice(6,9)),u=unit(cross(vd,Math.abs(vd[2])>.99?[0,1,0]:[0,0,1])),v=cross(vd,u);let contour=[];for(let j=0;j<=180;j++){let a=j/180*2*Math.PI,q=vadd(O,vmul(vadd(vmul(u,Math.cos(a)),vmul(v,Math.sin(a))),R));if(q[2]<=O[2]+.001)contour.push(q);else if(contour.length){edges+=line3(contour,'#5c9f95',1.4);contour=[]}}if(contour.length)edges+=line3(contour,'#5c9f95',1.4);
  let plane='';if(S.showPlane){let u=[Math.cos(S.azimuth*D),Math.sin(S.azimuth*D),0],ps=[vadd(vmul(u,-2.7),[0,0,-.45]),vadd(vmul(u,2.7),[0,0,-.45]),vadd(vmul(u,2.7),[0,0,4.6]),vadd(vmul(u,-2.7),[0,0,4.6])];plane=`<path d="${path3(ps,true)}" fill="#237c68" fill-opacity=".27" stroke="#266b59" stroke-width="1.8" stroke-dasharray="6 5"/>`}
- const light=spaceBeam(source,O,C.incident)+spaceBeam(O,refEnd,C.reflected,true,p.R)+(transEnd?spaceBeam(O,transEnd,C.transmitted,true,p.T):'')+(S.normal?(S.angle>.1?spaceBeam(normalSource,[0,0,-.60],'#fa2544',false):line3([normalSource,[0,0,-.60]],C.normal,2,'stroke-dasharray="6 6"')):'');
+ const light=spaceBeam(source,O,C.incident)+spaceBeam(O,refEnd,C.reflected,true,p.R)+(transEnd?(p.criticalState?ray3(O,transEnd,C.transmitted,0,true):spaceBeam(O,transEnd,C.transmitted,true,p.T)):'')+(S.normal?(S.angle>.1?spaceBeam(normalSource,[0,0,-.60],'#fa2544',false):line3([normalSource,[0,0,-.60]],C.normal,2,'stroke-dasharray="6 6"')):'');
  let arcs='';if(S.normal){arcs+=spatialAngleArc(O,g.N,vmul(g.d,-1),p.i,'i','#a04423',.58)+spatialAngleArc(O,g.N,g.reflected,p.r,'r','#88732d',.83);if(transEnd)arcs+=spatialAngleArc(O,vmul(g.N,-1),g.transmitted,p.t,'t','#12648e',.65)}
  let labels='';if(S.labels){labels+=text3([1.35,-1.22,3.10],'空气 n = 1.000','#294942',17)+text3([1.05,-.45,1.20],materialName(S.n)+' n = '+S.n.toFixed(3),'#215f61',17)+text3(vadd(A,[0,0,.40]),S.reversePath?'激光 A · 未开启':'激光 A · 发光','#294942',15)+text3(vadd(B,[0,0,-.26]),S.reversePath?'激光 B · 发光':'激光 B · 未开启','#294942',15)+text3([.65,0,4.64],'法线参考光','#9a283a',15)+text3([-2.02,.6,2.45],'水平平面界面','#315d54',16)}
  const q=project(O),spot=`<circle cx="${f(q[0])}" cy="${f(q[1])}" r="10" fill="#66ef99" opacity=".18"/><circle cx="${f(q[0])}" cy="${f(q[1])}" r="3.5" fill="#c7ffdd"/>`;
@@ -477,18 +488,19 @@ function sync(){document.body.dataset.mode=S.mode;let mirror=isMirror();$('power
  $('angle').nextElementSibling.lastElementChild.textContent=maxAngle()+'° · 接近掠入射';
  $('angle').value=S.angle;$('angleNumber').value=S.angle.toFixed(1);
  $('reverse').hidden=mirror||S.mode==='space'||S.reversePath||isRect();const medium=materialName(S.n);
- $('reverse').textContent=S.inside?`切换：空气 → ${medium}`:`切换：${medium} → 空气`;$('materialLabel').hidden=mirror;$('shapeLabel').hidden=mirror||S.mode==='internal';$('blockShape').value=S.shape;$('blockShape').options[0].textContent=S.mode==='space'?'半球块':'半圆块';$('power').disabled=mirror;
- for(let id of ['criticalBelow','critical','criticalAbove'])$(id).hidden=!S.inside||mirror||S.mode==='space';
- const sample=isRect()
-  ?(isWater()?'长方体水槽':'亚克力长方体')
-  :(isWater()?(S.mode==='space'?'半球水槽':'半圆水槽'):(S.mode==='space'?'亚克力半球':'半圆亚克力块'));
+ $('reverse').textContent=S.inside?`切换：空气 → ${medium}`:`切换：${medium} → 空气`;$('materialLabel').hidden=mirror;$('shapeLabel').hidden=mirror||S.mode==='internal';$('blockShape').options[1].disabled=isPlasma();
+ $('blockShape').value=isPlasma()?'semi':S.shape;$('blockShape').options[0].textContent=S.mode==='space'?'半球块':'半圆块';$('power').disabled=mirror;
+ const critical=basePhysics().critical;
+ for(const id of ['criticalBelow','critical','criticalAbove'])$(id).hidden=critical===null||isRect();
  if(mirror){
   $('apparatus').textContent=S.mode==='space'?'透明半球罩 · 水平镜面 · 双激光':'前表面平面镜 · 金属背板';
  }else{
   const p=physics(),direction=materialName(p.n1)+' → '+materialName(p.n2);
-  $('apparatus').textContent=sample+' · '+direction+(p.tir?' · 全反射':p.criticalState?' · 临界状态':'');
+  $('apparatus').textContent=sampleName()+' · '+direction+(p.tir?' · 全反射':p.criticalState?' · 临界状态':'');
  }
- $('sideControls').hidden=S.mode==='space';$('sideLeft').classList.toggle('active',S.side<0);$('sideRight').classList.toggle('active',S.side>0);$('foldToggle').hidden=S.mode!=='reflect';$('foldToggle').classList.toggle('active',S.foldEnabled);$('foldSettings').hidden=!S.foldEnabled;$('foldAngle').value=S.fold;$('foldValue').textContent=S.fold+'°';$('spaceSettings').hidden=S.mode!=='space';$('azimuth').value=S.azimuth;$('azimuthValue').textContent=S.azimuth+'°';updateSceneHelp();
+ $('sideControls').hidden=S.mode==='space';$('sideLeft').classList.toggle('active',S.side<0);$('sideRight').classList.toggle('active',S.side>0);$('foldGroup').hidden=!hasFoldControl();
+ $('foldTitle').textContent=S.mode==='refract'?'观察反射与折射光迹':'观察反射光迹';
+ $('foldNote').hidden=S.mode!=='refract'||hasOutgoingTrace();$('foldToggle').classList.toggle('active',S.foldEnabled);$('foldSettings').hidden=!S.foldEnabled;$('foldAngle').value=S.fold;$('foldValue').textContent=S.fold+'°';$('spaceSettings').hidden=S.mode!=='space';$('azimuth').value=S.azimuth;$('azimuthValue').textContent=S.azimuth+'°';updateSceneHelp();
  $('spaceKindControls').hidden=S.mode!=='space';$('spaceReflect').classList.toggle('active',S.spaceKind==='reflect');$('spaceRefract').classList.toggle('active',S.spaceKind==='refract');$('pathForward').classList.toggle('active',!S.reversePath);$('pathBackward').classList.toggle('active',S.reversePath);$('pathBackward').textContent=reverseUsesTransmission()?'折射端 B 入射':'反射端 B 入射';$('angleCaption').textContent=S.reversePath?'光源 A 设定角（对照）':'入射角 i（与法线夹角）';$('pathStatus').textContent=(S.reversePath?'B 发光 · A 未开启':'A 发光 · B 未开启')+(isRect()?' · 读数对应入射界面①':'');$('sideCaption').textContent=S.reversePath?'A 对照侧':'入射侧';
  $('legend').innerHTML=S.mode==='space'&&S.spaceKind==='reflect'?'<span><i style="background:#16ad66"></i>入射光</span><span><i style="background:#16ad66"></i>反射光</span><span><i style="background:#ef3a4c"></i>法线参考光</span>':'<span><i style="background:#e55532"></i>入射光</span><span><i style="background:#bf6000"></i>反射光</span><span><i style="background:#147dcc"></i>折射光</span><span><i style="background:#202e30"></i>法线</span>';
  if(S.mode==='space'&&S.spaceKind==='refract')$('legend').innerHTML='<span><i style="background:#e55532"></i>入射光</span><span><i style="background:#bf6000"></i>反射光</span><span><i style="background:#147dcc"></i>折射光</span><span><i style="background:#ef3a4c"></i>法线参考光</span>';
@@ -497,22 +509,27 @@ function sync(){document.body.dataset.mode=S.mode;let mirror=isMirror();$('power
  syncClassicDemoUI();buildScene();save();
 }
 function save(){try{localStorage.setItem('optics-svg3d-v1',JSON.stringify({shape:S.shape,mode:S.mode,spaceKind:S.spaceKind,inside:S.inside,angle:S.angle,n:S.n,rows:S.rows,side:S.side,azimuth:S.azimuth,normal:S.normal,labels:S.labels,power:S.power}))}catch(e){}}
-function load(){try{let d=JSON.parse(localStorage.getItem('optics-svg3d-v1'));if(!d)return;if(['reflect','refract','internal','space'].includes(d.mode))S.mode=d.mode;S.inside=!['reflect','space'].includes(S.mode)&&Boolean(d.inside);if(['semi','rect'].includes(d.shape))S.shape=d.shape;if(S.shape==='rect'&&S.mode==='refract')S.inside=false;if(['reflect','refract'].includes(d.spaceKind))S.spaceKind=d.spaceKind;if([-1,1].includes(d.side))S.side=d.side;if(Number.isFinite(d.azimuth))S.azimuth=Math.max(0,Math.min(360,d.azimuth));if(Number.isFinite(d.angle))S.angle=Math.max(0,Math.min(maxAngle(),d.angle));if([1.49,WATER_INDEX].includes(d.n))S.n=d.n;for(let k of ['normal','labels','power'])if(typeof d[k]==='boolean')S[k]=d[k];if(Array.isArray(d.rows))S.rows=d.rows.filter(r=>r&&['reflect','refract','internal','space'].includes(r.mode)&&['i','r','n1','n2'].every(k=>Number.isFinite(r[k]))&&(r.t==null||Number.isFinite(r.t))).slice(-100); }catch(e){}}
+function load(){try{let d=JSON.parse(localStorage.getItem('optics-svg3d-v1'));if(!d)return;if(['reflect','refract','internal','space'].includes(d.mode))S.mode=d.mode;S.inside=!['reflect','space'].includes(S.mode)&&Boolean(d.inside);if(['semi','rect'].includes(d.shape))S.shape=d.shape;if(S.shape==='rect'&&S.mode==='refract')S.inside=false;if(['reflect','refract'].includes(d.spaceKind))S.spaceKind=d.spaceKind;if([-1,1].includes(d.side))S.side=d.side;if(Number.isFinite(d.azimuth))S.azimuth=Math.max(0,Math.min(360,d.azimuth));if(Number.isFinite(d.angle))S.angle=Math.max(0,Math.min(maxAngle(),d.angle));if([1.49,WATER_INDEX,PLASMA_INDEX].includes(d.n))S.n=d.n;for(let k of ['normal','labels','power'])if(typeof d[k]==='boolean')S[k]=d[k];if(Array.isArray(d.rows))S.rows=d.rows.filter(r=>r&&['reflect','refract','internal','space'].includes(r.mode)&&['i','r','n1','n2'].every(k=>Number.isFinite(r[k]))&&(r.t==null||Number.isFinite(r.t))).slice(-100); }catch(e){}}
 let toastTimer;function toast(s){$('toast').textContent=s;$('toast').style.display='block';clearTimeout(toastTimer);toastTimer=setTimeout(()=>$('toast').style.display='none',2300)}
 function setAngle(v){if(!Number.isFinite(v)||demo&&demo.phase!=='done')return;if(demo)clearDemo();S.angle=Math.max(0,Math.min(maxAngle(),v));sync()}
 function view(kind){pan.x=pan.y=0;S.yaw=kind==='top'?0:(S.mode==='space'?-.2:-.13);S.elev=kind==='top'?Math.PI/2:(S.mode==='space'?.4:.88);S.matrix=viewMatrix(S.yaw,S.elev);S.zoom=kind==='top'&&S.mode!=='space'?.85:1;S.reading=kind==='top';updateSceneHelp();$('top').classList.toggle('active',kind==='top');$('oblique').classList.toggle('active',kind!=='top');buildScene()}
-function rows(){let modeNames={reflect:'平面镜',refract:'折射',internal:'全反射探究',space:'空间反射'};$('recordBody').innerHTML=[...S.rows].reverse().map(r=>`<tr><td>${r.mode==='space'&&r.spaceKind==='refract'?'空间折射':modeNames[r.mode]||'折射'}<small>${(r.mode==='reflect'||(r.mode==='space'&&r.spaceKind!=='refract'))?'空气 → 平面镜':r.n1.toFixed(3)+' → '+r.n2.toFixed(3)}</small><small>${r.mode==='space'?'φ '+(r.azimuth??0)+'°':(r.side===1?'右侧':'左侧')+(r.mode==='reflect'?' · 翻折 '+(r.fold??0)+'°':'')}</small><small>${r.shape==='rect'?'长方体 · 当前入射界面':'半圆／半球块'}</small><small>光源 ${r.path==='B'?'B':'A'}</small></td><td>${r.i.toFixed(1)}°</td><td>${r.r.toFixed(1)}°</td><td>${r.t==null?'—':r.t.toFixed(1)+'°'}</td><td>${r.tir?'全反射':r.criticalState?'临界状态':(r.mode==='reflect'||(r.mode==='space'&&r.spaceKind!=='refract'))?'反射':'折射'}</td></tr>`).join('');$('recordCount').textContent=S.rows.length+' 组';$('recordTable').hidden=!S.rows.length;$('empty').hidden=Boolean(S.rows.length);$('recordScroll').scrollTop=0}
+function rows(){let modeNames={reflect:'平面镜',refract:'折射',internal:'全反射探究',space:'空间反射'};$('recordBody').innerHTML=[...S.rows].reverse().map(r=>`<tr><td>${r.mode==='space'&&r.spaceKind==='refract'?'空间折射':modeNames[r.mode]||'折射'}<small>${(r.mode==='reflect'||(r.mode==='space'&&r.spaceKind!=='refract'))?'空气 → 平面镜':r.n1.toFixed(3)+' → '+r.n2.toFixed(3)}</small><small>${r.mode==='space'?'φ '+(r.azimuth??0)+'°':(r.side===1?'右侧':'左侧')+(r.mode==='reflect'||r.mode==='refract'&&r.fold?' · 翻折 '+(r.fold??0)+'°':'')}</small><small>${r.shape==='rect'?'长方体 · 当前入射界面':'半圆／半球块'}</small><small>光源 ${r.path==='B'?'B':'A'}</small></td><td>${r.i.toFixed(1)}°</td><td>${r.r.toFixed(1)}°</td><td>${r.t==null?'—':r.t.toFixed(1)+'°'}</td><td>${r.tir?'全反射':r.criticalState?'临界状态':(r.mode==='reflect'||(r.mode==='space'&&r.spaceKind!=='refract'))?'反射':'折射'}</td></tr>`).join('');$('recordCount').textContent=S.rows.length+' 组';$('recordTable').hidden=!S.rows.length;$('empty').hidden=Boolean(S.rows.length);$('recordScroll').scrollTop=0}
 function download(name,text,type){let blob=new Blob([text],{type}),url=URL.createObjectURL(blob),a=document.createElement('a');a.href=url;a.download=name;document.body.appendChild(a);a.click();a.remove();setTimeout(()=>URL.revokeObjectURL(url),1000)}
-document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{S.mode=b.dataset.mode;S.inside=S.mode==='internal';if(S.mode==='internal')S.angle=Math.min(85,Math.asin(1/S.n)/D+5);else S.angle=45;S.reversePath=false;S.foldEnabled=false;S.fold=0;if(S.mode==='space'){S.angle=45;S.inside=false;}view('oblique');sync()}));
+document.querySelectorAll('[data-mode]').forEach(b=>b.addEventListener('click',()=>{S.mode=b.dataset.mode;S.inside=S.mode==='internal'&&S.n>1;if(S.mode==='internal')S.angle=Math.min(85,basePhysics().critical+5);else S.angle=45;S.reversePath=false;S.foldEnabled=false;S.fold=0;if(S.mode==='space'){S.angle=45;S.inside=false;}view('oblique');sync()}));
 
 $('pathForward').addEventListener('click',()=>{clearDemo();sync()});
 $('pathBackward').addEventListener('click',()=>{if(S.mode!=='space'){if(demo?.phase==='done'||S.reversePath){clearDemo();sync();return}classicDemo();return}S.reversePath=true;S.foldEnabled=false;S.fold=0;sync()});
 for(const [id,kind] of [['spaceReflect','reflect'],['spaceRefract','refract']])$(id).addEventListener('click',()=>{S.spaceKind=kind;S.reversePath=false;S.inside=false;S.angle=45;view('oblique');sync()});
 $('angle').addEventListener('input',e=>setAngle(Number(e.target.value)));$('angleNumber').addEventListener('change',e=>{if(e.target.value==='')return sync();setAngle(Number(e.target.value))});
 document.querySelectorAll('[data-angle]').forEach(b=>b.addEventListener('click',()=>setAngle(Number(b.dataset.angle))));
-['criticalBelow','critical','criticalAbove'].forEach((id,j)=>$(id).addEventListener('click',()=>setAngle(Math.asin(1/S.n)/D+j-1)));
+['criticalBelow','critical','criticalAbove'].forEach((id,j)=>$(id).addEventListener('click',()=>{const critical=basePhysics().critical;if(critical!==null)setAngle(critical+j-1)}));
 $('blockShape').addEventListener('change',e=>{S.shape=e.target.value;S.inside=false;S.reversePath=false;setAngle(S.angle)});
-$('material').addEventListener('change',e=>{S.n=Number(e.target.value);sync()});$('reverse').addEventListener('click',()=>{S.inside=!S.inside;sync()});
+$('material').addEventListener('change',e=>{const wasRect=isRect();
+ S.n=Number(e.target.value);
+ if(isPlasma()&&S.shape==='rect')S.shape='semi';
+ if(!wasRect&&isRect())S.inside=false;
+ if(S.mode==='internal'&&basePhysics().critical===null)S.inside=!S.inside;
+ sync()});$('reverse').addEventListener('click',()=>{S.inside=!S.inside;sync()});
 for(let key of ['normal','labels','power'])$(key).addEventListener('change',e=>{S[key]=e.target.checked;sync()});
 $('top').addEventListener('click',()=>view('top'));$('oblique').addEventListener('click',()=>view('oblique'));$('resetView').addEventListener('click',()=>view('oblique'));
 function updateSceneHelp(){
@@ -640,7 +657,7 @@ $('projection').addEventListener('click',()=>{document.body.classList.toggle('pr
 $('fullscreen').addEventListener('click',async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch(e){toast('当前预览不支持全屏，请下载 HTML 后在浏览器打开。')}});
 $('record').addEventListener('click',()=>{const p=physics();S.rows.push({...p,shape:isRect()?'rect':'semi',mode:S.mode,spaceKind:S.spaceKind,path:S.reversePath?'B':'A',side:S.reversePath?-S.side:S.side,fold:S.fold,azimuth:S.azimuth});if(S.rows.length>100)S.rows.shift();rows();save();toast('已记录，实验数据保存在当前浏览器。')});
 $('clearRecords').addEventListener('click',()=>{if(!S.rows.length)return;S.rows=[];rows();save();toast('已清空记录')});
-$('exportCSV').addEventListener('click',()=>{if(!S.rows.length)return toast('先记录一组实验数据');let lines=['实验,n1,n2,入射角i(度),反射角r(度),折射角t(度),反射功率R,透射功率T,现象,入射侧,翻折角(度),方位角(度),空间实验,发光端,透明块形状',...S.rows.map(r=>[r.mode,r.n1,(r.mode==='reflect'||(r.mode==='space'&&r.spaceKind!=='refract'))?'':r.n2,r.i.toFixed(1),r.r.toFixed(1),r.t==null?'':r.t.toFixed(1),r.R??'',r.T??'',r.tir?'全反射':r.criticalState?'临界状态':(r.mode==='reflect'||(r.mode==='space'&&r.spaceKind!=='refract'))?'反射':'折射',r.mode==='space'?'':r.side===1?'右侧':'左侧',r.mode==='reflect'?(r.fold??0):'',r.mode==='space'?(r.azimuth??0):'',r.mode==='space'?(r.spaceKind==='refract'?'折射':'反射'):'',r.path??'A',r.shape==='rect'?'长方体':'半圆／半球'].join(','))];download('光学实验记录.csv','\uFEFF'+lines.join('\r\n'),'text/csv;charset=utf-8')});
+$('exportCSV').addEventListener('click',()=>{if(!S.rows.length)return toast('先记录一组实验数据');let lines=['实验,n1,n2,入射角i(度),反射角r(度),折射角t(度),反射功率R,透射功率T,现象,入射侧,翻折角(度),方位角(度),空间实验,发光端,透明块形状',...S.rows.map(r=>[r.mode,r.n1,(r.mode==='reflect'||(r.mode==='space'&&r.spaceKind!=='refract'))?'':r.n2,r.i.toFixed(1),r.r.toFixed(1),r.t==null?'':r.t.toFixed(1),r.R??'',r.T??'',r.tir?'全反射':r.criticalState?'临界状态':(r.mode==='reflect'||(r.mode==='space'&&r.spaceKind!=='refract'))?'反射':'折射',r.mode==='space'?'':r.side===1?'右侧':'左侧',r.mode==='reflect'||r.mode==='refract'?(r.fold??0):'',r.mode==='space'?(r.azimuth??0):'',r.mode==='space'?(r.spaceKind==='refract'?'折射':'反射'):'',r.path??'A',r.shape==='rect'?'长方体':'半圆／半球'].join(','))];download('光学实验记录.csv','\uFEFF'+lines.join('\r\n'),'text/csv;charset=utf-8')});
 $('exportSVG').addEventListener('click',()=>{let p=physics();let svg=`<svg xmlns="http://www.w3.org/2000/svg" width="1000" height="750" viewBox="0 0 1000 750"><rect width="1000" height="750" fill="#f4f8f1"/><text x="35" y="42" font-family="system-ui,Microsoft YaHei,sans-serif" font-size="27" fill="#163237">光的反射与折射 · ${S.mode==='space'?(S.spaceKind==='refract'?'空间折射':'空间反射'):S.mode==='reflect'?'平面镜':materialName(p.n1)+' → '+materialName(p.n2)}</text><svg x="0" y="55" width="1000" height="620" viewBox="0 0 1000 620">${$('scene').innerHTML}</svg><text x="40" y="697" font-family="system-ui,Microsoft YaHei,sans-serif" font-size="21" fill="#163237">${S.reversePath?'B 入射':'A 入射'}　i = ${p.i.toFixed(1)}°　r = ${p.r.toFixed(1)}°　t = ${p.t===null?'—':p.t.toFixed(1)+'°'}　${isMirror()?'平面镜反射':`n₁ = ${p.n1.toFixed(3)}　n₂ = ${p.n2.toFixed(3)}`}</text><text x="40" y="733" font-family="system-ui,Microsoft YaHei,sans-serif" font-size="17" fill="#60777a">${isMirror()?'角度由空间矢量计算':p.tir?'全反射':p.criticalState?'临界状态':`反射 ${(p.R*100).toFixed(1)}%　透射 ${(p.T*100).toFixed(1)}%`}</text></svg>`;download('光的反射与折射_'+p.i.toFixed(1)+'度.svg',svg,'image/svg+xml;charset=utf-8');toast('已导出可编辑 SVG：三维器材与当前数据')});
 
 const physicalControls='button[data-mode],button[data-angle],#angle,#angleNumber,#sideLeft,#sideRight,#foldToggle,#foldAngle,#foldBack,#foldFlat,#blockShape,#material,#reverse,#criticalBelow,#critical,#criticalAbove';
