@@ -96,7 +96,18 @@ body:is([data-mode="reflect"],[data-mode="refract"]) .control-panel #exportSVG{b
 <aside class="right">
 <section class="panel control-panel"><div class="control-scroll"><div class="controls"><div class="space-kind" id="spaceKindControls" hidden><button id="spaceReflect" class="active">空间反射</button><button id="spaceRefract">空间折射</button></div><div class="control-group angle-group"><div class="group-title reflection-only">调节入射光</div><div class="angleline"><strong id="angleCaption">入射角 i（与法线夹角）</strong><label class="anglevalue"><input id="angleNumber" type="number" min="0" max="85" step="0.1" value="45" aria-label="入射角数值">°</label></div><input class="range" id="angle" type="range" min="0" max="85" step="0.1" value="45" aria-label="入射角"><div class="rangelabels"><span>0° · 垂直入射</span><span>85° · 接近掠入射</span></div>
 <div class="presets"><button data-angle="0">0°</button><button data-angle="30">30°</button><button data-angle="45">45°</button><button data-angle="60">60°</button><button id="criticalBelow">临界角 − 1°</button><button id="critical">临界角</button><button id="criticalAbove">临界角 + 1°</button></div>
-<div class="optionsrow"><div id="sideControls"><span class="small" id="sideCaption">入射侧</span><button id="sideLeft" class="active">法线左侧</button><button id="sideRight">法线右侧</button></div></div></div><div class="control-group fold-group" id="foldGroup"><div class="group-title" id="foldTitle">观察反射光迹</div><button id="foldToggle">翻折刻度盘</button><div class="fold-settings" id="foldSettings" hidden><label>向后翻折 <strong id="foldValue">0°</strong></label><input id="foldAngle" type="range" min="0" max="80" step="1" value="0" aria-label="接光盘向后翻折角"><button id="foldBack">翻折 65°</button><button id="foldFlat">恢复平整</button><p id="foldNote" hidden>接光盘已移开，光的传播方向不变。</p></div></div></div>
+<div class="optionsrow"><div id="sideControls"><span class="small" id="sideCaption">入射侧</span><button id="sideLeft" class="active">法线左侧</button><button id="sideRight">法线右侧</button></div></div></div>
+<div class="control-group fold-group" id="foldGroup">
+  <div class="group-title" id="foldTitle">观察反射光迹</div>
+  <button id="foldToggle">翻折刻度盘</button>
+  <div class="fold-settings" id="foldSettings" hidden>
+    <label>向后翻折 <strong id="foldValue">0°</strong></label>
+    <input id="foldAngle" type="range" min="0" max="80" step="1" value="0" aria-label="接光盘向后翻折角">
+    <button id="foldBack">翻折 65°</button>
+    <button id="foldFlat">恢复平整</button>
+    <p id="foldNote" hidden>接光盘已移开，光的传播方向不变。</p>
+  </div>
+</div>
 <div class="path-controls"><span>光路可逆 <small id="pathStatus">单支激光笔</small></span><div><button id="pathForward" class="active">原光源 A 入射</button><button id="pathBackward">验证光路可逆</button></div></div>
 
 <div class="space-settings" id="spaceSettings" hidden><label>光源方位角 φ <strong id="azimuthValue">0°</strong></label><input id="azimuth" type="range" min="0" max="360" step="1" value="0" aria-label="空间光源方位角"><label><input id="showPlane" type="checkbox">显示入射平面</label></div>

@@ -1425,7 +1425,7 @@ window.MODEL_CATALOG = [
       "光路可逆",
       "三线共面"
     ],
-    "path": "models/reflection-refraction.html?v=20261126-plasma-fold",
+    "path": "models/reflection-refraction.html?v=20261126-sidebar-layout",
     "symbol": "↗",
     "accent": "green"
   },
