@@ -1,0 +1,362 @@
+<!doctype html><html lang="zh-CN"><head><meta charset="utf-8"><meta name="viewport" content="width=device-width,initial-scale=1"><title>彩虹与霓 · 从一颗水滴到天空</title><style>
+*{box-sizing:border-box} :root{--ink:#18363b;--sub:#61797b;--line:#dbe5e3;--brand:#187c75;--paper:#fff;--gold:#dc9c4c}body{margin:0;background:#eff4f2;color:var(--ink);font:16px/1.5 "Microsoft YaHei","PingFang SC",system-ui,sans-serif;overflow:hidden}button,input,select{font:inherit}button{cursor:pointer;color:inherit;border:1px solid var(--line);background:white;border-radius:9px;padding:9px 12px;font-weight:600;transition:.15s}button:hover{border-color:#68a69e;background:#eff9f5}button.on,button.primary{background:#187c75;color:white;border-color:#187c75}button:focus-visible,input:focus-visible{outline:3px solid #e4ae65;outline-offset:2px}header{height:68px;padding:10px 22px;display:flex;align-items:center;justify-content:space-between;background:#fff;border-bottom:1px solid var(--line)}.brand{display:flex;gap:14px;align-items:center}.mark{width:45px;height:45px;border-radius:13px;background:#e5f2ed;display:grid;place-items:center}h1{font-size:23px;margin:0;letter-spacing:.01em}.subtitle{font-size:12px;color:var(--sub)}.nav{height:54px;display:flex;gap:8px;align-items:center;padding:7px 20px;background:#f7faf8;border-bottom:1px solid var(--line)}.nav button{flex:1;min-width:0;display:flex;align-items:center;justify-content:center;gap:9px;background:transparent;border-color:transparent;white-space:nowrap}.nav button.on{background:#dceee7;color:#136d65;border-color:#badbd0}.num{font-size:12px;border-radius:50%;background:#e8eeeb;min-width:24px;height:24px;display:inline-grid;place-items:center}.on .num{background:#187c75;color:white}.layout{display:grid;grid-template-columns:minmax(0,1fr) 340px;height:calc(100dvh - 122px);gap:12px;padding:12px}.viewport{position:relative;overflow:hidden;border-radius:15px;background:#183443;isolation:isolate;min-height:0;box-shadow:0 4px 20px #173b3520}#gl{display:block;width:100%;height:100%;touch-action:none}#labels{position:absolute;inset:0;pointer-events:none;overflow:hidden}.sunSketch{margin:0;background:#f3f8f6;border:1px solid #dce8e4;border-radius:10px;padding:5px 6px 7px}.sunSketch svg{display:block;width:100%;height:auto}.sunSketch figcaption{font-size:11px;color:#54706b;text-align:center;line-height:1.35}.tag3{position:absolute;transform:translate(-50%,-50%);white-space:nowrap;font-size:13px;font-weight:600;color:white;background:#183341dc;border:1px solid #ffffff38;padding:4px 9px;border-radius:6px;text-shadow:0 1px 2px #0006}.topHUD{position:absolute;top:16px;left:17px;right:17px;display:flex;justify-content:space-between;align-items:flex-start;pointer-events:none;gap:12px}.hud{background:#112c3cdb;border:1px solid #ffffff25;color:white;border-radius:12px;padding:11px 15px;backdrop-filter:blur(10px);max-width:68%;box-shadow:0 3px 15px #0002}.hud strong{font-size:20px;display:block}.hud small{color:#c5dadb;font-size:13px}.hudButtons{display:flex;gap:6px;pointer-events:auto}.hudButtons button{font-size:13px;background:#102b3bd9;color:#fff;border-color:#ffffff33;padding:9px}.bottomHUD{position:absolute;left:16px;bottom:16px;right:16px;pointer-events:none;display:flex;align-items:flex-end;justify-content:space-between;gap:12px}.hint{font-size:12px;background:#173341b5;color:#e9f4f2;padding:7px 10px;border-radius:8px}.panel{overflow:auto;min-width:0;padding:18px;background:white;border:1px solid var(--line);border-radius:15px;box-shadow:0 4px 16px #173b350a;scrollbar-width:thin}.eyebrow{font-size:12px;color:#187c75;font-weight:800;letter-spacing:.12em}h2{font-size:23px;margin:6px 0 10px;line-height:1.25}p{margin:6px 0 12px}.question{font-size:17px;font-weight:650;margin-bottom:16px}.controls{display:grid;gap:10px}.control{display:grid;gap:5px}.control label{display:flex;justify-content:space-between;align-items:center;font-weight:650;font-size:14px}.control output{color:#17766d;font-size:18px;font-weight:750;font-variant-numeric:tabular-nums}.control input[type=range]{width:100%;accent-color:#187c75;cursor:pointer;margin:3px 0}.ends{display:flex;justify-content:space-between;color:var(--sub);font-size:11px}.seg{display:flex;gap:6px;flex-wrap:wrap}.seg button{flex:1;font-size:14px;white-space:nowrap}.check{display:flex;align-items:center;gap:9px;font-size:14px;cursor:pointer}.check input{width:17px;height:17px;accent-color:#187c75}.rule{height:1px;background:var(--line);margin:12px 0}.readouts{display:grid;grid-template-columns:1fr 1fr;gap:6px;margin-bottom:4px}.readout{background:#f0f7f4;border-radius:10px;padding:7px 10px}.readout span{display:block;font-size:12px;color:#597370}.readout b{font-size:22px;line-height:1.3;font-variant-numeric:tabular-nums}.readout small{font-size:11px}.note{background:#f3f7f5;padding:10px 12px;border-radius:8px;font-size:13px;color:#43615f}.note b{color:#23423e}.next{width:100%;margin-top:15px;padding:12px}.choices{display:grid;gap:6px}.choices button{text-align:left;font-size:14px;font-weight:500}.choices .selected{border-color:#299288;background:#e7f5ed}.answer{padding:10px 12px;background:#f1f6ed;border-left:3px solid #78a67d;border-radius:6px;font-size:14px;margin-top:9px}.graph{width:100%;height:auto;display:block;background:#f5f8f7;border-radius:10px}.spectrum{height:7px;border-radius:5px;background:linear-gradient(90deg,#fc4b46,#ff9a3d,#f6dc4b,#49c77a,#54c4ff,#4976ff,#a77aff)}.mono{font-variant-numeric:tabular-nums}.source{font-size:11px;color:var(--sub)}#err{display:none;position:absolute;inset:20% 10%;padding:30px;background:#fff;border-radius:16px;z-index:10}#mini{display:none;width:290px;max-width:46%;background:#102d3ee8;padding:10px;border:1px solid #ffffff30;border-radius:12px;color:white;font-size:12px}#mini svg{width:100%;display:block}#mini strong{font-size:14px}.stepLine{height:4px;background:#dce8e2;border-radius:4px;overflow:hidden}.stepLine i{display:block;background:#187c75;height:100%}.stageCaption{font-size:14px;font-weight:600;margin:5px 0 0}.hide{display:none!important} @media(max-width:880px){header{padding:8px 12px}.layout{grid-template-columns:minmax(0,1fr) 290px;padding:8px;gap:8px}.panel{padding:12px}.nav{padding:5px}.nav button{font-size:13px}.nav .num{display:none}h1{font-size:18px}.hud strong{font-size:16px}}@media(max-width:680px){body{overflow:auto}.layout{display:flex;flex-direction:column;height:auto}.viewport{height:55vh;min-height:330px}.panel{overflow:visible}.nav{position:sticky;top:0;z-index:8}.subtitle{display:none}.hud small{display:none}.hudButtons{flex-direction:column}.bottomHUD .hint{display:none}}
+.optiongrid{display:grid;grid-template-columns:1fr 1fr;gap:6px}.energyrows{margin-top:8px}.energyhead,.energyrow{display:flex;justify-content:space-between;gap:6px;align-items:center;font-size:12px}.energyhead{color:#496965;font-weight:700;margin-bottom:4px}.energyhead span{font-size:10px;color:#738784}.energyrow{position:relative;min-height:25px;padding:3px 6px 6px;overflow:hidden;border-bottom:1px solid #edf3f0}.energyrow b{font-variant-numeric:tabular-nums}.energyrow i{position:absolute;bottom:1px;left:0;height:3px;border-radius:2px;background:#83b8ac}.eyeRead{margin:0;padding:7px 9px;background:#eaf5ef;color:#285c52;font-size:13px;border-radius:7px}.panel details{margin:9px 0;font-size:13px}.panel details summary{cursor:pointer;color:#187c75;font-weight:650}.panel .stageCaption{font-size:12px;margin:0}.panel .controls{gap:8px}.panel .seg button{padding:7px 8px}.panel .rule{margin:9px 0}</style><style>
+.rain-key{display:flex;align-items:center;gap:8px 14px;flex-wrap:wrap;margin:0;font-size:13px;color:#345159}
+.rain-key span{display:inline-flex;align-items:center;gap:5px}
+.rain-key i{display:inline-block;width:10px;height:10px;border-radius:50%;background:var(--drop-color);border:1px solid #41636d75}
+.ray-controls{gap:8px}
+.ray-controls .seg button{font-size:13px;padding:7px 8px}
+.ray-controls .ends,.ray-controls [hidden]{display:none}
+.ray-controls .eyeRead,.ray-controls .stageCaption{margin:0}
+.ray-controls .stepLine{margin:0}
+.ray-controls .ray-extra{margin:0}
+.ray-extra .controls{margin-top:8px}
+.ray-extra .control:has(.spectrum) label{flex-wrap:wrap}
+.ray-faq{position:absolute;z-index:5;top:106px;left:16px;width:min(330px,calc(100% - 16px));max-height:calc(100% - 16px);display:flex;flex-direction:column;overflow:hidden;background:#f3f9f6;color:#254b44;border:1px solid #abcec1;border-radius:12px;box-shadow:0 8px 26px #0004}
+.ray-faq[hidden]{display:none}
+.ray-faq-bar{display:flex;align-items:center;justify-content:space-between;gap:8px;padding:6px 8px 6px 13px;background:#dceee7;cursor:grab;touch-action:none;user-select:none}
+.ray-faq-bar:active{cursor:grabbing}
+.ray-faq-bar button{padding:5px 9px;font-size:12px}
+.ray-faq ol{margin:0;padding:10px 13px 12px 32px;overflow:auto;overscroll-behavior:contain;font-size:13px;line-height:1.55}
+.ray-faq li+li{margin-top:8px}
+</style></head><body><header><div class="brand"><div class="mark"><svg width="31" height="31" viewBox="0 0 40 40" fill="none"><path d="M4 30 A16 16 0 0 1 36 30" stroke="#dc7565" stroke-width="3"/><path d="M8 30 A12 12 0 0 1 32 30" stroke="#d6af54" stroke-width="3"/><path d="M12 30 A8 8 0 0 1 28 30" stroke="#67a79c" stroke-width="3"/><path d="M16 30 A4 4 0 0 1 24 30" stroke="#8182b8" stroke-width="3"/></svg></div><div><h1>彩虹与霓 · 从一颗水滴到天空</h1><div class="subtitle">3D 交互物理实验室 / 光学现象 / 观察 · 探究 · 解释 · 迁移</div></div></div><button id="fullscreen">全屏</button></header><nav class="nav" id="nav"></nav><main class="layout"><section class="viewport" id="view"><canvas id="gl"></canvas><div id="labels"></div><div class="topHUD"><div class="hud"><strong id="sceneTitle"></strong><small id="sceneSub"></small></div><div class="hudButtons"><button id="labelMode" title="切换精简与详细标注" aria-pressed="false">详细标注</button><button id="reset">默认视角</button><button id="pause">暂停动画</button></div></div><div class="bottomHUD"><div class="hint" id="gesture">拖动旋转 · 滚轮/双指缩放 · 右键/双指平移</div><div id="mini"></div></div><div id="err"><h2>无法启动 WebGL</h2><p>请使用支持 WebGL 的 Chrome 或 Edge 浏览器，并开启硬件加速。</p><p>本案例不需要联网。</p></div><section id="rayFAQ" class="ray-faq" aria-labelledby="rayFAQTitle" hidden><div id="rayFAQHandle" class="ray-faq-bar"><strong id="rayFAQTitle">疑惑解释</strong><button id="rayFAQClose" type="button">关闭</button></div><ol><li><strong>图里的霓光向上，眼睛怎么收到？</strong><br>图中向上的霓光射不到左下方的眼睛。雨幕中，其他位置合适的水滴能让光在滴内反射两次，再直接射入同一只眼睛。</li><li><strong>直接透射的光能看到吗？</strong><br>光射向眼睛时就能收到。这些光主要向前散开，难以聚成清晰的彩色弧。</li><li><strong>三次内反射的光呢？</strong><br>它也能形成虹，但光很弱，又在太阳附近，容易被明亮的天空盖住。</li></ol></section></section><aside class="panel" id="panel"></aside></main>
+<script src="../shared/vendor/three-r160.min.js"></script><script src="../shared/lab-kit/navigation.js"></script><script>
+(()=>{'use strict';const $=id=>document.getElementById(id), T=THREE, rad=Math.PI/180, clamp=(x,a,b)=>Math.max(a,Math.min(b,x)), V=(x=0,y=0,z=0)=>new T.Vector3(x,y,z);const colors=[{name:'红',nm:650,n:1.331,c:0xff4940},{name:'橙',nm:610,n:1.332,c:0xff953a},{name:'黄',nm:580,n:1.333,c:0xffdb49},{name:'绿',nm:530,n:1.335,c:0x58df81},{name:'青',nm:490,n:1.337,c:0x48e4e9},{name:'蓝',nm:460,n:1.339,c:0x578aff},{name:'紫',nm:410,n:1.343,c:0xa77aff}];
+const S={stage:0,sun:12,height:1.6,secondary:true,rain:true,geometry:false,order:1,b:.86,optimal:false,white:false,focus:-1,eyeOn:true,eyeAngle:-48,energy:true,showGraph:false,showFront:true,wave:0,normal:true,rayStep:0,fan:false,observer:'A',cone:1,both:false,spaceGround:false,rainDist:10,paused:false,labelDetail:false,answers:{},reveal:{}};
+function optimum(n,p){return Math.sqrt(1-(n*n-1)/((p+1)**2-1))}function rho(n,p,b=optimum(n,p)){let i=Math.asin(b),r=Math.asin(b/n),d=p*Math.PI+2*i-2*(p+1)*r;return Math.abs(Math.PI-d)/rad}function fresnel(i,r,n1,n2){const ci=Math.cos(i),cr=Math.cos(r),a=(n1*ci-n2*cr)/(n1*ci+n2*cr),b=(n2*ci-n1*cr)/(n2*ci+n1*cr);return (a*a+b*b)/2}function trace(n,p,b){let hit=V(-Math.sqrt(1-b*b),b,0),d=V(1,0,0),N=hit.clone(),eta=1/n,c=-d.dot(N),dir=d.clone().multiplyScalar(eta).addScaledVector(N,eta*c-Math.sqrt(1-eta*eta*(1-c*c))).normalize();let pts=[V(-2.7,b,0),hit.clone()];for(let k=0;k<=p;k++){let dest=hit.clone().addScaledVector(dir,-2*hit.dot(dir));pts.push(dest.clone());if(k<p){dir.reflect(dest.clone().normalize()).normalize();hit=dest}else{let normal=dest.clone().negate().normalize(),cc=-dir.dot(normal);dir=dir.clone().multiplyScalar(n).addScaledVector(normal,n*cc-Math.sqrt(Math.max(0,1-n*n*(1-cc*cc)))).normalize();pts.push(dest.clone().addScaledVector(dir,2.2));}}if(p===2)pts.forEach(v=>v.y=-v.y);return pts}
+// Branch tracing: all output orders share a single incident ray and its internal path.
+function branchTrace(n,b,max=3){b=clamp(b,-.995,.995);let i=Math.asin(Math.abs(b)),r=Math.asin(Math.abs(b)/n),ci=Math.cos(i),cr=Math.cos(r),Rs=((ci-n*cr)/(ci+n*cr))**2,Rp=((n*ci-cr)/(n*ci+cr))**2;
+let entry=V(-Math.sqrt(1-b*b),b),incident=V(1,0),normal=entry.clone(),eta=1/n,c=-incident.dot(normal),dir=incident.clone().multiplyScalar(eta).addScaledVector(normal,eta*c-Math.sqrt(1-eta*eta*(1-c*c))).normalize();let start=V(-3.35,b),ref=incident.clone().reflect(normal).normalize(),hit=entry.clone(),insideS=1-Rs,insideP=1-Rp,segments=[],outputs=[];
+const ext=(p,d)=>{let q=p.dot(d),L=-q+Math.sqrt(Math.max(0,q*q+3.65**2-p.lengthSq()));return p.clone().addScaledVector(d,L)};
+let front={a:entry,z:ext(entry,ref),e:(Rs+Rp)/2,d:ref};
+for(let k=0;k<=max;k++){let dest=hit.clone().addScaledVector(dir,-2*hit.dot(dir)),N=dest.clone().negate().normalize(),cc=-dir.dot(N),out=dir.clone().multiplyScalar(n).addScaledVector(N,n*cc-Math.sqrt(Math.max(0,1-n*n*(1-cc*cc)))).normalize();segments.push({a:hit.clone(),z:dest.clone(),e:(insideS+insideP)/2,k});outputs.push({a:dest.clone(),z:ext(dest,out),d:out,k,e:(insideS*(1-Rs)+insideP*(1-Rp))/2});insideS*=Rs;insideP*=Rp;dir.reflect(dest.clone().normalize()).normalize();hit=dest;}
+return {entry,start,front,segments,outputs,remain:(insideS+insideP)/2,tail:{a:hit,z:hit.clone().addScaledVector(dir,-2*hit.dot(dir)),e:(insideS+insideP)/2},i,r,Rs,Rp};}
+// 光程作为演示时钟，入射光到达界面后才分流。
+let rayIntro = null;
+let rayIntroEnd = 0;
+let growingRays = [];
+let timedMarkers = [];
+let eyeArrival = Infinity;
+let updateEyeAfterArrival;
+const rayIntroSpeed = 1.9;
+
+function interfaceDistance(trace, n, index) {
+  return trace.start.distanceTo(trace.entry)
+    + trace.segments.slice(0, index).reduce((length, segment) => length + segment.a.distanceTo(segment.z) * n, 0);
+}
+
+function rayProgress(start, length) {
+  return rayIntro === null ? 1 : clamp((rayIntro - start) / length, 0, 1);
+}
+
+function rayHasReached(distance) {
+  return rayIntro === null || rayIntro >= distance;
+}
+
+const names=['直接透射','彩虹光路','霓光路','三次内反射'];
+function eyePoint(){let a=S.eyeAngle*rad;return V(-3.3*Math.cos(a),3.3*Math.sin(a))}
+function eyeHit(o){let q=eyePoint().sub(o.a),t=q.dot(o.d);return t>0&&q.clone().addScaledVector(o.d,-t).length()<=.055;}
+function receiveBranches(t){return [...(S.showFront?[{...t.front,k:-1}]:[]),...t.outputs.filter(o=>!S.rayStep||S.rayStep>=o.k+2)]}function alignEye(k){let o=branchTrace(colors[S.wave].n,S.b).outputs[k],q=o.a.dot(o.d),t=-q+Math.sqrt(q*q+3.3**2-o.a.lengthSq()),p=o.a.clone().addScaledVector(o.d,t);S.eyeAngle=Math.atan2(p.y,-p.x)/rad;S.eyeOn=true;}
+function visGain(e){if(!S.energy)return 1;let x=Math.min(1,Math.max(0,e));return .28+.72*Math.pow(x,.28)}
+function styles(o,kind){let active=S.focus<0||(kind==='inside'?o.k<=S.focus:kind==='out'?o.k===S.focus:false),hit=kind!=='inside'&&S.eyeOn&&eyeHit(o),gain=visGain(o.e);return {op:hit?1:(active?Math.min(.98,.32+.66*gain):(.12+.10*gain)),width:hit?.026:(active?(.0065+.0195*gain):(.0045+.0045*gain)),glow:hit?Math.min(1,.50+.46*gain):(active?(.18+.20*gain):(.08+.06*gain)),hit,gain};}
+function branchItems() {
+  const items = [];
+  for (const c of S.white ? colors : [colors[S.wave]]) {
+    const trace = branchTrace(c.n, S.b);
+    function add(o, kind, interfaceIndex) {
+      items.push({
+        o, kind, c, start: interfaceDistance(trace, c.n, interfaceIndex),
+        length: o.a.distanceTo(o.z) * (kind === 'inside' ? c.n : 1)
+      });
+    }
+    if (S.showFront) add(trace.front, 'front', 0);
+    for (const o of trace.segments) {
+      if (!S.rayStep || S.rayStep >= o.k + 1) add(o, 'inside', o.k);
+    }
+    for (const o of trace.outputs) {
+      if (!S.rayStep || S.rayStep >= o.k + 2) add(o, 'out', o.k + 1);
+    }
+    if (!S.rayStep || S.rayStep >= 5) add({...trace.tail,k:4}, 'inside', 4);
+  }
+  return items;
+}
+function spatialRay(e,p,n,phi,R){let ax=axis(),theta=rho(n,p)*rad,d=dirAt(theta,phi),u=d.clone().addScaledVector(ax,-Math.cos(theta)).normalize(),dist=S.rainDist/Math.cos(theta),exit=e.clone().addScaledVector(d,dist),local=trace(n,p,optimum(n,p)),last=local.at(-2),transform=v=>exit.clone().addScaledVector(ax,(v.x-last.x)*R).addScaledVector(u,(v.y-last.y)*R);return {center:transform(V()),pts:local.slice(0,-1).map(transform),exit,eye:e,ax,u};}
+function softwareRenderer(canvas){let ctx=canvas.getContext('2d');if(!ctx){let c=canvas.cloneNode();canvas.replaceWith(c);canvas=c;ctx=c.getContext('2d')}let W=1,H=1;const rgb=c=>'#'+c.toString(16).padStart(6,'0');function project(v){let d=v.clone().sub(camera.position).dot(camera.getWorldDirection(V()));if(d<=.03)return null;let p=v.clone().project(camera);return [(p.x*.5+.5)*W,(-p.y*.5+.5)*H]};function path(pts,c,width=1,alpha=1,dash=[]){ctx.save();ctx.strokeStyle=c;ctx.lineWidth=width;ctx.globalAlpha=alpha;ctx.setLineDash(dash);ctx.lineJoin='round';ctx.lineCap='round';ctx.beginPath();let go=false;for(let p of pts){let q=p&&project(p);if(!q){go=false;continue}if(!go){ctx.moveTo(...q);go=true}else ctx.lineTo(...q)}ctx.stroke();ctx.restore()}function dot(v,r,c){let p=project(v);if(!p)return;ctx.beginPath();ctx.arc(p[0],p[1],r,0,Math.PI*2);ctx.fillStyle=c;ctx.fill()}function arr(a,b,c,w=2,alpha=1){path([a,b],c,w,alpha);let x=project(a),y=project(b);if(!x||!y)return;let t=Math.atan2(y[1]-x[1],y[0]-x[0]),r=clamp(w*2.1,4,10);ctx.save();ctx.globalAlpha=alpha;ctx.fillStyle=c;ctx.beginPath();ctx.moveTo(...y);ctx.lineTo(y[0]-r*Math.cos(t-.48),y[1]-r*Math.sin(t-.48));ctx.lineTo(y[0]-r*Math.cos(t+.48),y[1]-r*Math.sin(t+.48));ctx.closePath();ctx.fill();ctx.restore()}function obs(){let g=ctx.createLinearGradient(0,0,0,H);g.addColorStop(0,'#356a93');g.addColorStop(.65,'#a0b6bc');g.addColorStop(1,'#d4d8c9');ctx.fillStyle=g;ctx.fillRect(0,0,W,H);let horizon=project(V(0,S.height,250));let hy=horizon?clamp(horizon[1],0,H):H*.65;let R=rand(72);for(let i=0;i<9;i++){let x=R()*W,y=R()*hy*.75,rx=60+R()*160,ry=15+R()*28;let cl=ctx.createRadialGradient(x,y,2,x,y,rx);cl.addColorStop(0,'#e3e7e78c');cl.addColorStop(1,'#d2dce000');ctx.fillStyle=cl;ctx.save();ctx.translate(x,y);ctx.scale(1,ry/rx);ctx.translate(-x,-y);ctx.fillRect(x-rx,y-rx,rx*2,rx*2);ctx.restore()}for(let j=0;j<3;j++){ctx.beginPath();ctx.moveTo(0,H);for(let x=0;x<=W+20;x+=20){let y=hy+12+j*18-Math.sin(x*.009+j)*14-Math.sin(x*.022+j*2)*10;ctx.lineTo(x,y)}ctx.lineTo(W,H);ctx.fillStyle=['#6b8e89','#537c67','#3e674e'][j];ctx.fill()}if(S.height>35){ctx.fillStyle='#5c887d';ctx.fillRect(0,Math.max(0,hy+20),W,H);for(let i=0;i<45;i++){ctx.fillStyle=i%2?'#658f78':'#577d6f';ctx.fillRect(R()*W,hy+R()*(H-hy),30+R()*120,12+R()*55)}}if(!S.rain)return;let eye=V(0,S.height,0);for(let p of S.secondary?[1,2]:[1]){for(let i=0;i<colors.length;i++){let c=colors[i],a=rho(c.n,p)*rad,pts=[];for(let k=0;k<=360;k++){let v=eye.clone().addScaledVector(dirAt(a,k/360*Math.PI*2),77);pts.push(v.y>0?v:null)}path(pts,rgb(c.c),Math.max(3,H*(p===1?.006:.009)),p===1?.72:.32)}}if(S.geometry){path([eye.clone().addScaledVector(axis(),2),eye.clone().addScaledVector(axis(),65)],'#fff',1,.75,[6,4])}if(S.rain&&!S.paused){ctx.strokeStyle='#dbeff32a';ctx.lineWidth=1;ctx.beginPath();for(let i=0;i<150;i++){let x=R()*W,y=(R()*H+time*125)%H;ctx.moveTo(x,y);ctx.lineTo(x-2,y+9)}ctx.stroke()}}
+function drop(){let ctr=project(V()),top=project(V(0,1,0));if(!ctr||!top)return;let rr=Math.max(12,Math.hypot(top[0]-ctr[0],top[1]-ctr[1]));let grd=ctx.createRadialGradient(ctr[0]-rr*.28,ctr[1]-rr*.35,rr*.04,ctr[0],ctr[1],rr);grd.addColorStop(0,'#a5d9e83b');grd.addColorStop(.7,'#6196b41b');grd.addColorStop(1,'#89c6df66');ctx.fillStyle=grd;ctx.beginPath();ctx.arc(...ctr,rr,0,Math.PI*2);ctx.fill();ctx.strokeStyle='#a1d3e9';ctx.lineWidth=1.5;ctx.stroke();path([V(-1.18,0),V(1.18,0)],'#a5bfc5',1,.5,[5,4]);let t=branchTrace(colors[S.wave].n,S.b),n=colors[S.wave].n;if(S.fan&&rayIntro===null)for(let j=-8;j<=8;j++){let b=clamp(S.b+j*.012,-.995,.995),u=branchTrace(colors[S.wave].n,b);let k=S.focus<0?1:S.focus;path([u.start,u.entry,...u.segments.slice(0,k+1).map(x=>x.z),u.outputs[k].z],rgb(colors[S.wave].c),1,.18)}let incoming=rayProgress(0,t.start.distanceTo(t.entry));if(incoming>0)arr(t.start,t.start.clone().lerp(t.entry,incoming),S.white?'#fff1cd':rgb(colors[S.wave].c),3);for(let item of branchItems().slice().sort((a,b)=>(b.o.e??0)-(a.o.e??0))){let {o,kind,c,start,length}=item,progress=rayProgress(start,length);if(progress<=0)continue;let st=styles(o,kind),w=S.white?Math.max(.7,st.width*105):Math.max(1,st.width*190),end=o.a.clone().lerp(o.z,progress);arr(o.a,end,rgb(c.c),w*1.85,Math.min(.34,st.glow*.38));arr(o.a,end,rgb(c.c),w,st.op);}for(let [k,h] of [t.entry,...t.segments.map(o=>o.z)].entries()){if((S.rayStep&&S.rayStep<k+1)||!rayHasReached(interfaceDistance(t,n,k)))continue;if(S.normal)path([h.clone().multiplyScalar(.73),h.clone().multiplyScalar(1.2)],'#dbeae9',1,.65,[4,4]);dot(h,3.4,'#edf5f5')}if(S.eyeOn){let e=eyePoint(),p=project(e);if(p){let hits=rayHasReached(eyeArrival)&&receiveBranches(t).some(eyeHit);ctx.strokeStyle=hits?'#fff0a5':'#84cfce';ctx.lineWidth=2;ctx.beginPath();ctx.ellipse(p[0],p[1],13,8,0,0,Math.PI*2);ctx.stroke();dot(e,4,hits?'#fff0a5':'#84cfce');}}for(let a of anim){if(a.dot.visible)dot(a.dot.position,2.4,'#fff')}}
+function space(){for(let k=-13;k<=13;k++){path([V(k,-1,-12),V(k,-1,16)],'#31515e',1,.45);path([V(-13,-1,k),V(13,-1,k)],'#31515e',1,.45)}let A=V(-1.1,.2,.13),B=V(1.1,.2,.13),eye=S.observer==='A'?A:B;for(let e of [A,B]){dot(e,7,e===A?'#65bcad':'#dfa365');path([e.clone().add(V(0,-.15,0)),e.clone().add(V(0,-.8,0))],e===A?'#65bcad':'#dfa365',9)}let axisV=axis(),dist=S.rainDist,p=S.cone;path([eye.clone().addScaledVector(axisV,-9),eye.clone().addScaledVector(axisV,dist)],'#b3dbd7',1,.75,[5,4]);dot(V(0,.2,.13).addScaledVector(axisV,-9),15,'#ffd375');const rain=rainPositions();
+ctx.beginPath();
+for(let i=0;i<rain.length;i+=9){
+  const p=project(rain[i]);
+  if(!p)continue;
+  ctx.moveTo(p[0]+1,p[1]);
+  ctx.arc(p[0],p[1],1,0,Math.PI*2);
+}
+ctx.fillStyle='#86b4cc38';
+ctx.fill();
+for(const [group,drops] of Object.entries(spaceRain)){
+  for(const drop of drops)dot(drop,3,rgb(rainMarkerColors[group]));
+}for(let e of S.both?[eye,eye===A?B:A]:[eye]){let active=e===eye;for(let c of colors){let th=rho(c.n,p)*rad,rr=dist/Math.cos(th),pts=[];for(let i=0;i<=180;i++)pts.push(e.clone().addScaledVector(dirAt(th,i/180*Math.PI*2),rr));path(pts,rgb(c.c),active?1.6:1,active?.85:.25,active?[]:[5,5])}if(active){
+  const r=.72,ray=spatialRay(e,p,colors[0].n,Math.PI/2,r);
+  const center=project(ray.center),edge=project(ray.center.clone().addScaledVector(ray.u,r));
+  if(center&&edge)dot(ray.center,Math.hypot(edge[0]-center[0],edge[1]-center[1]),'#608ca7');
+  const pts=ray.pts;
+  arr(pts[1].clone().addScaledVector(axisV,-3.5),pts[1],'#ffe9bc',1.8);
+  for(let i=1;i<pts.length-1;i++)arr(pts[i],pts[i+1],'#ff6b54',2.5);
+  arr(pts.at(-1),e,'#ff6b54',2.5);
+}}}
+
+return {software:true,setPixelRatio(){},setSize(w,h){W=w;H=h;canvas.width=w;canvas.height=h},render(){camera.updateMatrixWorld();ctx.fillStyle='#142b3b';ctx.fillRect(0,0,W,H);if(observation)obs();else if(S.stage===1)drop();else space()}}}
+
+let renderer;try{renderer=new T.WebGLRenderer({canvas:$('gl'),antialias:true,alpha:false,powerPreference:'high-performance'});}catch(e){renderer=softwareRenderer($('gl'));$('gesture').textContent='二维备用模式'}renderer.setPixelRatio(Math.min(devicePixelRatio,1.7));renderer.outputColorSpace=T.SRGBColorSpace;renderer.toneMapping=T.ACESFilmicToneMapping;renderer.toneMappingExposure=1.12;
+const scene=new T.Scene(),camera=new T.PerspectiveCamera(48,1,.03,700);scene.add(new T.HemisphereLight(0xd6edff,0x40514c,2.1));let key=new T.DirectionalLight(0xfff1cf,3.3);key.position.set(-5,7,5);scene.add(key);let rim=new T.DirectionalLight(0x88c7ff,1.4);rim.position.set(5,2,-5);scene.add(rim);const world=new T.Group();scene.add(world);let nav=null,labels=[],anim=[],rainObj=null,rainbows=null,observation=false,lookYaw=0,lookPitch=0,lookZoom=1,time=0,phase=0,last=performance.now();const stages=['观察现象','水滴光路','空间解释','迁移验证'];
+function mat(c,extra={}){return new T.MeshStandardMaterial({color:c,roughness:.7,...extra})}function basic(c,extra={}){return new T.MeshBasicMaterial({color:c,...extra})}function mesh(g,m,pos,parent=world){let a=new T.Mesh(g,m);if(pos)a.position.copy(pos);parent.add(a);return a}function label(s,p,at=0){let text=s,priority=2;if(!S.labelDetail){if(S.stage===1){if(s==='入射光')priority=0;else if(s.startsWith('人眼')){text='人眼';priority=0}else if(/^\d 次/.test(s)){let k=+s[0],hit=s.includes('入眼');if(S.focus>=0&&k!==S.focus&&!hit)return null;if(S.focus<0&&k===3&&!hit&&!S.rayStep)return null;text=['直接透射','彩虹光路','霓光路','三次反射'][k]+(hit?' · 入眼':'');priority=hit||S.focus===k?0:1}else if(S.rayStep&&(s.startsWith('界面')||s==='入射处分流')){let k=s==='入射处分流'?0:+s.split(' ')[1];if(k!==S.rayStep-1)return null;priority=0}else return null;}else if(S.stage===2){if(s==='观察者 '+S.observer){text='观察者 '+S.observer;priority=0}else if(s.startsWith('观察者')&&!S.both)return null;else if(s.startsWith('太阳（')){text='太阳';priority=0}else if(s.startsWith('彩虹：')||s.startsWith('霓：')){text=s.split('（')[0];priority=1}else if(s==='平行太阳光')return null;else if(s==='红光进入人眼'){text='光进入人眼';priority=1}else if(s==='反太阳方向'||s.endsWith('°'))priority=0;}}let el=document.createElement('div');el.className='tag3';el.textContent=text;$('labels').append(el);labels.push({el,p:p.clone(),priority,at});return el}function line(points,c,opacity=1,dashed=false,parent=world){let g=new T.BufferGeometry().setFromPoints(points);let m=dashed?new T.LineDashedMaterial({color:c,transparent:true,opacity,dashSize:.11,gapSize:.065}):new T.LineBasicMaterial({color:c,transparent:true,opacity});let l=new T.Line(g,m);if(dashed)l.computeLineDistances();parent.add(l);return l}function tube(a,b,r,c,parent=world,opacity=1){let d=b.clone().sub(a),o=mesh(new T.CylinderGeometry(r,r,d.length(),10,1),basic(c,{transparent:opacity<1,opacity,depthWrite:opacity===1,toneMapped:false}),a.clone().add(b).multiplyScalar(.5),parent);o.quaternion.setFromUnitVectors(V(0,1,0),d.normalize());return o}function arrow(a,b,c,r=.012,parent=world,opacity=1){let d=b.clone().sub(a),len=d.length(),u=d.clone().normalize(),hl=Math.min(len*.22,r*6),p=b.clone().addScaledVector(u,-hl);tube(a,p,r,c,parent,opacity);let cone=mesh(new T.ConeGeometry(r*2.8,hl,12),basic(c,{transparent:opacity<1,opacity,toneMapped:false}),p.clone().addScaledVector(u,hl*.5),parent);cone.quaternion.setFromUnitVectors(V(0,1,0),u);return cone}function drawRay(a, b, start, length, draw) {
+  if (rayIntro === null) {
+    draw(a, b, world);
+    return;
+  }
+  const vector = b.clone().sub(a);
+  const group = new T.Group();
+  group.position.copy(a);
+  group.quaternion.setFromUnitVectors(V(0,1,0), vector.clone().normalize());
+  draw(V(), V(0,vector.length(),0), group);
+  world.add(group);
+  growingRays.push({group,start,length});
+  rayIntroEnd = Math.max(rayIntroEnd, start + length);
+}
+
+function updateRayDrawing() {
+  for (const {group,start,length} of growingRays) {
+    const progress = rayProgress(start, length);
+    group.visible = progress > 0;
+    group.scale.y = Math.max(progress, .001);
+  }
+  for (const {object,at} of timedMarkers) object.visible = rayHasReached(at);
+  if (updateEyeAfterArrival && rayHasReached(eyeArrival)) {
+    updateEyeAfterArrival();
+    updateEyeAfterArrival = undefined;
+  }
+}
+
+function sphere(p,r,c,parent=world,extra={}){return mesh(new T.SphereGeometry(r,24,16),mat(c,extra),p,parent)}function clear(){world.traverse(o=>{if(o.geometry)o.geometry.dispose();if(o.material){(Array.isArray(o.material)?o.material:[o.material]).forEach(m=>{if(m.uniforms?.map?.value?.isTexture)m.uniforms.map.value.dispose();m.dispose()})}});world.clear();growingRays=[];timedMarkers=[];eyeArrival=Infinity;updateEyeAfterArrival=undefined;rayIntroEnd=0;$('labels').innerHTML='';labels=[];anim=[];rainObj=null;rainbows=null;}
+function rand(seed){let x=seed;return()=>{x=(x*1664525+1013904223)>>>0;return x/4294967296}}const rng=rand(7132);
+function axis(){return V(0,-Math.sin(S.sun*rad),Math.cos(S.sun*rad))}function dirAt(theta,phi){let a=axis(),up=V(0,Math.cos(S.sun*rad),Math.sin(S.sun*rad));return a.multiplyScalar(Math.cos(theta)).addScaledVector(V(1,0,0),Math.sin(theta)*Math.cos(phi)).addScaledVector(up,Math.sin(theta)*Math.sin(phi))}
+function sky(){let g=new T.SphereGeometry(320,48,32),m=new T.ShaderMaterial({side:T.BackSide,depthWrite:false,uniforms:{},vertexShader:`varying vec3 p;void main(){p=position;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,fragmentShader:`varying vec3 p;float h(vec2 p){return fract(sin(dot(p,vec2(127.1,311.7)))*43758.5453);}float n(vec2 p){vec2 i=floor(p),f=fract(p);f=f*f*(3.-2.*f);return mix(mix(h(i),h(i+vec2(1,0)),f.x),mix(h(i+vec2(0,1)),h(i+vec2(1,1)),f.x),f.y);}float fb(vec2 p){float v=0.,a=.5;for(int i=0;i<5;i++){v+=a*n(p);p=p*2.03+17.;a*=.5;}return v;}void main(){vec3 d=normalize(p);float y=max(d.y,0.);vec3 c=mix(vec3(.66,.77,.78),vec3(.16,.37,.53),pow(y,.65));vec2 q=vec2(atan(d.x,d.z)*3.8,d.y*9.);float cloud=fb(q+vec2(3.2,5.));float mask=smoothstep(.40,.66,cloud)*smoothstep(-.04,.12,d.y);vec3 cl=mix(vec3(.31,.40,.48),vec3(.75,.79,.79),smoothstep(.42,.72,cloud));c=mix(c,cl,mask*.83);gl_FragColor=vec4(c,1.); #include <colorspace_fragment> }`.replace(' #include <colorspace_fragment> }','\n#include <colorspace_fragment>\n}')} );mesh(g,m,V(),world)}
+function terrain(){let g=new T.PlaneGeometry(500,500,100,100);g.rotateX(-Math.PI/2);let p=g.attributes.position,cols=[];for(let i=0;i<p.count;i++){let x=p.getX(i),z=p.getZ(i),d=Math.hypot(x,z),h=(Math.sin(x*.034)*Math.cos(z*.028)*5+Math.sin(x*.11+z*.07)*1.4)*clamp((d-16)/40,0,1);let ridge=Math.exp(-(((z-142)/45)**2))*(14+8*Math.sin(x*.03)+5*Math.cos(x*.075));h+=ridge;p.setY(i,h-.12);let c=new T.Color().setHSL(.28+Math.sin(x*.06+z*.04)*.035,.26+ .12*Math.cos(z*.09),.27+ .08*Math.sin(x*.15+z*.06));cols.push(c.r,c.g,c.b)}g.setAttribute('color',new T.Float32BufferAttribute(cols,3));g.computeVertexNormals();mesh(g,mat(0xffffff,{vertexColors:true}),V());let R=rand(14),trunk=new T.InstancedMesh(new T.CylinderGeometry(.10,.18,2.2,6),mat(0x5b4d37),200),crown=new T.InstancedMesh(new T.ConeGeometry(1.3,4,9),mat(0x285c42),200),o=new T.Object3D();for(let i=0;i<200;i++){let x=(R()-.5)*145,z=18+R()*95,d=Math.hypot(x,z),h=(Math.sin(x*.034)*Math.cos(z*.028)*5+Math.sin(x*.11+z*.07)*1.4)*clamp((d-16)/40,0,1)+Math.exp(-(((z-142)/45)**2))*(14+8*Math.sin(x*.03)+5*Math.cos(x*.075))-.12;let s=.55+R()*.7;o.position.set(x,h+s,z);o.scale.setScalar(s);o.updateMatrix();trunk.setMatrixAt(i,o.matrix);o.position.y=h+2.8*s;o.updateMatrix();crown.setMatrixAt(i,o.matrix);crown.setColorAt(i,new T.Color().setHSL(.27+R()*.06,.31+R()*.2,.19+R()*.1))}world.add(trunk,crown);let lake=mesh(new T.PlaneGeometry(64,36),new T.MeshPhysicalMaterial({color:0x527e8b,metalness:.25,roughness:.22,transparent:true,opacity:.8}),V(-18,.02,30));lake.rotation.x=-Math.PI/2;}
+function bowMesh(p,eye,R=77,parent=world,op=1,ground=true){let seg=200,rows=28,pos=[],uv=[],idx=[];let angles=colors.map(c=>rho(c.n,p));let lo=Math.min(...angles)-.35,hi=Math.max(...angles)+.35;for(let k=0;k<=rows;k++){let th=(lo+(hi-lo)*k/rows)*rad;for(let i=0;i<=seg;i++){let a=dirAt(th,i/seg*Math.PI*2).multiplyScalar(R).add(eye);pos.push(a.x,a.y,a.z);uv.push(k/rows,i/seg)}}for(let k=0;k<rows;k++)for(let i=0;i<seg;i++){let a=k*(seg+1)+i,b=a+seg+1;idx.push(a,b,a+1,a+1,b,b+1)}let g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(pos,3));g.setAttribute('uv',new T.Float32BufferAttribute(uv,2));g.setIndex(idx);let col=p===1?colors.slice().reverse():colors;let cvs=document.createElement('canvas');cvs.width=512;cvs.height=1;let ctx=cvs.getContext('2d'),grad=ctx.createLinearGradient(0,0,512,0);grad.addColorStop(0,'rgba(120,80,255,0)');for(let i=0;i<col.length;i++){let t=(rho(col[i].n,p)-lo)/(hi-lo);grad.addColorStop(clamp(t,.001,.999),'#'+col[i].c.toString(16).padStart(6,'0'))}grad.addColorStop(1,'rgba(255,100,100,0)');ctx.fillStyle=grad;ctx.fillRect(0,0,512,1);let tex=new T.CanvasTexture(cvs);tex.colorSpace=T.SRGBColorSpace;let m=new T.ShaderMaterial({uniforms:{map:{value:tex},alpha:{value:op*(p===1?.9:.43)},cut:{value:ground?1:0}},side:T.DoubleSide,transparent:true,depthWrite:false,depthTest:ground,vertexShader:`varying vec2 v;varying float h;void main(){v=uv;h=position.y;gl_Position=projectionMatrix*modelViewMatrix*vec4(position,1.);}`,fragmentShader:`varying vec2 v;varying float h;uniform sampler2D map;uniform float alpha;uniform float cut;void main(){vec4 c=texture2D(map,vec2(v.x,.5));float fade=mix(1.,smoothstep(.0,2.,h),cut);gl_FragColor=vec4(c.rgb,c.a*alpha*fade);\n#include <colorspace_fragment>\n}`});let o=mesh(g,m,null,parent);o.renderOrder=5;return o}
+function makeRain(){let R=rand(272),count=1200,arr=new Float32Array(count*6);for(let i=0;i<count;i++){let x=(R()-.5)*170,y=R()*85,z=10+R()*120;arr.set([x,y,z,x-.11,y-.55,z],i*6)}let g=new T.BufferGeometry();g.setAttribute('position',new T.BufferAttribute(arr,3));let l=new T.LineSegments(g,new T.LineBasicMaterial({color:0xc8e7ed,transparent:true,opacity:.17,depthWrite:false}));world.add(l);rainObj=l;}
+function obsCamera(){let eye=V(0,S.height,0),p=lookPitch+(S.height>35?-S.sun*rad:Math.max(0,(rho(1.331,1)-S.sun)*.32)*rad);let d=V(Math.sin(lookYaw)*Math.cos(p),Math.sin(p),Math.cos(lookYaw)*Math.cos(p));camera.fov=clamp((S.height>35?116:82)/lookZoom,25,125);camera.updateProjectionMatrix();camera.position.copy(eye);camera.lookAt(eye.clone().add(d));}
+function obsBuild(){observation=true;scene.background=new T.Color(0x6d94a7);scene.fog=new T.FogExp2(0x9cb3b7,.0038);sky();terrain();let eye=V(0,S.height,0);if(S.rain){bowMesh(1,eye,77);if(S.secondary)bowMesh(2,eye,77);makeRain()}if(S.geometry){let a=axis(),end=eye.clone().addScaledVector(a,65);line([eye,end],0xe8fff7,.85,true);let ring=[];for(let i=0;i<=144;i++)ring.push(eye.clone().addScaledVector(dirAt(rho(1.331,1)*rad,i/144*2*Math.PI),64));line(ring,0xffffff,.6,true);label('反太阳点',end);let apex=eye.clone().addScaledVector(dirAt(rho(1.331,1)*rad,Math.PI/2),60);label('彩虹约 42°',apex);if(S.secondary)label('霓约 51°',eye.clone().addScaledVector(dirAt(rho(1.331,2)*rad,Math.PI/2),72))}obsCamera()}
+function envDrop(){let c=document.createElement('canvas');c.width=512;c.height=256;let x=c.getContext('2d'),gr=x.createLinearGradient(0,0,0,256);gr.addColorStop(0,'#d4efff');gr.addColorStop(.45,'#476b86');gr.addColorStop(.54,'#132a3a');gr.addColorStop(1,'#416477');x.fillStyle=gr;x.fillRect(0,0,512,256);x.fillStyle='#ffffff';x.fillRect(50,30,76,20);x.fillRect(300,62,55,66);let tex=new T.CanvasTexture(c);tex.mapping=T.EquirectangularReflectionMapping;tex.colorSpace=T.SRGBColorSpace;return tex}const env=envDrop();
+function dropBuild(){observation=false;scene.background=new T.Color(0x142b3b);scene.fog=null;let shell=mesh(new T.SphereGeometry(1,96,64),new T.MeshPhysicalMaterial({color:0x8bc7e6,metalness:.05,roughness:.12,transparent:true,opacity:.20,envMap:env,envMapIntensity:1.4,clearcoat:1,clearcoatRoughness:.05,side:T.DoubleSide,depthWrite:false}),V());shell.renderOrder=2;let ring=[];for(let i=0;i<=120;i++)ring.push(V(Math.cos(i/120*2*Math.PI),Math.sin(i/120*2*Math.PI),.012));line(ring,0x9bd3e7,.72);line([V(-1.18,0),V(1.18,0)],0xb3ccd2,.48,true);let t=branchTrace(colors[S.wave].n,S.b),c0=colors[S.wave].c;
+const incomingLength=t.start.distanceTo(t.entry),n=colors[S.wave].n;
+drawRay(t.start,t.entry,0,incomingLength,(a,b,parent)=>arrow(a,b,S.white?0xfff1cd:c0,.019,parent,.98));if(!S.white){let dot=sphere(t.start,.018,0xffffff,world,{emissive:c0,emissiveIntensity:.45});anim.push({dot,a:t.start,z:t.entry,travel:0,duration:t.start.distanceTo(t.entry)})}label('入射光',t.start.clone().lerp(t.entry,.45).add(V(0,.23,0)),incomingLength*.45);label('球形水滴（放大）',V(.52,1.34,0));
+if(S.fan){const fan=new T.Group();world.add(fan);for(let j=-8;j<=8;j++){let b=clamp(S.b+j*.012,-.995,.995),u=branchTrace(n,b),k=S.focus<0?1:S.focus;line([u.start,u.entry,...u.segments.slice(0,k+1).map(x=>x.z),u.outputs[k].z],c0,.18,false,fan);}timedMarkers.push({object:fan,at:Infinity});}
+const branches=branchItems();
+for(const {o,kind,start} of branches){
+  if(kind!=='inside'&&S.eyeOn&&eyeHit(o)){
+    eyeArrival=Math.min(eyeArrival,start+eyePoint().sub(o.a).dot(o.d));
+  }
+}
+for(const {o,kind,c,start,length} of branches.sort((a,b)=>b.o.e-a.o.e)){
+  const st=styles(o,kind),rw=st.width*(S.white?.55:1);
+  drawRay(o.a,o.z,start,length,(a,b,parent)=>{
+    arrow(a,b,c.c,rw*2, parent,Math.min(.26,st.glow*.34));
+    arrow(a,b,c.c,rw,parent,st.op);
+  });
+  if(!S.white&&st.op>.18){
+    const dot=sphere(o.a,.018,0xffffff,world,{emissive:c.c,emissiveIntensity:.45+.20*st.gain});
+    anim.push({dot,a:o.a,z:o.z,travel:start,duration:length});
+  }
+}
+for(let [k,h] of [t.entry,...t.segments.map(o=>o.z)].entries()){if(S.rayStep&&S.rayStep<k+1)continue;const at=interfaceDistance(t,n,k),marker=new T.Group();world.add(marker);sphere(h,.026,0xffffff,marker);if(S.normal)line([h.clone().multiplyScalar(.73),h.clone().multiplyScalar(1.22)],0xddebe9,.70,true,marker);timedMarkers.push({object:marker,at});if(k===0)label('入射处分流',h.clone().multiplyScalar(1.21).add(V(0,.11,0)),at);else if(k<=4)label('界面 '+k,h.clone().multiplyScalar(1.18),at);}
+for(let o of t.outputs){if(S.rayStep&&S.rayStep<o.k+2)continue;let p=o.a.clone().lerp(o.z,.84);let perpendicular=V(-o.d.y,o.d.x);let text=o.k+' 次 · '+names[o.k];if(S.eyeOn&&eyeHit(o)){text+=' · 入眼';p=o.a.clone().lerp(o.z,.60);}label(text,p.addScaledVector(perpendicular,.20*(o.k%2?1:-1)),interfaceDistance(t,n,o.k+1)+o.a.distanceTo(o.z)*(eyeHit(o)&&S.eyeOn?.60:.84));}
+if(S.showFront&&(!S.rayStep||S.rayStep>=1))label('表面反射',t.front.a.clone().lerp(t.front.z,.72).add(V(0,.15,0)),incomingLength+t.front.a.distanceTo(t.front.z)*.72);
+if(S.eyeOn){let e=eyePoint(),hits=(S.white?colors:[colors[S.wave]]).some(c=>receiveBranches(branchTrace(c.n,S.b)).some(eyeHit)),g=new T.Group();g.position.copy(e);world.add(g);let eye=sphere(V(),.12,0xf7faf3,g,{roughness:.3});eye.scale.set(1.45,.78,.72);const iris=sphere(V(0,0,.089),.054,0x429eae,g);sphere(V(0,0,.132),.024,0x173444,g);
+const eyeLabel=label('人眼',e.clone().add(V(0,-.25,0)));
+const updateEye=()=>{if(hits)iris.material.color.setHex(0xf1c66a);if(S.labelDetail&&eyeLabel)eyeLabel.textContent=hits?'人眼 · 接收到光':'人眼 · 未接收到光';};
+if(rayHasReached(eyeArrival))updateEye();else updateEyeAfterArrival=updateEye;}
+}
+function person(pos,color){let g=new T.Group();g.position.copy(pos);world.add(g);sphere(V(0,.18,0),.16,0xe8c7a4,g);mesh(new T.CapsuleGeometry(.13,.43,5,12),mat(color),V(0,-.25,0),g);tube(V(-.08,-.48,0),V(-.10,-.9,0),.055,0x5b6a73,g);tube(V(.08,-.48,0),V(.10,-.9,0),.055,0x5b6a73,g);sphere(V(0,.2,.13),.055,0xeff7f2,g);return pos.clone().add(V(0,.2,.13))}
+const rainMarkerColors = {A:0x64eee1,B:0xffb856,shared:0xfff6d9};
+let fixedRain;
+let spaceRain;
+
+function rainPositions() {
+  if (!fixedRain) {
+    const random = rand(72);
+    fixedRain = [];
+    for (let x = -17; x <= 17; x++) {
+      for (let y = -19; y <= 16; y++) {
+        for (let z = -11; z <= 23; z++) {
+          fixedRain.push(V(x + random() - .5, y + random() - .5, z + random() - .5));
+        }
+      }
+    }
+  }
+  return fixedRain;
+}
+
+function selectRainbowDrops(A, B, direction) {
+  const angles = [rho(colors[0].n,S.cone),rho(colors.at(-1).n,S.cone)];
+  const minCos = Math.cos(Math.max(...angles)*rad);
+  const maxCos = Math.cos(Math.min(...angles)*rad);
+  const halfDepth = .8;
+  const groups = {A:[],B:[],shared:[]};
+  // 两位观察者并排站立，沿反太阳方向的雨幕深度相同。
+  const depthOrigin = A.dot(direction);
+  function inColorBand(drop, observer, depth) {
+    const cosine = depth / Math.hypot(drop.x-observer.x,drop.y-observer.y,drop.z-observer.z);
+    return cosine >= minCos && cosine <= maxCos;
+  }
+  for (const drop of rainPositions()) {
+    const depth = drop.dot(direction)-depthOrigin;
+    if (Math.abs(depth-S.rainDist)>halfDepth) continue;
+    const inA = (S.both || S.observer==='A') && inColorBand(drop,A,depth);
+    const inB = (S.both || S.observer==='B') && inColorBand(drop,B,depth);
+    if (inA && inB) groups.shared.push(drop);
+    else if (inA) groups.A.push(drop);
+    else if (inB) groups.B.push(drop);
+  }
+  return groups;
+}
+
+function buildSpaceRain(A,B,direction) {
+  const positions = rainPositions();
+  spaceRain = selectRainbowDrops(A,B,direction);
+  const geometry = new T.BufferGeometry().setFromPoints(positions);
+  const material = new T.PointsMaterial({
+    color:0x9acbe0, size:1.35, sizeAttenuation:false, transparent:true, opacity:.17, depthWrite:false
+  });
+  world.add(new T.Points(geometry,material));
+  const marker = new T.Object3D();
+  for (const [group,positions] of Object.entries(spaceRain)) {
+    if (!positions.length) continue;
+    const droplets = new T.InstancedMesh(
+      new T.SphereGeometry(.135,10,8), basic(rainMarkerColors[group],{toneMapped:false}), positions.length
+    );
+    for (const [index,position] of positions.entries()) {
+      marker.position.copy(position);
+      marker.updateMatrix();
+      droplets.setMatrixAt(index,marker.matrix);
+    }
+    world.add(droplets);
+  }
+}
+
+function spaceRainKey() {
+  const groups = S.both ? [['A','A 的水滴'],['B','B 的水滴'],['shared','共同水滴']]
+    : [[S.observer,'观察者 '+S.observer+' 的水滴']];
+  return '<p class="rain-key">'+groups.map(([group,title])=>
+    '<span><i aria-hidden="true" style="--drop-color:#'+rainMarkerColors[group].toString(16)+'"></i>'+title+'</span>'
+  ).join('')+'</p>';
+}
+
+function coneBuild(){observation=false;scene.background=new T.Color(0x132e3d);scene.fog=null;let grid=new T.GridHelper(36,36,0x5b7c87,0x294a5a);grid.position.y=-1;world.add(grid);let A=person(V(-1.1,0,0),0x65bcad),B=person(V(1.1,0,0),0xdfa365),eye=S.observer==='A'?A:B;label('观察者 A',A.clone().add(V(0,.55,0)));label('观察者 B',B.clone().add(V(0,.55,0)));let dist=S.rainDist,q=S.cone,a=axis(),end=eye.clone().addScaledVector(a,dist),sun=V(0,.2,.13).addScaledVector(a,-9);mesh(new T.SphereGeometry(.56,32,24),basic(0xffd375,{toneMapped:false}),sun);mesh(new T.SphereGeometry(.85,32,24),basic(0xffc761,{transparent:true,opacity:.12,depthWrite:false} ),sun);label('太阳（方位示意）',sun.clone().add(V(0,.95,0)));line([eye.clone().addScaledVector(a,-9),eye,end],0xb3dbd7,.75,true);label('反太阳方向',end.clone().add(V(0,.36,0)));let sunH=V(0,0,-1),angleArc=[];line([eye,eye.clone().addScaledVector(sunH,5)],0x9abdb6,.72,true);for(let i=0;i<=32;i++){let t=S.sun*rad*i/32;angleArc.push(eye.clone().add(V(0,Math.sin(t)*2.2,-Math.cos(t)*2.2)))}if(S.sun>0)line(angleArc,0xffcf77,.95);buildSpaceRain(A,B,a);
+function cone(e,p,active){let theta=rho(colors[0].n,p)*rad,rr=dist/Math.cos(theta),ring=[];for(let i=0;i<=160;i++)ring.push(e.clone().addScaledVector(dirAt(theta,i/160*2*Math.PI),rr));let pos=[e.x,e.y,e.z],ind=[];ring.forEach(x=>pos.push(x.x,x.y,x.z));for(let i=1;i<ring.length;i++)ind.push(0,i,i+1);let g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(pos,3));g.setIndex(ind);g.computeVertexNormals();mesh(g,basic(active?0x63bfce:0xe7a75d,{side:T.DoubleSide,transparent:true,opacity:active?.055:.025,depthWrite:false}));for(let c of colors){let t=rho(c.n,p)*rad,dd=dist/Math.cos(t),arc=[];for(let i=0;i<=160;i++)arc.push(e.clone().addScaledVector(dirAt(t,i/160*2*Math.PI),dd));line(arc,c.c,active?.85:.3)}if(active){
+  const R=.72,ray=spatialRay(e,p,colors[0].n,Math.PI/2,R),pts=ray.pts;
+  const shell=mesh(new T.SphereGeometry(R,32,24),new T.MeshPhysicalMaterial({
+    color:0x9ec9e4,roughness:.12,transparent:true,opacity:.24,depthWrite:false,side:T.DoubleSide
+  }),ray.center);
+  shell.renderOrder=2;
+  arrow(pts[1].clone().addScaledVector(a,-3.5),pts[1],0xffedbf,.024,world,.95);
+  for(let i=1;i<pts.length-1;i++)arrow(pts[i],pts[i+1],colors[0].c,.022,world,.95);
+  arrow(pts.at(-1),e,colors[0].c,.022,world,.91);
+  label((p===1?'彩虹：一次内反射':'霓：两次内反射')+'（水滴放大示意）',ray.center.clone().add(V(0,1.05,0)));
+  label('平行太阳光',pts[1].clone().addScaledVector(a,-2.1).add(V(0,.28,0)));
+  label('红光进入人眼',pts.at(-1).clone().lerp(e,.48).add(V(0,.3,0)));
+}let ang=[];for(let i=0;i<=48;i++)ang.push(e.clone().addScaledVector(dirAt(theta*i/48,Math.PI/2),2.5));if(active){line(ang,0xffffff,.9);label(rho(colors[0].n,p).toFixed(1)+'°',e.clone().addScaledVector(dirAt(theta*.5,Math.PI/2),3.1))}}cone(eye,q,true);if(S.both)cone(S.observer==='A'?B:A,q,false);}
+
+const poses={1:{target:[0,0,0],dist:11.5,yaw:0,pitch:0},2:{target:[0,0,2.3],dist:39,yaw:.78,pitch:.44}};
+function resetCamera(){lookYaw=0;lookPitch=0;lookZoom=1;if(observation)obsCamera();else if(nav)nav.setPose(poses[S.stage]||poses[1]);}
+function build(reset=false){clear();if(S.stage===0||S.stage===3)obsBuild();else if(S.stage===1){dropBuild();updateRayDrawing()}else coneBuild();if(reset){if(nav){nav.dispose();nav=null}if(!observation){camera.fov=S.stage===1?43:50;camera.updateProjectionMatrix();nav=LabKit.createNavigation({element:$('gl'),pose:poses[S.stage],fov:camera.fov,minDistance:1,maxDistance:100,apply:(p,e)=>{camera.position.set(...e);camera.lookAt(...p.target)}})}else{ $('gl').style.touchAction='none';resetCamera() }} }
+function sel(v,t,on){return `<button data-set="${v}" class="${on?'on':''}">${t}</button>`}function sunSketch(){let a=S.sun*rad,x=150,y=91,R=82,sx=x-R*Math.cos(a),sy=y-R*Math.sin(a),rr=35,ex=x-rr*Math.cos(a),ey=y-rr*Math.sin(a),mx=x-49*Math.cos(a/2),my=y-49*Math.sin(a/2);let tx=x+65*Math.cos(a),ty=y+65*Math.sin(a);return `<svg viewBox="0 0 300 157" role="img" aria-label="太阳高度角 ${S.sun} 度：太阳方向与水平线的夹角"><defs><marker id="sunRayTip" markerWidth="6" markerHeight="6" refX="5" refY="3" orient="auto"><path d="M0 0L6 3L0 6Z" fill="#bf8b2c"/></marker></defs><path d="M14 ${y}H286" stroke="#91a69f" stroke-width="1.4" stroke-dasharray="5 4"/><text x="282" y="${y-6}" text-anchor="end" font-size="11" fill="#58726b">水平线</text><path d="M${x} ${y} L${tx} ${ty}" stroke="#7c9a94" stroke-width="1.4" stroke-dasharray="4 4"/><text x="${Math.min(278,tx+6)}" y="${Math.min(150,ty+13)}" text-anchor="end" font-size="10" fill="#58726b">反太阳方向</text><path d="M${sx} ${sy}L${x} ${y}" stroke="#bf8b2c" stroke-width="2.3" marker-end="url(#sunRayTip)"/><path d="M${x-rr} ${y} A${rr} ${rr} 0 0 1 ${ex} ${ey}" fill="none" stroke="#187c75" stroke-width="2.4"/><text x="${mx}" y="${my-7}" text-anchor="middle" font-size="14" font-weight="700" fill="#187c75">${S.sun}°</text><g transform="translate(${sx} ${sy})"><circle r="10" fill="#f6c65f" stroke="#d6a148"/>${Array.from({length:8},(_,i)=>{let t=i*Math.PI/4;return `<path d="M${Math.cos(t)*13} ${Math.sin(t)*13}L${Math.cos(t)*17} ${Math.sin(t)*17}" stroke="#d6a148" stroke-width="1.4" stroke-linecap="round"/>`}).join('')}</g><text x="${sx-17}" y="${Math.max(12,sy-15)}" text-anchor="middle" font-size="11" fill="#8e6a26">太阳</text><circle cx="${x}" cy="${y}" r="4" fill="#187c75"/><path d="M${x} ${y+5}v17m-8 -9h16m-8 9l-6 10m6 -10l6 10" stroke="#3b635c" stroke-width="2.4" fill="none" stroke-linecap="round"/><text x="${x-12}" y="${y+43}" text-anchor="end" font-size="11" fill="#3b635c">观察者</text></svg><figcaption>太阳方向与观察者所在水平线的夹角</figcaption>`}function range(key,title,val,min,max,step,unit=''){return `<div class="control"><label>${title}<output id="out-${key}">${val}${unit}</output></label><input type="range" data-range="${key}" min="${min}" max="${max}" step="${step}" value="${val}" data-unit="${unit}"><div class="ends"><span>${min}${unit}</span><span>${max}${unit}</span></div>${key==='sun'?`<figure class="sunSketch" id="sunSketch">${sunSketch()}</figure>`:''}</div>`}function check(key,title){return `<label class="check"><input type="checkbox" data-check="${key}" ${S[key]?'checked':''}>${title}</label>`}function quiz(id,opts,correct,reason){return `<div class="choices">${opts.map((s,i)=>`<button data-quiz="${id}:${i}" class="${S.answers[id]===i?'selected':''}">${String.fromCharCode(65+i)}. ${s}</button>`).join('')}</div>${S.answers[id]!==undefined?`<div class="answer">${S.answers[id]===correct?'判断正确。':'再结合实验想一想。'} ${reason}</div>`:''}`}function next(t){return `<button class="primary next" data-next>${t} →</button>`}function stats(a,b,c,d){return `<div class="readouts"><div class="readout"><span>${a}</span><b>${b}</b></div><div class="readout"><span>${c}</span><b>${d}</b></div></div>`}
+function graph(){let w=288,h=128,p=28,X=b=>p+(w-p-12)*(b+1)/2,Y=a=>h-20-(h-32)*a/180,curves=[];for(let k of [1,2]){let pts=[];for(let j=0;j<=100;j++){let b=-.995+1.99*j/100,o=branchTrace(colors[S.wave].n,b).outputs[k];pts.push(X(b).toFixed(1)+','+Y(Math.acos(clamp(-o.d.x,-1,1))/rad).toFixed(1));}curves.push(`<polyline points="${pts.join(' ')}" stroke="${k===1?'#188b80':'#9a6cbd'}" stroke-width="2" fill="none"/>`)}return `<svg class="graph" viewBox="0 0 ${w} ${h}"><path d="M${p} 12V${h-20}H${w-10}" stroke="#9ab0aa" fill="none"/><text x="2" y="16" font-size="10" fill="#607c76">180°</text><text x="12" y="${h-20}" font-size="10" fill="#607c76">0°</text><text x="${p}" y="${h-5}" font-size="10">−1</text><text x="${w/2}" y="${h-5}" font-size="10">0</text><text x="${w-18}" y="${h-5}" font-size="10">1</text>${curves.join('')}<path d="M${X(S.b)} 12V${h-20}" stroke="#c5a054" stroke-dasharray="3 3"/><text x="${p+8}" y="25" font-size="10" fill="#188b80">彩虹光路</text><text x="${p+8}" y="39" font-size="10" fill="#9a6cbd">霓光路</text></svg>`}
+function refreshRead(){if($('sunSketch'))$('sunSketch').innerHTML=sunSketch();if(S.stage===1){let n=colors[S.wave].n,t=branchTrace(n,S.b),hit=t.outputs.filter(eyeHit);let set=S.white?colors:[colors[S.wave]],received=set.flatMap(c=>receiveBranches(branchTrace(c.n,S.b)).filter(eyeHit).map(o=>({c:c.name,k:o.k})));let fmt=x=>x>0&&x<.0001?'<0.01%':(x*100).toFixed(2)+'%';$('stats').innerHTML=stats('入射角', (t.i/rad).toFixed(1)+'°','折射角',(t.r/rad).toFixed(1)+'°')+`<div class="energyrows"><div class="energyhead">出射分支 <span>${colors[S.wave].name}光能量 · 占入射光</span></div>${[{k:-1,e:t.front.e},...t.outputs,{k:4,e:t.remain}].sort((a,b)=>b.e-a.e).map(o=>`<div class="energyrow"><span>${o.k===-1?'表面反射':o.k===4?'内部剩余':o.k+'次 · '+names[o.k]}</span><b>${fmt(o.e)}</b><i style="width:${o.e*100}%"></i></div>`).join('')}</div>`;$('eyeRead').innerHTML=!S.eyeOn?'已隐藏人眼':rayIntro!==null?'正在绘制光路…':received.length?'接收到：'+[...new Set(received.map(o=>(o.k===-1?'表面反射':o.k+'次内反射')+' · '+o.c+'光'))].join('、'):'当前眼睛没有接收到这些出射光（移动人眼试试）';$('graph').innerHTML=S.showGraph?graph():'';$('phase').textContent=S.rayStep?['','① 入射处：反射与折射','② 第1次到达内壁：直接透射／继续反射','③ 第2次到达内壁：一次内反射后出射','④ 第3次到达内壁：两次内反射后出射','⑤ 第4次到达内壁：三次内反射后出射'][S.rayStep]:'完整分流：0～3次内反射';$('prog').style.width=(S.rayStep?S.rayStep/5*100:100)+'%'}else if(S.stage===0||S.stage===3){$('stats').innerHTML=stats('彩虹最高点仰角',(rho(1.331,1)-S.sun).toFixed(1)+'°','霓最高点仰角',(rho(1.331,2)-S.sun).toFixed(1)+'°');$('vis').textContent=!S.rain?'没有水滴，不形成虹。':S.height>75?'观察点足够高，雨幕延伸至下方，可观察完整圆虹。':S.sun>rho(1.331,2)?'太阳过高，彩虹与霓方向均在水平线以下（地面观察时）。':S.sun>rho(1.331,1)?'彩虹方向已低于水平线，霓仍可能露出一部分。':'改变太阳高度，观察虹顶随之降低。'}else{$('stats').innerHTML=stats('红光角半径',rho(1.331,S.cone).toFixed(1)+'°','紫光角半径',rho(1.343,S.cone).toFixed(1)+'°')}}
+function renderPanel(){let st=S.stage;let navs=$('nav');navs.innerHTML=stages.map((t,i)=>`<button data-stage="${i}" class="${i===st?'on':''}"><span class="num">${i+1}</span>${t}</button>`).join('');let panel=$('panel');$('mini').style.display='none';if(st===0||st===3){$('sceneTitle').textContent=st===0?'雨后天空 · 第一视角':'改变条件 · 验证你的猜想';$('sceneSub').textContent='太阳位于观察者身后，前方有雨滴';$('gesture').textContent='拖动改变朝向 · 滚轮/双指调整视野';panel.innerHTML=`<div class="eyebrow">${st===0?'01 真实情境 · 提出问题':'04 迁移应用 · 验证规律'}</div><h2>${st===0?'彩虹为什么出现在这里？':'能看到完整的圆形彩虹吗？'}</h2><p class="question">${st===0?'先观察，再改变太阳与雨幕的条件。':'从地面换到高空，对比同一太阳高度下的彩虹。'}</p><div class="controls">${range('sun','太阳高度角',S.sun,0,65,1,'°')}${range('height','观察者高度',S.height,1.6,100,.4,' m')}<div class="seg">${sel('ground','地面观察',S.height<2)}${sel('air','高空观察',S.height>75)}</div>${check('rain','前方有雨滴')}${check('secondary','显示霓')}${check('geometry','显示反太阳方向与角半径')}</div><div class="rule"></div><div id="stats"></div><p class="note" id="vis"></p><div class="rule"></div><p class="question">${st===0?'猜一猜：太阳越高，虹顶会怎样？':'从高空看见完整圆虹，主要原因是什么？'}</p>${st===0?quiz('sun',['升高','降低','不变'],1,'用高度角滑块验证：虹顶仰角约为 42° − 太阳高度角。'):quiz('circle',['高空的水滴改变了折射率','下方也有可向眼睛送光的雨滴，地面遮挡减少','太阳变成了环形'],1,'虹本来就是以反太阳方向为轴的圆锥所形成的圆形视方向。')} ${st===0?next('进入单颗水滴'):'<button class="primary next" data-set="back">返回观察 ↺</button>'}<p class="source">场景为教学重建；虹带亮度、雨量和地貌非真实气象测量。</p>`;}else if(st===1){$('sceneTitle').textContent='单颗水滴 · 光的分流';$('sceneSub').textContent='同一束光 · 每个界面分流 · 移动人眼寻找出射光';$('gesture').textContent='拖动旋转 · 滚轮/双指缩放 · 右键/双指平移';panel.innerHTML=`<div class="eyebrow">02 自由探究 · 揭示机制</div><h2>一束光会走几条路？</h2><div class="controls ray-controls">
+<div class="seg"><button id="rayFAQToggle" aria-controls="rayFAQ" aria-expanded="${!rayFAQ.hidden}">疑惑解释</button>${sel('step',S.rayStep?'下一步':'逐步演示',S.rayStep>0)}${S.rayStep||rayIntro!==null?sel('all','完整显示',false):''}</div>
+<div class="control" ${S.rayStep?'':'hidden'}><p id="phase" class="stageCaption"></p><div class="stepLine"><i id="prog"></i></div></div>
+<div class="seg">${sel('fAll','全部',S.focus===-1)}${sel('f1','彩虹',S.focus===1)}${sel('f2','霓',S.focus===2)}</div>
+<div class="seg">${sel('f0','直接透射',S.focus===0)}${sel('f3','三次内反射',S.focus===3)}</div>
+${range('b','入射位置 b/R',+S.b.toFixed(3),-.995,.995,.005)}
+${check('eyeOn','显示人眼')}
+${S.eyeOn?`${range('eyeAngle','人眼方位',+S.eyeAngle.toFixed(1),-180,180,.1,'°')}<div class="seg">${sel('eye1','对准彩虹光',false)}${sel('eye2','对准霓光',false)}</div><p id="eyeRead" class="eyeRead"></p>`:'<p id="eyeRead" hidden></p>'}
+<details id="rayOptions" class="ray-extra"><summary>更多设置</summary><div class="controls">
+<div class="seg">${sel('single','单色光',!S.white)}${sel('white','白光分解',S.white)}</div>
+<div class="control"><label>参考色光 <output>${colors[S.wave].name}光 · ${colors[S.wave].nm} nm</output></label><div class="spectrum"></div><input data-range="wave" aria-label="参考色光" type="range" min="0" max="6" step="1" value="${S.wave}"></div>
+<div class="optiongrid">${check('normal','显示法线')}${check('energy','能量亮度')}${check('showFront','表面反射')}${check('fan','邻近入射光')}</div>
+<div class="seg">${sel('eye0','对准直接透射',false)}${sel('eye3','对准三次出射',false)}</div>
+</div></details>
+<details id="rayGraphDetails" class="ray-extra"><summary>读数与出射角曲线</summary><div class="controls">
+<div id="stats"></div>
+<div class="seg">${sel('opt1','彩虹典型位置',false)}${sel('opt2','霓典型位置',false)}</div>
+${check('showGraph','显示出射角曲线')}<div id="graph"></div>
+<p class="source">能量按菲涅耳公式计算。为便于观察，较弱的光路在画面中适当提亮，进入人眼的光路额外高亮。</p>
+</div></details>
+</div>${next('从水滴走向空间')}`;}else{$('sceneTitle').textContent='三维光锥 · 每个人自己的彩虹';$('sceneSub').textContent='雨滴留在原处 · 切换观察者看哪些水滴亮起';$('gesture').textContent='拖动旋转 · 滚轮/双指缩放 · 右键/双指平移';panel.innerHTML=`<div class="eyebrow">03 空间解释 · 建立模型</div><h2>为什么看到的是圆弧？</h2><div class="controls"><div class="seg">${sel('cone1','彩虹光锥',S.cone===1)}${sel('cone2','霓光锥',S.cone===2)}</div><div class="control"><label>观察者</label><div class="seg">${sel('A','观察者 A',S.observer==='A')}${sel('B','观察者 B',S.observer==='B')}</div></div>${check('both','同时显示 A、B 的水滴与光锥')}${spaceRainKey()}${range('sun','太阳高度角',S.sun,0,65,1,'°')}${range('rainDist','雨幕距离（示意）',S.rainDist,5,12,.5,' m')}</div><div class="rule"></div><div id="stats"></div><p class="note">${S.cone===1?'彩虹：外红内紫；对应的是<strong>1 次内反射</strong>后进入人眼的光。':'霓：内红外紫；对应的是<strong>2 次内反射</strong>后进入人眼的光。'} 高亮的是所选雨幕中，能把这道虹的光送入所选观察者眼睛的水滴。切换 A／B 时，雨滴留在原处，高亮的位置随观察者改变。切换彩虹／霓时，观察者位置固定，亮起的水滴也会换一批。霓光从对应的水滴直接射入眼睛。</p><div class="rule"></div><p class="question">两个人并肩站立，看到的是同一批水滴吗？</p>${quiz('people',['一定是同一批','不一定，各自有自己的视方向'],1,'切换 A、B，看高亮的位置怎样改变。打开同时显示，可以直接比较两批水滴。')}${next('到高空验证圆虹')}`;}if(renderer.software)$('gesture').textContent='二维备用模式 · 拖动旋转 / 缩放';refreshRead();}
+const rayFAQ = $('rayFAQ');
+const rayFAQHandle = $('rayFAQHandle');
+const rayFAQClose = $('rayFAQClose');
+let faqDrag;
+
+function placeRayFAQ(x, y) {
+  const view = $('view');
+  rayFAQ.style.left = clamp(x, 0, Math.max(0, view.clientWidth - rayFAQ.offsetWidth)) + 'px';
+  rayFAQ.style.top = clamp(y, 0, Math.max(0, view.clientHeight - rayFAQ.offsetHeight)) + 'px';
+}
+
+function setRayFAQVisible(visible, restoreFocus = false) {
+  rayFAQ.hidden = !visible;
+  const trigger = $('rayFAQToggle');
+  trigger?.setAttribute('aria-expanded', String(visible));
+  if (visible) {
+    placeRayFAQ(rayFAQ.offsetLeft, rayFAQ.offsetTop);
+    const bounds = $('view').getBoundingClientRect();
+    if (bounds.top < 0 || bounds.bottom > window.innerHeight) {
+      rayFAQ.scrollIntoView({block:'nearest'});
+    }
+    rayFAQClose.focus({preventScroll:true});
+  } else if (restoreFocus) {
+    trigger?.focus({preventScroll:true});
+  }
+}
+
+rayFAQClose.addEventListener('click', () => setRayFAQVisible(false, true));
+rayFAQ.addEventListener('keydown', event => {
+  if (event.key === 'Escape') setRayFAQVisible(false, true);
+});
+rayFAQHandle.addEventListener('pointerdown', event => {
+  if (event.button !== 0 || faqDrag || event.target.closest('button')) return;
+  faqDrag = {
+    id: event.pointerId,
+    offsetX: event.clientX - rayFAQ.offsetLeft,
+    offsetY: event.clientY - rayFAQ.offsetTop
+  };
+  rayFAQHandle.setPointerCapture(event.pointerId);
+  event.preventDefault();
+});
+rayFAQHandle.addEventListener('pointermove', event => {
+  if (faqDrag?.id !== event.pointerId) return;
+  placeRayFAQ(event.clientX - faqDrag.offsetX, event.clientY - faqDrag.offsetY);
+});
+rayFAQHandle.addEventListener('lostpointercapture', event => {
+  if (faqDrag?.id === event.pointerId) faqDrag = undefined;
+});
+
+function stage(i){rayIntro=i===1?0:null;S.stage=i;if(i!==1)setRayFAQVisible(false);S.paused=false;$('pause').textContent='暂停动画';if(i===3){S.height=1.6;S.sun=12;S.rain=true;S.geometry=false;}if(i===1){S.rayStep=0;}renderPanel();build(true)}
+$('nav').addEventListener('click',e=>{let b=e.target.closest('[data-stage]');if(b)stage(+b.dataset.stage)});$('panel').addEventListener('click',e=>{let b=e.target.closest('button');if(!b)return;if(b.hasAttribute('data-next')){stage(Math.min(3,S.stage+1));return}if(b.dataset.quiz){let [id,i]=b.dataset.quiz.split(':');S.answers[id]=+i;renderPanel();return}if(b.id==='rayFAQToggle'){setRayFAQVisible(rayFAQ.hidden,true);return}let v=b.dataset.set;if(!v)return;switch(v){case'fAll':S.focus=-1;break;case'f0':case'f1':case'f2':case'f3':S.focus=+v.slice(1);break;case'eye0':S.rayStep=0;alignEye(0);break;case'eye1':alignEye(1);break;case'eye2':alignEye(2);break;case'eye3':S.rayStep=0;alignEye(3);break;case'opt1':S.b=optimum(colors[S.wave].n,1);S.focus=1;S.rayStep=0;alignEye(1);break;case'opt2':S.b=-optimum(colors[S.wave].n,2);S.focus=2;S.rayStep=0;alignEye(2);break;case'ground':S.height=1.6;break;case'air':S.height=92;break;case'primary':S.order=1;S.rayStep=0;break;case'secondary':S.order=2;S.rayStep=0;break;case'white':S.white=true;break;case'single':S.white=false;break;case'step':rayIntro=null;S.rayStep=S.rayStep===5?1:S.rayStep+1;break;case'all':rayIntro=null;S.rayStep=0;break;case'cone1':S.cone=1;break;case'cone2':S.cone=2;break;case'A':case'B':S.observer=v;break;case'back':stage(0);return}let openIds=[...$('panel').querySelectorAll('details[open][id]')].map(x=>x.id);renderPanel();for(let id of openIds){let d=$(id);if(d)d.open=true;}build(false)});$('panel').addEventListener('input',e=>{let k=e.target.dataset.range;if(!k)return;S[k]=+e.target.value;if(k==='b'){S.optimal=false;let c=$('panel').querySelector('[data-check="optimal"]');if(c)c.checked=false}let out=$('out-'+k);if(out)out.textContent=S[k]+(e.target.dataset.unit||'');if(k==='wave'){let o=e.target.parentElement.querySelector('output');if(o)o.textContent=colors[S.wave].name+'光 · '+colors[S.wave].nm+' nm';let inp=$('panel').querySelector('[data-range="b"]');if(S.optimal&&inp){inp.value=optimum(colors[S.wave].n,S.order);$('out-b').textContent=(+inp.value).toFixed(3)}}refreshRead();build(false)});$('panel').addEventListener('change',e=>{let k=e.target.dataset.check;if(!k)return;S[k]=e.target.checked;let openIds=[...$('panel').querySelectorAll('details[open][id]')].map(x=>x.id);renderPanel();for(let id of openIds){let d=$(id);if(d)d.open=true;}build(false)});
+$('labelMode').onclick=()=>{S.labelDetail=!S.labelDetail;$('labelMode').textContent=S.labelDetail?'精简标注':'详细标注';$('labelMode').setAttribute('aria-pressed',String(S.labelDetail));build(false)};$('reset').onclick=resetCamera;$('pause').onclick=()=>{S.paused=!S.paused;$('pause').textContent=S.paused?'继续动画':'暂停动画'};$('fullscreen').onclick=async()=>{try{if(document.fullscreenElement)await document.exitFullscreen();else await document.documentElement.requestFullscreen()}catch(e){}};
+let pointers=new Map();let cvs=$('gl');function met(){let a=[...pointers.values()];return {x:a.reduce((s,p)=>s+p.x,0)/a.length,y:a.reduce((s,p)=>s+p.y,0)/a.length,d:a.length>1?Math.hypot(a[0].x-a[1].x,a[0].y-a[1].y):0}}cvs.addEventListener('pointerdown',e=>{if(!observation)return;pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});cvs.setPointerCapture(e.pointerId)});cvs.addEventListener('pointermove',e=>{if(!observation||!pointers.has(e.pointerId))return;let a=met();pointers.set(e.pointerId,{x:e.clientX,y:e.clientY});let b=met();lookYaw-=(b.x-a.x)*.004;lookPitch=clamp(lookPitch+(b.y-a.y)*.004,-1.2,1.2);if(a.d>2&&b.d>2)lookZoom=clamp(lookZoom*b.d/a.d,.74,2.9);obsCamera()});for(let t of ['pointerup','pointercancel','lostpointercapture'])cvs.addEventListener(t,e=>pointers.delete(e.pointerId));cvs.addEventListener('wheel',e=>{if(!observation)return;e.preventDefault();lookZoom=clamp(lookZoom*Math.exp(-e.deltaY*.001),.74,2.9);obsCamera()},{passive:false});
+function resize(){if(!rayFAQ.hidden)placeRayFAQ(rayFAQ.offsetLeft,rayFAQ.offsetTop);let w=$('view').clientWidth,h=$('view').clientHeight;renderer.setSize(w,h,false);camera.aspect=w/h;camera.updateProjectionMatrix()}new ResizeObserver(resize).observe($('view'));function frame(now){requestAnimationFrame(frame);let dt=Math.min(.06,(now-last)/1000);last=now;if(!S.paused){
+  time+=dt;
+  if(rayIntro!==null){
+    rayIntro+=dt*rayIntroSpeed;
+    if(rayIntro>=rayIntroEnd){
+      rayIntro=null;
+      $('panel').querySelector('[data-set="all"]')?.remove();
+      refreshRead();
+    }
+    updateRayDrawing();
+  }
+}if(rainObj&&!S.paused){let a=rainObj.geometry.attributes.position.array;for(let i=0;i<a.length;i+=6){a[i+1]-=dt*8;a[i+4]-=dt*8;if(a[i+1]<0){a[i+1]+=85;a[i+4]+=85}}rainObj.geometry.attributes.position.needsUpdate=true}for(let a of anim){if(a.travel!==undefined){let t=(time*3%17-a.travel)/Math.max(.01,a.duration);a.dot.visible=rayIntro===null&&t>=0&&t<=1;a.dot.position.lerpVectors(a.a,a.z,clamp(t,0,1))}else{let t=(time*.72+a.offset)%1;a.dot.position.lerpVectors(a.a,a.z,t)}}if(nav)nav.update(dt);renderer.render(scene,camera);let w=$('view').clientWidth,h=$('view').clientHeight;let occupied=[];for(let l of labels.slice().sort((a,b)=>a.priority-b.priority)){if(!rayHasReached(l.at)){l.el.style.display='none';continue;}let pp=l.p.clone().project(camera),x=(pp.x*.5+.5)*w,y=(-pp.y*.5+.5)*h;if(pp.z>1||pp.z< -1||Math.abs(pp.x)>1.07||Math.abs(pp.y)>1.07){l.el.style.display='none';continue;}l.el.style.display='block';let lw=l.el.offsetWidth,lh=l.el.offsetHeight;if(!S.labelDetail){x=clamp(x,lw/2+7,w-lw/2-7);y=clamp(y,lh/2+7,h-lh/2-7);let rect=[x-lw/2-4,y-lh/2-3,x+lw/2+4,y+lh/2+3];if(occupied.some(r=>rect[0]<r[2]&&rect[2]>r[0]&&rect[1]<r[3]&&rect[3]>r[1])){l.el.style.display='none';continue;}occupied.push(rect);}l.el.style.left=x+'px';l.el.style.top=y+'px'}}
+window.__rainbow={S,rho,optimum,trace,branchTrace,eyeHit,alignEye,stage,build};alignEye(1);resize();stage(0);requestAnimationFrame(frame);
+})();</script></body></html>

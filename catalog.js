@@ -1412,6 +1412,25 @@ window.MODEL_CATALOG = [
     "accent": "amber"
   },
   {
+    "id": "rainbow-and-secondary",
+    "cover": "assets/covers/rainbow-and-secondary-scene.jpg",
+    "title": "彩虹与霓 · 从一颗水滴到天空",
+    "subtitle": "水滴光路 · 彩虹与霓光锥 · 观察者对照",
+    "category": "光学现象",
+    "summary": "从雨后天空进入单颗水滴，逐段观察折射与内反射，再切换观察者和彩虹、霓光锥，比较同一雨幕里哪些水滴能把光送入眼睛。",
+    "tags": [
+      "彩虹",
+      "霓",
+      "水滴",
+      "内反射",
+      "色散",
+      "光锥"
+    ],
+    "path": "models/rainbow-and-secondary.html",
+    "symbol": "🌈",
+    "accent": "blue"
+  },
+  {
     "id": "reflection-refraction",
     "cover": "assets/covers/reflection-refraction-scene.jpg?v=20261019-solid",
     "title": "光的反射与折射",
