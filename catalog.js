@@ -1535,6 +1535,32 @@ window.MODEL_CATALOG = [
     "accent": "blue"
   },
   {
+    "id": "motion-energy-lab",
+    "title": "运动与能量探究实验室",
+    "subtitle": "阻力与运动 · 动能影响因素 · 机械能转化",
+    "category": "力学实验",
+    "summary": "六阶段自主探究：阻力对运动的影响、动能与质量及速度、U形轨道、机械能转化、阻力与能量、过山车拓展。支持坡底测速、车载砝码、滑块位移色带、等时运动记录、可拖动对比浮窗及单次/连续播放。",
+    "tags": [
+      "阻力",
+      "牛顿第一定律",
+      "动能",
+      "质量",
+      "速度",
+      "机械能",
+      "机械能转化",
+      "机械能守恒",
+      "重力势能",
+      "U形轨道",
+      "过山车",
+      "等时打点",
+      "控制变量"
+    ],
+    "path": "models/motion-energy-lab.html?v=20261127-compare",
+    "cover": "assets/covers/motion-energy-lab.jpg?v=20261127-compare",
+    "symbol": "能",
+    "accent": "green"
+  },
+  {
     "id": "friction-belt",
     "cover": "assets/covers/friction-belt.png?v=20261016-scene",
     "title": "滑动摩擦力演示仪",
