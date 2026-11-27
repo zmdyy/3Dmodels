@@ -4,7 +4,7 @@
 
 面向初中物理课堂、实验教学、跨学科实践与学生自主探究的浏览器交互资源库。项目从教材实验出发，延伸到生活器具、工程技术和真实应用，将三维结构、动态过程、实验操作、物理量与图像联系起来。
 
-**当前正式目录：87 个案例 · 14 个分类**（2026-11-27，依据 `catalog.js` 逐项统计；多实验页面按一个入口计。）
+**当前正式目录：88 个案例 · 14 个分类**（2026-11-28，依据 `catalog.js` 逐项统计；多实验页面按一个入口计。）
 
 [在线体验 · 无需安装](https://zmdyy.github.io/3Dmodels/) · [完整案例目录](#完整案例目录) · [离线使用](#离线使用) · [开发与资源复用](#开发与资源复用) · [问题反馈](https://github.com/zmdyy/3Dmodels/issues)
 
@@ -32,6 +32,7 @@
 
 | 案例 | 教学与交互特点 |
 |:---|:---|
+| [声音与振动实验室](https://zmdyy.github.io/3Dmodels/models/sound-vibration-lab.html) | 六组交互实验，从用乒乓球观察音叉微振动，到逐线超声成像。包含真空罩、音调与响度、共振、声呐测深和行车回波。单文件可离线使用。 |
 | [运动与能量探究实验室](https://zmdyy.github.io/3Dmodels/models/motion-energy-lab.html?v=20261127-compare) | 六阶段自主探究：阻力对运动的影响、动能与质量及速度、U形轨道、机械能转化、阻力与能量、过山车拓展。支持坡底测速、车载砝码、滑块位移色带、等时运动记录、可拖动对比浮窗及单次/连续播放。 |
 | [水从哪里喷得更远？](https://zmdyy.github.io/3Dmodels/models/water-jet-range.html?v=20261126-drain) | 比较上、中、下孔出水速度与落点；移动单孔、调节水面和容器离地高度，探究液体压强与水平射程。自然排水默认开启，支持落点留痕、数据记录、射程曲线、正视及双指缩放和平移。 |
 | [彩虹与霓 · 从一颗水滴到天空](https://zmdyy.github.io/3Dmodels/models/rainbow-and-secondary.html) | 从雨后天空进入单颗水滴，逐段观察折射与内反射，再切换观察者和彩虹、霓光锥，比较同一雨幕里哪些水滴能把光送入眼睛。 |
@@ -57,7 +58,7 @@
 | 热学实验 | 9 | 光学现象 | 11 |
 | 光学仪器 | 3 | 力学实验 | 29 |
 | 综合应用 | 11 | 电学元件 | 7 |
-| 电学实验 | 3 | 声学与电磁 | 5 |
+| 电学实验 | 3 | 声学与电磁 | 6 |
 | 能源与发电 | 3 | 家庭电路 | 2 |
 | 通信与信息 | 1 | 精密机械 | 1 |
 | 光与视觉 | 1 | 生活中的物理 | 1 |
@@ -178,8 +179,9 @@
 </details>
 
 <details>
-<summary><strong>声学与电磁（5）</strong></summary>
+<summary><strong>声学与电磁（6）</strong></summary>
 
+- [声音与振动实验室](https://zmdyy.github.io/3Dmodels/models/sound-vibration-lab.html) — 声音的产生和传播 · 真空罩 · 声音特性 · 共振 · 回声与超声 · [源码](./models/sound-vibration-lab.html) · [案例说明](./docs/reuse/cases/sound-vibration-lab.md)
 - [地球磁场 · 指南针探究](https://zmdyy.github.io/3Dmodels/models/earth-magnetism.html?v=20261024-1) — 任意位置安放指南针，观察磁偏角与磁倾角 · [源码](./models/earth-magnetism.html)
 - [安培定则](https://zmdyy.github.io/3Dmodels/models/ampere-rule.html) — 机器人右手握持与螺线管磁极判断 · [源码](./models/ampere-rule.html)
 - [电动机原理 · 四个3D实验](https://zmdyy.github.io/3Dmodels/models/motor-principles.html?v=20261018-nav1) — 导体受力、手动换向、刮漆与换向器 · [源码](./models/motor-principles.html)

@@ -1,5 +1,31 @@
 window.MODEL_CATALOG = [
   {
+    "id": "sound-vibration-lab",
+    "title": "声音与振动实验室",
+    "subtitle": "声音的产生、传播、特性与超声应用",
+    "category": "声学与电磁",
+    "summary": "六组交互探究，从音叉与乒乓球、空气微元和真空罩，到钢尺、琴弦与共振，再到山谷回声、声呐测深、超声成像和行车测量。支持播放、暂停、记录及三维视角操作，单文件可离线使用。",
+    "tags": [
+      "声音",
+      "振动",
+      "音叉",
+      "真空罩",
+      "音调",
+      "响度",
+      "音色",
+      "共振",
+      "回声",
+      "声呐",
+      "超声成像",
+      "倒车雷达",
+      "超声测速"
+    ],
+    "path": "models/sound-vibration-lab.html",
+    "cover": "assets/covers/sound-vibration-lab.jpg",
+    "symbol": "声",
+    "accent": "blue"
+  },
+  {
     "id": "retroreflection",
     "title": "逆反射 · 自行车与高速公路",
     "subtitle": "反光片、护栏轮廓标与两次／三次反射",
