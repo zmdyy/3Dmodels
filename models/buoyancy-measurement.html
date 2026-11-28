@@ -152,10 +152,10 @@ function(t,e){"object"==typeof exports&&"undefined"!=typeof module?e(exports):"f
 
 </script>
 <script>
-/* Geometry extracted from existing FEIDIE 10 N case; internal mm converted to m. */
+/* 飞碟牌条形盒式 10 N 测力计。内部几何使用毫米，挂接接口使用米。 */
 (function(root){'use strict';const K=root.LabKit=root.LabKit||{};
-function createSpringMeter(T,{renderer}={}){K.requireEngine(T);let force=0,disposed=false;
-const scene=new T.Group(),specs={B:{name:'FEIDIE 条形盒式 10 N',max:10,div:.2,x:0}},models={};
+function createSpringMeter(T){K.requireEngine(T);let force=0,disposed=false;
+const scene=new T.Group(),specs={B:{name:'飞碟牌条形盒式 10 N',max:10,div:.2,x:0}},models={};
 const mat={steel:new T.MeshStandardMaterial({color:0xaeb9bb,metalness:.88,roughness:.3}),spring:new T.MeshStandardMaterial({color:0x515f62,metalness:.87,roughness:.33}),teal:new T.MeshStandardMaterial({color:0x168188,roughness:.62,metalness:0}),green:new T.MeshStandardMaterial({color:0xa5b7a0,roughness:.8}),red:new T.MeshStandardMaterial({color:0xd72f3d,roughness:.5}),white:new T.MeshStandardMaterial({color:0xe9ebe0,roughness:.8,metalness:.15}),dark:new T.MeshStandardMaterial({color:0x293e3d,roughness:.8}),brass:new T.MeshStandardMaterial({color:0xa18c52,metalness:.85,roughness:.35})};
 function mesh(g,m,p,n,pos){const o=new T.Mesh(g,m);o.name=n||'';if(pos)o.position.set(...pos);o.castShadow=true;o.receiveShadow=true;p.add(o);return o;}
 function box(p,n,x,y,z,w,h,d,m){return mesh(new T.BoxGeometry(w,h,d),m,p,n,[x,y,z]);}
@@ -167,13 +167,93 @@ function hanger(p){const pts=[];for(let i=0;i<=60;i++){let a=(-140+i*280/60)*Mat
 function springGeo(d){const v=[],ind=[],N=400,K=8;for(let i=0;i<=N;i++){const t=i/N,a=t*20*Math.PI*2;for(let j=0;j<K;j++){const b=j/K*Math.PI*2;v.push((2.65+.36*Math.cos(b))*Math.cos(a),81-(20+d)*t+.36*Math.sin(b),(2.65+.36*Math.cos(b))*Math.sin(a));if(i<N){const q=i*K+j,n=i*K+(j+1)%K;ind.push(q,n,q+K,n,n+K,q+K);}}}const g=new T.BufferGeometry();g.setAttribute('position',new T.Float32BufferAttribute(v,3));g.setIndex(ind);g.computeVertexNormals();return g;}
 function spring(p){const g=new T.Group();g.name='弹簧与端部挂环';p.add(g);const coil=mesh(springGeo(0),mat.spring,g,'等线径拉伸弹簧');const eyeTop=ring(g,'上挂环直接挂横杆',0,84,0,3,.36,[0,Math.PI/2,0]);rod(g,'上端连接弯线',[[0,81,0],[2.65,81,0]],.36,mat.spring);const eyeBottom=ring(g,'弹簧下端挂环',0,58,0,3,.36,[0,Math.PI/2,0]);return{group:g,coil,eyeBottom};}
 function base(k){const root=new T.Group(),moving=new T.Group(),cover=new T.Group(),housing=new T.Group();scene.add(root);root.name=specs[k].name;root.position.x=specs[k].x;root.add(housing,cover,moving);const sp=spring(root);hanger(root);hook(moving,k==='B'?'独立 S 钩':'下挂钩');const o={root,moving,cover,housing,sp,k,max:specs[k].max,parts:[]};models[k]=o;return o;}
-const map=K.svg.texture(T,K.svg.linearScale({width:1440,height:7440,x:720,top:1520,bottom:6920,fontSize:232}),{renderer});function dialTexture(){return map.texture;}
-function frontPanel(o){const shape=new T.Shape();shape.moveTo(-18,-93);shape.lineTo(18,-93);shape.lineTo(18,93);shape.lineTo(-18,93);shape.closePath();const hole=new T.Path();hole.moveTo(-2,-84);hole.lineTo(-2,60);hole.lineTo(2,60);hole.lineTo(2,-84);hole.closePath();shape.holes.push(hole);const geo=new T.ShapeGeometry(shape);const uv=geo.attributes.uv,ps=geo.attributes.position;for(let i=0;i<uv.count;i++)uv.setXY(i,(ps.getX(i)+18)/36,(ps.getY(i)+93)/186);const face=mesh(geo,new T.MeshStandardMaterial({map:dialTexture(o.k),roughness:.86,metalness:0,side:T.DoubleSide}),o.cover,'高清开槽刻度正面',[0,0,8.5]);face.material.userData.noMaterialFinish=true;shapePlate(o.cover,'有厚度的金属刻度板',-18,18,-93,93,7.7,[[-2,2,-84,60]],mat.white,.7);}
+// Noto Sans CJK SC Bold, © 2014–2021 Adobe (SIL OFL 1.1). Outlines use 500 units per em.
+// Each entry is [advance, shapes]; a shape begins with its outer contour, then its counters.
+const scaleGlyphOutlines = {
+  "0": [295,[[[148,-7,167,-5,186,0,203,8,219,19,232,34,244,51,254,72,262,96,268,123,272,154,273,187,272,223,267,256,260,284,251,309,239,330,224,347,208,360,190,369,169,375,148,377,126,375,105,369,87,360,71,347,56,330,44,309,35,284,28,256,23,223,22,187,23,154,27,123,33,96,41,72,51,51,63,34,76,19,92,8,109,0,128,-5],[148,50,137,52,128,56,119,63,111,73,104,87,99,105,95,128,92,155,92,187,92,219,95,245,99,267,104,285,111,299,119,309,128,316,137,319,148,320,158,319,167,316,176,309,184,299,190,285,196,267,200,245,202,219,203,187,202,155,200,128,196,105,190,87,184,73,176,63,167,56,158,52]]]],
+  "1": [295,[[[41,0,264,0,264,60,194,60,194,370,140,370,121,360,102,352,79,345,54,340,54,294,121,294,121,60,41,60]]]],
+  "2": [295,[[[22,0,270,0,270,62,190,62,170,61,149,60,128,58,157,86,183,116,205,145,225,175,239,205,249,234,252,263,250,285,245,305,237,323,226,339,213,352,197,363,178,371,158,375,136,377,112,375,90,371,70,363,52,352,35,338,18,320,58,281,73,296,89,308,107,316,126,319,142,317,156,312,167,303,175,291,180,277,182,260,179,240,173,219,162,198,148,175,130,151,108,126,82,100,54,72,22,42]]]],
+  "3": [295,[[[136,-7,160,-6,182,-1,202,6,220,15,236,27,249,42,259,59,265,78,267,100,265,120,260,138,251,153,240,166,226,177,211,185,194,192,194,194,212,203,227,214,239,227,248,242,253,259,255,278,253,299,248,317,240,332,228,346,214,357,198,366,179,372,158,376,135,377,110,375,86,369,64,360,44,347,24,332,62,286,78,300,95,310,112,317,132,319,146,318,158,314,168,307,175,298,180,286,181,273,180,261,177,250,170,240,162,232,149,226,134,221,115,218,92,216,92,164,119,162,141,159,159,154,172,148,182,139,188,129,192,118,193,104,191,89,185,76,176,66,163,59,148,55,130,53,110,55,93,60,76,68,61,79,48,91,13,44,27,30,44,18,63,8,84,0,109,-5]]]],
+  "4": [295,[[[168,0,237,0,237,96,281,96,281,152,237,152,237,370,148,370,10,146,10,96,168,96],[168,152,82,152,140,244,155,274,169,304,172,304,170,286,169,266,169,246,168,228]]]],
+  "5": [295,[[[138,-7,161,-5,182,0,202,8,220,20,236,35,249,53,259,73,265,97,268,123,266,148,260,170,252,189,241,205,227,218,211,228,193,235,174,239,154,240,138,239,123,236,109,230,116,308,250,308,250,370,52,370,42,190,76,169,88,176,99,182,109,185,120,187,132,188,147,187,160,182,172,175,181,165,188,153,192,138,194,121,192,104,188,88,180,76,170,66,158,59,144,54,128,53,109,55,91,60,75,68,60,79,47,90,13,44,28,30,45,18,64,8,86,0,111,-5]]]],
+  "6": [295,[[[158,-7,179,-5,198,0,216,8,232,20,246,34,258,51,267,71,272,93,274,117,272,142,268,163,260,182,250,198,237,211,223,220,206,227,187,232,168,233,153,231,137,226,121,219,105,208,92,194,94,222,99,247,105,267,113,284,123,297,134,306,146,313,159,317,173,318,189,316,204,310,218,301,230,291,268,335,254,348,237,360,217,369,194,375,168,377,148,376,128,371,110,363,92,353,76,339,62,321,49,300,39,276,31,248,27,216,25,180,27,146,31,116,38,90,47,66,59,46,72,30,87,16,103,6,121,-1,139,-6],[94,142,105,157,117,168,130,175,142,180,154,181,167,180,179,176,188,170,196,161,202,149,206,134,207,117,206,99,202,84,196,71,188,61,179,54,168,50,156,48,144,50,132,55,121,64,111,77,104,94,98,116]]]],
+  "7": [295,[[[93,0,167,0,169,41,172,79,176,114,182,147,189,178,199,207,212,236,228,265,247,295,271,326,271,370,25,370,25,308,192,308,170,276,151,245,136,214,124,182,114,149,106,115,100,79,96,41]]]],
+  "8": [295,[[[148,-7,171,-5,193,-1,213,6,230,16,245,28,256,41,265,57,270,74,272,92,270,116,263,136,254,154,241,168,226,181,210,191,210,194,224,206,237,220,247,238,254,257,257,278,255,299,249,318,240,335,228,349,212,361,194,369,173,375,150,376,126,375,105,370,86,361,70,350,56,336,46,319,40,300,38,278,40,256,47,237,57,219,71,204,87,191,87,188,70,178,55,166,42,151,32,134,26,114,24,92,25,73,31,56,40,41,52,27,66,15,84,6,103,-1,124,-6],[170,212,152,219,136,228,122,238,112,249,105,263,103,278,105,292,109,304,116,313,125,320,136,324,148,325,162,323,174,318,184,310,191,300,196,288,197,274,195,257,190,241,182,226],[149,45,132,47,118,52,105,60,95,71,89,84,87,100,89,116,93,132,100,146,110,158,121,169,141,160,158,152,174,143,186,134,196,123,201,110,204,94,202,80,196,67,188,58,177,51,164,46]]]],
+  "9": [295,[[[128,-7,147,-5,167,-1,185,7,203,18,219,32,233,50,245,71,256,96,263,125,268,157,270,194,268,227,264,256,257,283,247,305,236,325,223,341,208,354,191,364,174,371,155,376,136,377,116,375,96,370,78,362,62,351,48,336,36,319,27,300,22,278,20,254,22,229,26,207,34,188,44,173,56,160,71,150,88,143,106,138,126,137,142,139,158,144,174,152,189,163,202,177,200,148,195,124,189,104,181,87,172,74,161,65,150,58,137,54,124,53,107,55,91,61,77,69,65,80,26,35,41,22,58,10,78,1,101,-5],[201,230,190,214,178,203,165,195,152,191,140,190,127,191,116,195,106,201,98,210,92,222,89,236,88,254,89,272,93,287,99,299,106,309,116,316,126,320,138,322,151,320,163,315,174,306,183,294,191,277,197,256]]]],
+  "N": [374,[[[46,0,116,0,116,148,115,181,112,214,109,246,106,278,109,278,146,198,253,0,328,0,328,370,258,370,258,222,260,190,262,156,265,124,268,93,266,93,228,173,121,370,46,370]]]],
+  "·": [500,[[[250,254,235,252,222,247,210,240,200,230,193,218,188,205,186,190,188,175,193,162,200,150,210,140,222,133,235,128,250,126,265,128,278,133,290,140,300,150,307,162,312,175,314,190,312,205,307,218,300,230,290,240,278,247,265,252]]]],
+  "飞": [500,[[[422,369,405,348,385,325,363,303,340,281,339,319,339,359,339,400,27,400,27,338,278,338,280,283,283,231,287,184,292,140,300,101,310,66,321,36,336,11,352,-9,372,-23,395,-32,422,-35,436,-34,448,-30,459,-22,467,-11,474,4,479,23,483,47,486,76,471,86,456,99,442,114,441,92,439,73,437,57,435,45,432,36,428,30,424,28,410,30,397,37,386,48,377,63,368,82,361,104,355,131,350,161,346,195,370,182,394,168,416,154,435,141,450,128,481,176,464,189,444,201,420,215,396,228,372,240,398,264,425,288,451,314,476,340]]]],
+  "碟": [500,[[[22,402,22,348,75,348,67,309,56,272,43,237,28,206,10,179,15,169,19,156,23,143,27,129,30,117,32,108,41,120,50,132,50,-21,99,-21,99,16,176,16,176,247,104,247,119,297,131,348,181,348,181,402],[99,194,127,194,127,68,99,68]],[[216,411,216,358,186,358,186,311,216,311,216,171,298,171,298,140,186,140,186,90,275,90,258,70,238,50,217,32,194,16,170,4,180,-6,191,-18,201,-30,208,-42,233,-25,256,-5,278,17,298,42,298,-44,353,-44,353,48,374,22,398,-1,422,-21,447,-37,455,-26,465,-13,475,-1,486,8,461,20,437,35,413,52,392,71,374,90,478,90,478,140,353,140,353,171,460,171,460,218,266,218,266,311,300,311,300,241,430,241,430,311,473,311,473,358,430,358,430,418,380,418,380,358,348,358,348,418,300,418,300,358,266,358,266,411],[380,311,380,281,348,281,348,311]]]],
+  "牌": [500,[[[220,378,220,178,288,178,276,165,260,152,240,140,216,130,226,122,237,113,246,104,202,104,202,54,360,54,360,-45,416,-45,416,54,482,54,482,104,416,104,416,168,360,168,360,104,270,104,293,117,312,131,328,146,340,161,350,178,468,178,468,378,360,378,380,414,314,426,310,411,305,394,299,378],[272,258,318,258,316,241,312,223,272,223],[368,258,414,258,414,223,365,223,367,240],[272,333,318,333,318,300,272,300],[368,333,414,333,414,300,368,300]],[[43,412,43,225,43,197,42,166,40,133,38,99,34,65,28,32,21,0,12,-28,24,-32,37,-36,51,-41,62,-46,71,-13,79,22,85,59,89,97,92,134,136,134,136,-46,190,-46,190,185,94,185,94,225,94,242,211,242,211,293,178,293,178,424,126,424,126,293,94,293,94,412]]]],
+};
+const scaleGlyphs = Object.fromEntries(Object.entries(scaleGlyphOutlines).map(([character,[advance,shapes]]) => {
+  const contours = shapes.map(rings => {
+    const [outer,...holes] = rings.map(ring => {
+      const points = [];
+      for(let i = 0; i < ring.length; i += 2) points.push(new T.Vector2(ring[i],ring[i + 1]));
+      return points;
+    });
+    const triangles = T.ShapeUtils.triangulateShape(outer,holes);
+    return {points:outer.concat(...holes),triangles};
+  });
+  return [character,{advance,contours}];
+}));
+function frontPanel(o){
+  const face = new T.MeshBasicMaterial({color:0xffffff,toneMapped:false});
+  const ink = new T.MeshBasicMaterial({color:0x23282c,toneMapped:false});
+  const plateZ = 7.7, thickness = .7;
+  shapePlate(o.cover,'有厚度的金属刻度板',-18,18,-93,93,plateZ,[[-2,2,-84,60]],[face,mat.white],thickness);
+  const vertices = [], indices = [];
+  function mark(left,right,y,weight){
+    const base = vertices.length / 3;
+    const bottom = y - weight / 2, top = y + weight / 2;
+    vertices.push(left,bottom,0,right,bottom,0,right,top,0,left,top,0);
+    indices.push(base,base+1,base+2,base,base+2,base+3);
+  }
+  function label(value,x,y,size){
+    const characters = [...String(value)];
+    const width = character => scaleGlyphs[character]?.advance ?? 112;
+    const scale = size / 500;
+    let left = x - characters.reduce((sum,character) => sum + width(character),0) * scale / 2;
+    for(const character of characters){
+      const glyph = scaleGlyphs[character];
+      if(glyph){
+        for(const {points,triangles} of glyph.contours){
+          const base = vertices.length / 3;
+          for(const p of points) vertices.push(left + p.x * scale,y + (p.y - 182) * scale,0);
+          for(const triangle of triangles) indices.push(...triangle.map(index => base + index));
+        }
+      }
+      left += width(character) * scale;
+    }
+  }
+  label('飞碟牌 · 10 N',0,79,4.65);
+  for(const x of [-11.7,11.7]) label('N',x,65,5.5);
+  const div = specs.B.div;
+  const count = Math.round(o.max / div);
+  for(let i = 0; i <= count; i++){
+    const y = 55 - 135 * i / count;
+    const major = i % 5 === 0;
+    const edge = major ? 8.2 : 6.3;
+    const weight = major ? .92 : .63;
+    mark(-edge,-3.2,y,weight);
+    mark(3.2,edge,y,weight);
+    if(major){
+      for(const x of [-12.9,12.9]) label(Math.round(i * div),x,y,6.1);
+    }
+  }
+  const geometry = new T.BufferGeometry();
+  geometry.setAttribute('position',new T.Float32BufferAttribute(vertices,3));
+  geometry.setIndex(indices);
+  const marks = mesh(geometry,ink,o.cover,'矢量刻线与标字',[0,0,plateZ + thickness + .16]);
+  marks.castShadow = false;
+  marks.receiveShadow = false;
+}
 function pointer(o,width=9){const s=new T.Shape();s.moveTo(-width/2,0);s.lineTo(-1,1.1);s.lineTo(1,1.1);s.lineTo(width/2,0);s.lineTo(1,-1.1);s.lineTo(-1,-1.1);s.closePath();const p=mesh(new T.ExtrudeGeometry(s,{depth:.35,bevelEnabled:false}),mat.red,o.moving,'两端尖细红色指示片',[0,55,8.8]);box(o.moving,'折弯指针连接片',0,55,4.2,2.4,.65,9,mat.steel);o.pointer=p;}
 function buildB(){const o=base('B');box(o.housing,'槽形外壳背板',0,0,-5,40,196,1.5,mat.teal);for(const s of [-1,1]){box(o.housing,'塑料侧壁',s*19.5,0,1.5,1.5,196,12,mat.teal);box(o.housing,'内部导向筋',s*6.5,-2,-2.9,1,184,2.7,mat.teal);box(o.housing,'顶部开口边',s*13,97,1.5,10,2,12,mat.teal);box(o.housing,'底部开口边',s*11.5,-97,1.5,14,2,12,mat.teal);}shapePlate(o.moving,'冲压长片及矩形镂空',-3.5,3.5,-102,55,-.35,[[-2.2,2.2,8,47]],mat.steel,.7);const eye=new T.Shape();eye.absarc(0,-103.8,3.5,0,Math.PI*2,false);const h=new T.Path();h.absarc(0,-103.8,1.9,0,Math.PI*2,true);eye.holes.push(h);mesh(new T.ExtrudeGeometry(eye,{depth:.7,bevelEnabled:false}),mat.steel,o.moving,'活动片底端穿钩孔',[0,0,-.35]);pointer(o);frontPanel(o);return o;}
 function updateSpring(o,d){const old=o.sp.coil.geometry;o.sp.coil.geometry=springGeo(d);old.dispose();o.sp.eyeBottom.position.y=58-d;}
 const o=buildB();scene.scale.setScalar(.001);const group=new T.Group();group.add(scene);
-const api={group,parts:{housing:o.housing,cover:o.cover,moving:o.moving,spring:o.sp.coil},range:{min:0,max:10,step:.2,unit:'N'},ready:map.ready,anchors:{upperAttachment:[0,.113,0]},get force(){return force;},getHookAnchor(){return [.002,(-123-135*force/10)*.001,0];},setForce(value){if(disposed||!Number.isFinite(value)||value<0||value>10)throw Error('Force must be 0–10 N');force=value;const d=135*force/10;o.moving.position.y=-d;updateSpring(o,d);},setCutaway(enabled){o.cover.visible=!enabled;o.housing.children.forEach(c=>c.visible=!enabled||!c.name.includes('侧壁'));},getReadoutSVG(){return K.svg.linearScale({value:force});},getReadoutDetail(){const first=Math.max(0,Math.min(7,Math.floor(force)-1));return {svg:api.getReadoutSVG(),viewBox:[0,380+first*135-68,360,520],focus:[180,380+135*force],readout:force.toFixed(2)+' N',subtitle:'10 N量程 · 每小格0.2 N'};},dispose(){if(!disposed){disposed=true;K.disposeObject(group);Object.values(mat).forEach(m=>m.dispose());}}};api.setForce(0);return api;}
+const api={group,parts:{housing:o.housing,cover:o.cover,moving:o.moving,spring:o.sp.coil},range:{min:0,max:10,step:.2,unit:'N'},ready:Promise.resolve(),anchors:{upperAttachment:[0,.113,0]},get force(){return force;},getHookAnchor(){return [.002,(-123-135*force/10)*.001,0];},setForce(value){if(disposed||!Number.isFinite(value)||value<0||value>10)throw Error('Force must be 0–10 N');force=value;const d=135*force/10;o.moving.position.y=-d;updateSpring(o,d);},setCutaway(enabled){o.cover.visible=!enabled;o.housing.children.forEach(c=>c.visible=!enabled||!c.name.includes('侧壁'));},getReadoutSVG(){return K.svg.linearScale({value:force,background:'#ffffff'});},getReadoutDetail(){const first=Math.max(0,Math.min(7,Math.floor(force)-1));return {svg:api.getReadoutSVG(),viewBox:[0,380+first*135-68,360,520],focus:[180,380+135*force],readout:force.toFixed(2)+' N',subtitle:'10 N量程 · 每小格0.2 N'};},dispose(){if(!disposed){disposed=true;K.disposeObject(group);Object.values(mat).forEach(m=>m.dispose());}}};api.setForce(0);return api;}
 K.createSpringMeter=createSpringMeter;
 })(typeof window==='undefined'?globalThis:window);
 
@@ -212,8 +292,8 @@ K.createSpringMeter=createSpringMeter;
 </script>
 <script>
 (async function(){'use strict';const $=id=>document.getElementById(id),T=THREE,K=LabKit;try{
- const renderer=new T.WebGLRenderer({canvas:$('view'),antialias:true,preserveDrawingBuffer:true});renderer.setPixelRatio(Math.min(devicePixelRatio,2));const scene=new T.Scene(),camera=new T.PerspectiveCamera(34,1,.002,30),environment=K.createGlassLab(T,{renderer,scene});
- const beaker=K.createBeaker(T,{radius:.055,height:.14,wall:.0018,level:.1}),stand=K.createStand(T,{height:.62,armLength:.2,clampHeight:.53}),meter=K.createSpringMeter(T,{renderer});scene.add(beaker.group,stand.group,meter.group);beaker.group.position.x=.35;
+ const renderer=new T.WebGLRenderer({canvas:$('view'),antialias:true,preserveDrawingBuffer:true});const scene=new T.Scene(),camera=new T.PerspectiveCamera(34,1,.012,30),environment=K.createGlassLab(T,{renderer,scene});
+ const beaker=K.createBeaker(T,{radius:.055,height:.14,wall:.0018,level:.1}),stand=K.createStand(T,{height:.62,armLength:.2,clampHeight:.53}),meter=K.createSpringMeter(T);scene.add(beaker.group,stand.group,meter.group);beaker.group.position.x=.35;
  const floor=new T.Mesh(new T.PlaneGeometry(4,4),new T.MeshStandardMaterial({color:'#c5d1cd',roughness:.88}));floor.rotation.x=-Math.PI/2;floor.receiveShadow=true;scene.add(floor);
  const massHeight=.06,massRadius=.025,mass=.2,g=9.8,rho=1000,object=new T.Mesh(new T.CylinderGeometry(massRadius,massRadius,massHeight,64),new T.MeshStandardMaterial({color:'#b49b65',roughness:.55,metalness:.65}));object.castShadow=true;scene.add(object);
  const thread=new T.Mesh(new T.CylinderGeometry(.0007,.0007,1,12),new T.MeshStandardMaterial({color:'#40534a',roughness:.8}));scene.add(thread);
@@ -252,7 +332,7 @@ K.createSpringMeter=createSpringMeter;
  function cupPose(){return K.fitPose({target:[.2,.095,0],size:[.16,.2,.16],yaw:.6,pitch:.32,fov:camera.fov,aspect:camera.aspect});}
  const nav=K.createNavigation({element:$('view'),pose:overview(),fov:camera.fov,minDistance:.04,maxDistance:4,apply(p,eye){camera.position.set(...eye);camera.lookAt(...p.target);},onManual(){tour=false;$('auto').setAttribute('aria-pressed','false');}});
  const shots=[{at:0,pose:overview},{at:.2,pose:meterPose},{at:.38,pose:meterPose},{at:.52,pose:cupPose},{at:.65,pose:cupPose},{at:.83,pose:()=>({...overview(),yaw:-.65})},{at:1,pose:overview}];
- function resize(){const c=$('view');renderer.setSize(c.clientWidth,c.clientHeight,false);camera.aspect=c.clientWidth/Math.max(1,c.clientHeight);camera.updateProjectionMatrix();}const observer=new ResizeObserver(resize);observer.observe($('stage'));resize();sync();nav.setPose(overview());
+ function resize(){const c=$('view');const ratio=Math.min(window.devicePixelRatio,2);if(renderer.getPixelRatio()!==ratio)renderer.setPixelRatio(ratio);renderer.setSize(c.clientWidth,c.clientHeight,false);camera.aspect=c.clientWidth/Math.max(1,c.clientHeight);camera.updateProjectionMatrix();}const observer=new ResizeObserver(resize);observer.observe($('stage'));resize();sync();nav.setPose(overview());
  $('home').onclick=()=>nav.setPose(overview());$('closeup').onclick=()=>detail.toggle();$('auto').onclick=()=>{tour=!tour;tourTime=0;$('auto').setAttribute('aria-pressed',String(tour));if(tour)nav.follow(overview(),{jump:true});else nav.stop();};$('cut').onclick=()=>{cut=!cut;meter.setCutaway(cut);$('cut').setAttribute('aria-pressed',String(cut));};document.querySelectorAll('[data-mode]').forEach(b=>b.onclick=()=>setMode(b.dataset.mode));$('lower').oninput=e=>{lowering=Number(e.target.value);sync();};$('lift').oninput=e=>{lift=Number(e.target.value);sync();};
  function loop(now){if(disposed)return;const dt=Math.min(.1,Math.max(0,(now-(last||now))/1000));last=now;if(tour){tourTime=Math.min(28,tourTime+dt);nav.follow(K.sampleShots(shots,tourTime/28));}nav.update(dt);if(tour&&tourTime>=28){tour=false;$('auto').setAttribute('aria-pressed','false');}renderer.render(scene,camera);frame=requestAnimationFrame(loop);}
  await meter.ready;window.reuseLab={beaker,stand,meter,detail,scene,camera,renderer,nav,setMode,setLift(v){if(!Number.isFinite(v)||v<0||v>.18)throw Error('Lifting range: 0–.18 m');setMode('weigh');lift=v;$('lift').value=v;sync();},setLowering(v){if(!Number.isFinite(v)||v<0||v>.16)throw Error('Lowering range: 0–.16 m');if(mode!=='immerse')setMode('immerse');lowering=v;$('lower').value=v;sync();},get physics(){return physics;},shots,get mode(){return mode;},get tour(){return tour;},dispose(){if(disposed)return;disposed=true;cancelAnimationFrame(frame);observer.disconnect();nav.dispose();detail.dispose();environment.dispose();beaker.dispose();meter.dispose();stand.dispose();K.disposeObject(object);K.disposeObject(thread);K.disposeObject(floor);renderer.dispose();}};window.addEventListener('pagehide',()=>reuseLab.dispose(),{once:true});frame=requestAnimationFrame(loop);
