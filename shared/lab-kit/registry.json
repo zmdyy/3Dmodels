@@ -120,7 +120,7 @@
           "commit": "429d9502b2fb70adbe0ada23398c3d74c4ffbf81",
           "repository": "zmdyy/3Dmodel2",
           "locator": "svgMarkup / frontPanel",
-          "sha256": "6122dc2fe20561d4f5b08f522f0338c900a4ff9be498feca541a841d83e432e5"
+          "sha256": "ad0945b4ef8323b4263fa304d1ce9c00423bf01d13d92e6bf4e6ec5f9c84e7e7"
         },
         {
           "path": "models/thermometers-thermal-expansion.html",
@@ -318,7 +318,7 @@
           "commit": "429d9502b2fb70adbe0ada23398c3d74c4ffbf81",
           "repository": "zmdyy/3Dmodel2",
           "locator": "hanger / springGeo / buildB / pointer / updateSpring",
-          "sha256": "6122dc2fe20561d4f5b08f522f0338c900a4ff9be498feca541a841d83e432e5"
+          "sha256": "ad0945b4ef8323b4263fa304d1ce9c00423bf01d13d92e6bf4e6ec5f9c84e7e7"
         }
       ],
       "limits": [

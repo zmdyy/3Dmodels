@@ -749,8 +749,8 @@ window.MODEL_CATALOG = [
       "条形盒式",
       "结构观察"
     ],
-    "path": "models/spring-force-meters.html?v=20261026-v8",
-    "cover": "assets/covers/spring-force-meters-scene.jpg?v=20261026-v8",
+    "path": "models/spring-force-meters.html?v=20261128-v9",
+    "cover": "assets/covers/spring-force-meters-scene.jpg?v=20261128-v9",
     "symbol": "力",
     "accent": "green"
   },
