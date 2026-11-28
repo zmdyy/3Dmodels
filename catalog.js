@@ -1,5 +1,27 @@
 window.MODEL_CATALOG = [
   {
+    "id": "force-balance-lab",
+    "title": "力与平衡实验室",
+    "subtitle": "力与形变 · 重力 · 惯性 · 二力平衡 · 摩擦力 · 合力",
+    "category": "力学实验",
+    "summary": "七组交互实验。观察玻璃瓶液柱和桌面反射光斑，练习弹簧测力计读数，寻找不规则物体的重心，模拟公交车启停、二力平衡及静摩擦到滑动摩擦，再用小车和教材拉伸实验比较分力与等效合力。支持双指缩放和平移，可单文件离线打开。",
+    "tags": [
+      "力与形变",
+      "磁体",
+      "弹簧测力计",
+      "重力",
+      "惯性",
+      "二力平衡",
+      "摩擦力",
+      "二力的合成",
+      "合力"
+    ],
+    "path": "models/force-balance-lab.html",
+    "cover": "assets/covers/force-balance-lab.jpg",
+    "symbol": "力",
+    "accent": "green"
+  },
+  {
     "id": "sound-vibration-lab",
     "title": "声音与振动实验室",
     "subtitle": "声音的产生、传播、特性与超声应用",
