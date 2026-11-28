@@ -1581,7 +1581,7 @@ window.MODEL_CATALOG = [
       "等时打点",
       "控制变量"
     ],
-    "path": "models/motion-energy-lab.html?v=20261127-compare",
+    "path": "models/motion-energy-lab.html?v=20261128-parallel",
     "cover": "assets/covers/motion-energy-lab.jpg?v=20261127-compare",
     "symbol": "能",
     "accent": "green"

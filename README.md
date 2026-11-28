@@ -22,7 +22,7 @@
 
 | **运动与能量探究实验室** | **彩虹与霓 · 从一颗水滴到天空** | **浮沉子 · 定量探究实验** |
 | --- | --- | --- |
-| [![运动与能量探究实验室](./assets/covers/motion-energy-lab.jpg)](https://zmdyy.github.io/3Dmodels/models/motion-energy-lab.html?v=20261127-compare) | [![彩虹与霓 · 从一颗水滴到天空](./assets/covers/rainbow-and-secondary-scene.jpg)](https://zmdyy.github.io/3Dmodels/models/rainbow-and-secondary.html) | [![浮沉子 · 定量探究实验](./assets/covers/cartesian-diver-scene.jpg)](https://zmdyy.github.io/3Dmodels/models/cartesian-diver.html?v=20261125-v9-touch) |
+| [![运动与能量探究实验室](./assets/covers/motion-energy-lab.jpg)](https://zmdyy.github.io/3Dmodels/models/motion-energy-lab.html?v=20261128-parallel) | [![彩虹与霓 · 从一颗水滴到天空](./assets/covers/rainbow-and-secondary-scene.jpg)](https://zmdyy.github.io/3Dmodels/models/rainbow-and-secondary.html) | [![浮沉子 · 定量探究实验](./assets/covers/cartesian-diver-scene.jpg)](https://zmdyy.github.io/3Dmodels/models/cartesian-diver.html?v=20261125-v9-touch) |
 
 | **冰箱把热送到哪里？** | **家庭电路** | **深中通道 E15 · 沉管浮运安装** |
 | --- | --- | --- |
@@ -33,7 +33,7 @@
 | 案例 | 教学与交互特点 |
 |:---|:---|
 | [声音与振动实验室](https://zmdyy.github.io/3Dmodels/models/sound-vibration-lab.html) | 六组交互实验，从用乒乓球观察音叉微振动，到逐线超声成像。包含真空罩、音调与响度、共振、声呐测深和行车回波。单文件可离线使用。 |
-| [运动与能量探究实验室](https://zmdyy.github.io/3Dmodels/models/motion-energy-lab.html?v=20261127-compare) | 六阶段自主探究：阻力对运动的影响、动能与质量及速度、U形轨道、机械能转化、阻力与能量、过山车拓展。支持坡底测速、车载砝码、滑块位移色带、等时运动记录、可拖动对比浮窗及单次/连续播放。 |
+| [运动与能量探究实验室](https://zmdyy.github.io/3Dmodels/models/motion-energy-lab.html?v=20261128-parallel) | 六阶段自主探究：阻力对运动的影响、动能与质量及速度、U形轨道、机械能转化、阻力与能量、过山车拓展。支持坡底测速、车载砝码、滑块位移色带、等时运动记录、可拖动对比浮窗及单次/连续播放。 |
 | [水从哪里喷得更远？](https://zmdyy.github.io/3Dmodels/models/water-jet-range.html?v=20261126-drain) | 比较上、中、下孔出水速度与落点；移动单孔、调节水面和容器离地高度，探究液体压强与水平射程。自然排水默认开启，支持落点留痕、数据记录、射程曲线、正视及双指缩放和平移。 |
 | [彩虹与霓 · 从一颗水滴到天空](https://zmdyy.github.io/3Dmodels/models/rainbow-and-secondary.html) | 从雨后天空进入单颗水滴，逐段观察折射与内反射，再切换观察者和彩虹、霓光锥，比较同一雨幕里哪些水滴能把光送入眼睛。 |
 | [逆反射 · 自行车与高速公路](https://zmdyy.github.io/3Dmodels/models/retroreflection.html?v=20261125-v9-touch) | 切换夜间车灯与驾驶员视角，观察自行车反光片和高速公路护栏轮廓标；拆解一体成型微棱镜，依据教材二维作图探究两次反射，再逐次观察三维角锥的折射、反射与法线。支持双指缩放和平移。 |
@@ -128,7 +128,7 @@
 - [水从哪里喷得更远？](https://zmdyy.github.io/3Dmodels/models/water-jet-range.html?v=20261126-drain) — 液体压强 · 三孔喷水 · 出水速度与射程 · [源码](./models/water-jet-range.html)
 - [手压抽水机](https://zmdyy.github.io/3Dmodels/models/piston-pump.html?v=20261018-ui1) — 引水、密封与两个单向阀的自由探究 · [源码](./models/piston-pump.html)
 - [测量小车的平均速度](https://zmdyy.github.io/3Dmodels/models/car-speed.html?v=20261018-nav1) — 斜面小车、机械秒表与误差探究 · [源码](./models/car-speed.html)
-- [运动与能量探究实验室](https://zmdyy.github.io/3Dmodels/models/motion-energy-lab.html?v=20261127-compare) — 阻力与运动 · 动能影响因素 · 机械能转化 · [源码](./models/motion-energy-lab.html)
+- [运动与能量探究实验室](https://zmdyy.github.io/3Dmodels/models/motion-energy-lab.html?v=20261128-parallel) — 阻力与运动 · 动能影响因素 · 机械能转化 · [源码](./models/motion-energy-lab.html)
 - [滑动摩擦力演示仪](https://zmdyy.github.io/3Dmodels/models/friction-belt.html?v=20261016-pointer-zoom-v2) — 传送带 · 二力平衡 · 弹簧测力计 · [源码](./models/friction-belt.html)
 - [探究滑动摩擦力 · 手动拉动](https://zmdyy.github.io/3Dmodels/models/friction-manual-step.html?v=20261018-nav1) — Blender V9 · 弹簧测力计 · 静止到滑动 · [源码](./models/friction-manual-step.html)
 - [古代杠杆工坊](https://zmdyy.github.io/3Dmodels/models/ancient-levers.html?v=20261018-nav1) — 桔槔、踏碓与单碓／四碓水力机械 · [源码](./models/ancient-levers.html)
