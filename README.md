@@ -118,7 +118,7 @@
 - [生活中的轮轴 · 四种实物观察](https://zmdyy.github.io/3Dmodels/models/wheel-axle.html?v=20261108) — 螺丝刀、扳手、水龙头与水井辘轳 · [源码](./models/wheel-axle.html)
 - [大气压与按压泵](https://zmdyy.github.io/3Dmodels/models/pressure-pumps.html?v=20261026-v4) — 洗手液泵与气囊取水器 · 双案例剖面 · [源码](./models/pressure-pumps.html)
 - [绿豆密度 · 等体积替代](https://zmdyy.github.io/3Dmodels/models/mung-bean-density.html?v=20261026-1) — 四步实验、四次称量与物理量总览 · [源码](./models/mung-bean-density.html)
-- [弹簧测力计 · 三种结构](https://zmdyy.github.io/3Dmodels/models/spring-force-meters.html?v=20261128-v9) — 圆筒式、条形盒式与开放式 · [源码](./models/spring-force-meters.html)
+- [弹簧测力计 · 三种结构](https://zmdyy.github.io/3Dmodels/models/spring-force-meters.html?v=20261128-v10) — 圆筒式、条形盒式与开放式 · [源码](./models/spring-force-meters.html)
 - [深中通道 E15 · 沉管浮运安装](https://zmdyy.github.io/3Dmodels/models/shenzhong-e15.html?v=20261026-v26) — 十阶段施工演示 · 分阶段自动跟随镜头 · [源码](./models/shenzhong-e15.html)
 - [浮力的测量](https://zmdyy.github.io/3Dmodels/models/buoyancy-measurement.html?v=20261031-v3-pointer-2x) — 空气中称重 · 浸入液体 · 弹簧测力计精细读数 · [源码](./models/buoyancy-measurement.html)
 - [浮力与密度实验室](https://zmdyy.github.io/3Dmodels/models/buoyancy-density-lab.html?v=20261102-glass-b22) — 标准实验、溢水杯、剪绳、底部拴绳与套杯托起 · [源码](./models/buoyancy-density-lab.html)
